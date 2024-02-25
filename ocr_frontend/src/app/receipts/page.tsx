@@ -40,7 +40,7 @@ export default async function ReceiptsPage() {
                     })
                     }
                 </div>
-            <AddReceipt></AddReceipt>
+            <AddReceipt/>
         </MainSection>
     );
 }

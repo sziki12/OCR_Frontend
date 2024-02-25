@@ -2,7 +2,7 @@ import * as React from 'react';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import MainSection from "@/data_types/MainSection";
-
+import AddItem from './AddItem';
 
 
 async function getReceipts():Promise<Receipt[]> {
@@ -38,14 +38,14 @@ function getItems(items: Item[]
 export default async function ReceiptPage({params} : any) {
 
     let receipts:Receipt[] = await getReceipts()
-
+    let receipt = receipts?.filter((receipt) => {
+        return receipt.id == params.receiptId;
+    })
     return (
        <MainSection>
             <p>Receipts</p>
             <div className="flex flex-row">
-                {receipts?.filter((receipt) => {
-                    return receipt.id == params.receiptId;
-                }).map((receipt) => {
+                {receipt.map((receipt) => {
                     return (
                         <div className="px-4 py-2 bg-sky-50 shadow rounded">
                             <p>Date: {new Date(receipt.dateOfPurchase).toLocaleDateString()}</p>
@@ -55,6 +55,7 @@ export default async function ReceiptPage({params} : any) {
                         </div>);
                 })}
             </div>
+           <AddItem/>
         </MainSection>
     );
 }

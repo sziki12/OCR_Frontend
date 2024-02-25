@@ -1,13 +1,5 @@
 'use client';
 
-// export default function Test() {
-//   return (
-//     <div>
-//       <h1>Create Note</h1>
-//     </div>
-//   );
-// }
-
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import {Button} from "@mui/material";
@@ -20,12 +12,6 @@ export default function AddReceipt() {
     const router = useRouter();
 
     const create = async() => {
-        // const db = new PocketBase('http://127.0.0.1:8090');
-
-        // await db.records.create('notes', {
-        //   title,
-        //   content,
-        // });
 
         await fetch('http://localhost:8080/api/receipt', {
             method: 'POST',
@@ -36,7 +22,6 @@ export default function AddReceipt() {
                 description,
                 dateOfPurchase,
                 items:[],
-                id:10,
             }),
         });
 
@@ -48,7 +33,7 @@ export default function AddReceipt() {
 
     return (
         <form onSubmit={create}>
-            <h3>Create a new Note</h3>
+            <h3>Create a new Receipt</h3>
             <input
                 type="text"
                 placeholder="Description"
