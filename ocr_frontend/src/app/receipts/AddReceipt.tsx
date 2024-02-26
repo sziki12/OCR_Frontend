@@ -35,12 +35,14 @@ export default function AddReceipt() {
         <form onSubmit={create}>
             <h3>Create a new Receipt</h3>
             <input
+                className={"text-black"}
                 type="text"
                 placeholder="Description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
             />
             <input
+                className={"text-black"}
                 type="date"
                 placeholder="Date Of Purchase"
                 value={dateOfPurchase}

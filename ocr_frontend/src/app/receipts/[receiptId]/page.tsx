@@ -25,12 +25,12 @@ function getItems(items: Item[]
     {
         return(
             <div className="px-4 py-2 bg-sky-100">
-                <p>{item.name+": "+item.quantity+" piece"}</p>
-                <p>{"Cost: "+item.totalCost}</p>
+                <p className={"text-black"}>{item.name+": "+item.quantity+" piece"}</p>
+                <p className={"text-black"}>{"Cost: "+item.totalCost}</p>
             </div>
         )
     })
-    itemList.push(<p>Items</p>)
+    itemList.push(<p className={"text-black"}>Items</p>)
 
     return itemList.concat(itemsList)
 }
@@ -48,12 +48,12 @@ export default async function ReceiptPage({params} : any) {
                 {receipt.map((receipt) => {
                     return (
                         <div className="px-4 py-2 bg-sky-50 shadow rounded">
-                            <p>Date: {new Date(receipt.dateOfPurchase).toLocaleDateString()}</p>
+                            <p className={"text-black"}>Date: {new Date(receipt.dateOfPurchase).toLocaleDateString()}</p>
                             {receipt.items.length > 0 && getItems(receipt.items)}
-                            <p>Description: {receipt.description}</p>
-                            <p>Total Cost: {receipt.totalCost}</p>
-                        </div>);
-                })}
+                            <p className={"text-black"}>Description: {receipt.description}</p>
+                            <p className={"text-black"}>Total Cost: {receipt.totalCost}</p>
+                        </div>)})
+                }
             </div>
            <AddItem/>
         </MainSection>
