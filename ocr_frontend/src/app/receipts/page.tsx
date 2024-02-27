@@ -26,21 +26,23 @@ export default async function ReceiptsPage() {
 
     return (
         <MainSection>
-                <p>Receipts</p>
-                <div className="flex flex-wrap flex-row">
-                    {receipts?.map((receipt)=>
-                    {
-                        return  (
-                            <div className="px-10 py-6 m-5 bg-white shadow rounded">
-                                <p className={"text-black"}>Description: {receipt.description}</p>
-                                <p className={"text-black"}>Date: {new Date(receipt.dateOfPurchase).toLocaleDateString()}</p>
-                                <p className={"text-black"}>Total Cost: {receipt.totalCost}</p>
-                                <Button href={"receipts/"+receipt.id}><Icon><FontAwesomeIcon icon={faEye} /></Icon></Button>
-                            </div>)
-                    })
-                    }
-                </div>
-            <AddReceipt/>
+            <p>Receipts</p>
+            <div className="flex flex-wrap flex-row">
+                {receipts?.map((receipt)=>
+                {
+                    return  (
+                        <div className="px-10 py-6 m-5 bg-white shadow rounded">
+                            <p className={"text-black"}>Description: {receipt.description}</p>
+                            <p className={"text-black"}>Date: {new Date(receipt.dateOfPurchase).toLocaleDateString()}</p>
+                            <p className={"text-black"}>Total Cost: {receipt.totalCost}</p>
+                            <Button href={"receipts/"+receipt.id}><FontAwesomeIcon icon={faEye} width={30}/></Button>
+                            <Button className={"text-green-600"} href={"receipts/"+receipt.id+"/edit"}><FontAwesomeIcon icon={faPenToSquare} width={28}/></Button>
+                            <Button className={"text-red-700"} href={"receipts/"+receipt.id+"/delete"}> <FontAwesomeIcon icon={faTrashCan} width={25}/></Button>
+                        </div>)
+                })
+                }
+
+            </div>
         </MainSection>
     );
 }

@@ -1,16 +1,10 @@
-'use client';
-
 import { useState } from 'react';
 import {Button} from "@mui/material";
-import { useRouter } from 'next/navigation'
-
 export default function AddReceipt() {
     const [description, setDescription] = useState('');
     const [dateOfPurchase, setDateOfPurchase] = useState('');
 
-    const router = useRouter()
-
-    const create = async(e:any) => {
+    const create = async(e) => {
 
         e.preventDefault()
 
@@ -29,7 +23,7 @@ export default function AddReceipt() {
         setDescription('');
         setDateOfPurchase('');
 
-        router.push("/receipts")
+        //todo Redirect
     }
 
     return (
@@ -51,7 +45,7 @@ export default function AddReceipt() {
             />
             <br></br>
             <Button type="submit">
-               Add Receipt
+                Add Receipt
             </Button>
         </form>
     );
