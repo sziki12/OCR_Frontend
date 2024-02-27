@@ -7,8 +7,10 @@ import ReceiptsPage from './pages/receipts/ReceiptsPage';
 import SingleReceiptPage from './pages/receipts/SingleReceiptPage';
 import reportWebVitals from './reportWebVitals';
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import AddReceipt from "./pages/receipts/AddReceipt";
+import DeleteReceiptPage from "./pages/receipts/DeleteReceipt";
+import UpdateReceipt from "./pages/receipts/UpdateReceipt";
 
-//TODO <Link to="" />
 const router = createBrowserRouter([
     {
         path:'/',
@@ -23,7 +25,18 @@ const router = createBrowserRouter([
         path:'/receipts/:receiptId',
         element:<SingleReceiptPage/>,
     },
-
+    {
+        path:'/create/receipts',
+        element:<AddReceipt/>,
+    },
+    {
+        path:'/delete/receipts/:receiptId',
+        element:<DeleteReceiptPage/>,
+    },
+    {
+        path:'/update/receipts/:receiptId',
+        element:<UpdateReceipt/>,
+    },
     ])
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

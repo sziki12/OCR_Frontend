@@ -5,16 +5,22 @@
  * */
 module.exports = {
   content: [
+      //Root
     "./src/pages/ErrorPage.jsx",
     "./src/pages/Root.jsx",
 
+      //Utils
     "./src/pages/utils/Toolbar.jsx",
     "./src/pages/utils/MainSection.jsx",
 
-    "./src/pages/receipts/ReceiptsPage.jsx",
+      //Receipts
+    "./src/pages/receipts/Receipt.jsx",
+    "./src/pages/receipts/SingleReceiptPage.jsx",
     "./src/pages/receipts/AddReceipt.jsx",
     "./src/pages/receipts/ReceiptsPage.jsx",
 
+      //Items
+    "./src/pages/receipts/items/Item.jsx",
     "./src/pages/receipts/items/AddItem.jsx",
 
 

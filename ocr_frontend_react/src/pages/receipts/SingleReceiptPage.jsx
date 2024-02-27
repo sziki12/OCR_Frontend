@@ -7,16 +7,8 @@ import {useEffect, useState} from "react";
 import {green} from "@mui/material/colors";
 import {useParams} from "react-router-dom";
 import Receipts from "./Receipt";
+import {getSingleReceipt} from "../utils/BackendAccess";
 
-async function getReceipts(receiptId) {
-
-    let receiptsRequest = await fetch("http://localhost:8080/api/receipt/"+receiptId,
-        {
-            cache: "no-store"
-        })
-
-    return await receiptsRequest.json()
-}
 
 export default function ReceiptsPage() {
 
@@ -27,7 +19,7 @@ export default function ReceiptsPage() {
     const [receipts,setReceipts] = useState([])
 
     useEffect(()=>{
-        getReceipts(receiptId).then((data)=>{{
+        getSingleReceipt(receiptId).then((data)=>{{
             setReceipts(data)
         }})
     },[])
@@ -37,7 +29,7 @@ export default function ReceiptsPage() {
         <MainSection>
             <p>Receipts</p>
             <div className="flex flex-wrap flex-row">
-                <Receipts receipts={[receipts]}/>
+                <Receipts showItems={true} receipts={[receipts]}/>
             </div>
         </MainSection>
     );

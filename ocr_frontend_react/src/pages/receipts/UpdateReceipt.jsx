@@ -1,20 +1,35 @@
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import {Button} from "@mui/material";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import MainSection from "../utils/MainSection";
-import {createReceipt} from "../utils/BackendAccess";
-export default function AddReceipt() {
+import {updateReceipt,getSingleReceipt} from "../utils/BackendAccess";
+export default function UpdateReceipt() {
 
     const navigate = useNavigate();
+    const params = useParams()
 
     const [description, setDescription] = useState('');
     const [dateOfPurchase, setDateOfPurchase] = useState('');
 
-    const create = async(e) => {
+
+    useEffect(()=>{
+        getSingleReceipt(params.receiptId).then((receipt)=>{
+            const date = new Date(receipt.dateOfPurchase)
+            const year = date.getFullYear()
+            const month = date.getMonth()
+            const day = date.getDay()
+            const dateToShow = year+"-"+(month<10?'0'+month:month)+"-"+(day<10?'0'+day:day)
+            console.log(dateToShow)
+            setDescription(receipt.description)
+            setDateOfPurchase(dateToShow)
+        })
+    },[])
+
+    const update = async(e) => {
 
         e.preventDefault()
 
-        await createReceipt(description, dateOfPurchase)
+        await updateReceipt(params.receiptId,description,dateOfPurchase)
 
         setDescription('');
         setDateOfPurchase('');
@@ -24,7 +39,7 @@ export default function AddReceipt() {
 
     return (
         <MainSection>
-            <form onSubmit={create}>
+            <form onSubmit={update}>
                 <h3>Create a new Receipt</h3>
                 <textarea
                     cols={"30"}

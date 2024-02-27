@@ -1,35 +1,30 @@
 import * as React from 'react';
 import {Button} from '@mui/material';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faEye, faPenToSquare, faTrashCan,faMoneyBill,faCalendar,faMessage,} from '@fortawesome/free-solid-svg-icons'
+import {faPlus,} from '@fortawesome/free-solid-svg-icons'
 import MainSection from "../utils/MainSection";
 import {useEffect, useState} from "react";
-import {green} from "@mui/material/colors";
 import Receipts from "./Receipt";
-
-async function getReceipts() {
-    let receiptsRequest = await fetch("http://localhost:8080/api/receipt",
-        {
-            cache: "no-store"
-        })
-
-    return await receiptsRequest.json()
-}
+import {useNavigate} from "react-router-dom";
+import {getReceipts} from "../utils/BackendAccess";
 
 export default function ReceiptsPage() {
 
+    const navigate = useNavigate();
     const [receipts,setReceipts] = useState([])
 
-    getReceipts().then((data)=>{{
-        setReceipts(data)
-    }})
+    useEffect(()=>{
+        getReceipts().then((data)=>{{
+            setReceipts(data)
+        }})
+    },[])
 
 
     return (
         <MainSection>
-            <p>Receipts</p>
+            <Button onClick={()=>{navigate("/create/receipts")}}><FontAwesomeIcon icon={faPlus}  size={"xl"}/></Button>
             <div className="flex flex-wrap flex-row">
-                <Receipts receipts={[receipts]}/>
+                <Receipts receipts={receipts}/>
             </div>
         </MainSection>
     );
