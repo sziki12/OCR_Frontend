@@ -16,10 +16,11 @@ export default function UpdateReceipt() {
         getSingleReceipt(params.receiptId).then((receipt)=>{
             const date = new Date(receipt.dateOfPurchase)
             const year = date.getFullYear()
-            const month = date.getMonth()
-            const day = date.getDay()
+            const month = date.getMonth()+1
+            const day = date.getDate()
             const dateToShow = year+"-"+(month<10?'0'+month:month)+"-"+(day<10?'0'+day:day)
-            console.log(dateToShow)
+            console.log(date)
+            console.log("Show: "+dateToShow)
             setDescription(receipt.description)
             setDateOfPurchase(dateToShow)
         })
@@ -46,7 +47,6 @@ export default function UpdateReceipt() {
                     rows={"4"}
                     autoFocus={"true"}
                     className={"text-black"}
-                    type="text"
                     placeholder="Description"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
@@ -61,7 +61,7 @@ export default function UpdateReceipt() {
                 />
                 <br></br>
                 <Button type="submit">
-                    Add Receipt
+                    Update Receipt
                 </Button>
             </form>
         </MainSection>

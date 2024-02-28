@@ -10,6 +10,8 @@ import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import AddReceipt from "./pages/receipts/AddReceipt";
 import DeleteReceiptPage from "./pages/receipts/DeleteReceipt";
 import UpdateReceipt from "./pages/receipts/UpdateReceipt";
+import AddItem from "./pages/receipts/items/AddItem";
+import UploadImage from "./pages/image/UploadImage";
 
 const router = createBrowserRouter([
     {
@@ -30,12 +32,28 @@ const router = createBrowserRouter([
         element:<AddReceipt/>,
     },
     {
+        path:'/create/receipts/:receiptId',
+        element:<AddItem/>,
+    },
+    {
         path:'/delete/receipts/:receiptId',
         element:<DeleteReceiptPage/>,
     },
     {
         path:'/update/receipts/:receiptId',
         element:<UpdateReceipt/>,
+    },
+    {
+        path:'/delete/receipts/:receiptId/items/:itemId',
+        element:<Root/>,
+    },
+    {
+        path:'/update/receipts/:receiptId/items/:itemId',
+        element:<Root/>,
+    },
+    {
+        path:'/upload/image',
+        element:<UploadImage/>,
     },
     ])
 

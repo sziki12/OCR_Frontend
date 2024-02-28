@@ -58,6 +58,34 @@ const BackendAccess =
                 })
         },
 
+        async createItem(receiptId,name,quantity,totalCost)
+        {
+            const url = 'http://localhost:8080/api/receipt/'+receiptId+'/item'
+            await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name,
+                    quantity,
+                    totalCost,
+                }),
+            });
+        },
+
+        async uploadImage(image)
+        {
+            const url = 'http://localhost:8080/api/receipt/image'
+            await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(image)
+            });
+        },
+
     }
 
 

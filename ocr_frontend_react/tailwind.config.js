@@ -23,6 +23,9 @@ module.exports = {
     "./src/pages/receipts/items/Item.jsx",
     "./src/pages/receipts/items/AddItem.jsx",
 
+      //Image
+    "./src/pages/image/UploadImage.jsx",
+
 
   ],
   theme: {

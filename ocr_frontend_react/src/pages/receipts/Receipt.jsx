@@ -19,9 +19,15 @@ export default function Receipts(props)
 
                 {props.showItems===true&&<Item items={receipt.items}/>}
 
-                <Button onClick={()=>{navigate("/receipts/"+receipt.id)}}><FontAwesomeIcon icon={faEye} width={30}/></Button>
-                <Button className={"text-green-600"} onClick={()=>{navigate("/update/receipts/"+receipt.id)}}><FontAwesomeIcon icon={faPenToSquare} width={28}/></Button>
-                <Button className={"text-red-700"} onClick={()=>{navigate("/delete/receipts/"+receipt.id)}}> <FontAwesomeIcon icon={faTrashCan} width={25}/></Button>
+                <Button onClick={()=>{navigate("/receipts/"+receipt.id)}}>
+                    <FontAwesomeIcon icon={faEye} width={30}/>
+                </Button>
+                <Button className={"text-green-600"} onClick={()=>{navigate("/update/receipts/"+receipt.id)}}>
+                    <FontAwesomeIcon icon={faPenToSquare} width={28} color={"green"}/>
+                </Button>
+                <Button className={"text-red-700"} onClick={()=>{navigate("/delete/receipts/"+receipt.id)}}>
+                    <FontAwesomeIcon icon={faTrashCan} width={25} color={"red"}/>
+                </Button>
             </div>)
     })
     )

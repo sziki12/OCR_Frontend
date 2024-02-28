@@ -2,6 +2,7 @@ import { useState } from 'react';
 import {Button} from "@mui/material";
 import {useNavigate, useParams} from "react-router-dom";
 import MainSection from "../../utils/MainSection";
+import {createItem} from "../../utils/BackendAccess";
 
 export default function AddItem() {
 
@@ -12,26 +13,17 @@ export default function AddItem() {
     const [quantity, setQuantity] = useState('');
     const [totalCost, setTotalCost] = useState('');
 
-    const create = async() => {
+    const create = async(e) => {
         const receiptId = params.receiptId
 
-        const url = 'http://localhost:8080/api/receipt/'+receiptId+'/item'
-        await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                name,
-                quantity,
-                totalCost,
-            }),
-        });
+        e.preventDefault()
+        await createItem(receiptId, name, quantity, totalCost)
+
         setName('');
         setQuantity('');
         setTotalCost('');
 
-        navigate("/receipts"+receiptId)
+        navigate("/receipts/"+receiptId)
     }
 
     return (
@@ -39,13 +31,14 @@ export default function AddItem() {
             <form onSubmit={create}>
                 <h3>Create a new Item</h3>
                 <textarea
-                    autoFocus={"true"}
-                    cols={"30"}
+                    autoFocus={true}
+                    cols={25}
                     className={"text-black"}
                     placeholder="Name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                 />
+                <br/>
                 <input
                     className={"text-black"}
                     type="number"
@@ -53,6 +46,7 @@ export default function AddItem() {
                     value={quantity}
                     onChange={(e) => setQuantity(e.target.value)}
                 />
+                <br/>
                 <input
                     className={"text-black"}
                     type="number"
@@ -60,7 +54,7 @@ export default function AddItem() {
                     value={totalCost}
                     onChange={(e) => setTotalCost(e.target.value)}
                 />
-                <br></br>
+                <br/>
                 <Button type="submit">
                     Add Item
                 </Button>

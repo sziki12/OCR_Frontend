@@ -27,11 +27,10 @@ export default function AddReceipt() {
             <form onSubmit={create}>
                 <h3>Create a new Receipt</h3>
                 <textarea
-                    cols={"30"}
-                    rows={"4"}
-                    autoFocus={"true"}
+                    cols={30}
+                    rows={4}
+                    autoFocus={true}
                     className={"text-black"}
-                    type="text"
                     placeholder="Description"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
