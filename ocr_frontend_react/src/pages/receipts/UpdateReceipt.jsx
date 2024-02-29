@@ -41,7 +41,7 @@ export default function UpdateReceipt() {
     return (
         <MainSection>
             <form onSubmit={update}>
-                <h3>Create a new Receipt</h3>
+                <h3>Update selected Receipt</h3>
                 <textarea
                     cols={"30"}
                     rows={"4"}

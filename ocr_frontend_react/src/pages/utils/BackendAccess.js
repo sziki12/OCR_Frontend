@@ -20,6 +20,15 @@ const BackendAccess =
 
             return await receiptsRequest.json()
         },
+        async getItem(receiptId,itemId) {
+
+            let receiptsRequest = await fetch("http://localhost:8080/api/receipt/"+receiptId+"/item/"+itemId,
+                {
+                    cache: "no-store"
+                })
+
+            return await receiptsRequest.json()
+        },
 
         async createReceipt(description,dateOfPurchase)
         {
@@ -51,13 +60,12 @@ const BackendAccess =
         },
 
         async deleteReceipts(receiptId) {
-            let receiptsRequest = await fetch("http://localhost:8080/api/receipt/"+receiptId,
+            await fetch("http://localhost:8080/api/receipt/"+receiptId,
                 {
                     method: 'DELETE',
                     cache: "no-store"
                 })
         },
-
         async createItem(receiptId,name,quantity,totalCost)
         {
             const url = 'http://localhost:8080/api/receipt/'+receiptId+'/item'
@@ -72,6 +80,31 @@ const BackendAccess =
                     totalCost,
                 }),
             });
+        },
+        async updateItem(receiptId,itemId,name,quantity,totalCost)
+        {
+            await fetch("http://localhost:8080/api/receipt/"+receiptId+"/item/"+itemId,
+                {
+                    method: 'PUT',
+                    cache: "no-store",
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(
+                        {
+                            name,
+                            quantity,
+                            totalCost,
+                        }),
+                });
+        },
+        async deleteItem(receiptId,itemId)
+        {
+            await fetch("http://localhost:8080/api/receipt/"+receiptId+"/item/"+itemId,
+                {
+                    method: 'DELETE',
+                    cache: "no-store"
+                });
         },
 
         async uploadImage(image)

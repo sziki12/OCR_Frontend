@@ -1,7 +1,7 @@
 import {AppBar, Toolbar, Button, Box, Icon, Typography, IconButton} from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faReceipt } from '@fortawesome/free-solid-svg-icons'
-import {redirect, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 export default function MainToolbar()
 {
