@@ -2,6 +2,7 @@
 
 const BackendAccess =
     {
+
         async getReceipts() {
             let receiptsRequest = await fetch("http://localhost:8080/api/receipt",
                 {
@@ -109,18 +110,14 @@ const BackendAccess =
 
         async uploadImage(image)
         {
-            const url = 'http://localhost:8080/api/receipt/image'
+            const url = 'http://localhost:8080/api/receipt/image';
             await fetch(url, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(image)
+                body: image
             });
         },
 
     }
-
 
 
     module.exports = BackendAccess

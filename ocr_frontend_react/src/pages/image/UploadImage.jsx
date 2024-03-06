@@ -3,9 +3,20 @@ import MainSection from "../utils/MainSection";
 import {Button} from "@mui/material";
 import {uploadImage} from "../utils/BackendAccess";
 
+
+
+
 const UploadAndDisplayImage = () => {
 
     const [receiptImage, setReceiptImage] = useState(null);
+    const [imageData, setImageData] = useState(null);
+
+    const uploadImageWrapper = async (file) => {
+        const formData = new FormData();
+        formData.append('file',file,file.name);
+        setImageData(formData);
+        await uploadImage(formData)
+    }
 
     return (
         <MainSection>
@@ -25,7 +36,7 @@ const UploadAndDisplayImage = () => {
                         </div>
                         <br />
                         <br />
-                        <Button variant={"contained"} onClick={() => uploadImage(receiptImage)}>Submit</Button>
+                        <Button variant={"contained"} onClick={() => uploadImageWrapper(receiptImage)}>Submit</Button>
                         <Button variant={"contained"} onClick={() => setReceiptImage(null)}>Remove</Button>
                     </div>
                     )
