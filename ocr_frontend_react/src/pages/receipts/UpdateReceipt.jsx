@@ -19,8 +19,6 @@ export default function UpdateReceipt() {
             const month = date.getMonth()+1
             const day = date.getDate()
             const dateToShow = year+"-"+(month<10?'0'+month:month)+"-"+(day<10?'0'+day:day)
-            console.log(date)
-            console.log("Show: "+dateToShow)
             setDescription(receipt.description)
             setDateOfPurchase(dateToShow)
         })
