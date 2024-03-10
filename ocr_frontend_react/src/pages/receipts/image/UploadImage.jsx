@@ -1,12 +1,15 @@
 import React, { useState } from "react";
-import MainSection from "../utils/MainSection";
+import MainSection from "../../utils/MainSection";
 import {Button} from "@mui/material";
-import {uploadImage} from "../utils/BackendAccess";
+import {uploadImage} from "../../utils/BackendAccess";
+import {useNavigate,Outlet} from "react-router-dom";
 
 
 
 
-const UploadAndDisplayImage = () => {
+const UploadAndDisplayImage = (props) => {
+
+    const navigate = useNavigate()
 
     const [receiptImage, setReceiptImage] = useState(null);
     const [imageData, setImageData] = useState(null);
@@ -16,10 +19,12 @@ const UploadAndDisplayImage = () => {
         formData.append('file',file,file.name);
         setImageData(formData);
         await uploadImage(formData)
+        navigate("/")
     }
 
     return (
         <MainSection>
+            <Outlet />
             <div className={"bg-gray-300 rounded shadow"}>
                 <h1>Upload the Receipt for analysis</h1>
 

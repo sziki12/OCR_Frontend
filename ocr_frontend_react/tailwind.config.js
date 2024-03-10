@@ -15,16 +15,24 @@ module.exports = {
 
       //Receipts
     "./src/pages/receipts/Receipt.jsx",
+    "./src/pages/receipts/EditableReceipt.jsx",
+    "./src/pages/receipts/ReceiptsPage.jsx",
     "./src/pages/receipts/SingleReceiptPage.jsx",
     "./src/pages/receipts/AddReceipt.jsx",
-    "./src/pages/receipts/ReceiptsPage.jsx",
+    "./src/pages/receipts/UpdateReceipt.jsx",
+    "./src/pages/receipts/DeleteReceipt.jsx",
+
 
       //Items
     "./src/pages/receipts/items/Item.jsx",
+    "./src/pages/receipts/items/EditableItem.jsx",
     "./src/pages/receipts/items/AddItem.jsx",
+    "./src/pages/receipts/items/UpdateItemPage.jsx",
+    "./src/pages/receipts/items/DeleteItemPage.jsx",
 
       //Image
-    "./src/pages/image/UploadImage.jsx",
+    "./src/pages/receipts/image/UploadImage.jsx",
+    "./src/pages/receipts/image/ReceiptFromImage.jsx",
 
 
   ],

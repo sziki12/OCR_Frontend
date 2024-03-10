@@ -11,9 +11,10 @@ import AddReceipt from "./pages/receipts/AddReceipt";
 import DeleteReceiptPage from "./pages/receipts/DeleteReceipt";
 import UpdateReceipt from "./pages/receipts/UpdateReceipt";
 import AddItem from "./pages/receipts/items/AddItem";
-import UploadImage from "./pages/image/UploadImage";
+import UploadImage from "./pages/receipts/image/UploadImage";
 import DeleteItemPage from "./pages/receipts/items/DeleteItemPage";
 import UpdateItemPage from "./pages/receipts/items/UpdateItemPage";
+import ReceiptsFromImagePage from "./pages/receipts/image/ReceiptFromImage";
 
 const router = createBrowserRouter([
     {
@@ -56,6 +57,13 @@ const router = createBrowserRouter([
     {
         path:'/upload/image',
         element:<UploadImage/>,
+        children:
+        [
+            {
+                path:'receipts',
+                element:<ReceiptsFromImagePage/>,
+            }
+        ]
     },
     ])
 

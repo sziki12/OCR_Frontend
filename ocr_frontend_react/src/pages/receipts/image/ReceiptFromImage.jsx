@@ -5,7 +5,7 @@ import MainSection from "../../utils/MainSection";
 import {Button} from "@mui/material";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faFileArrowUp, faPlus} from "@fortawesome/free-solid-svg-icons";
-import EditableReceipt from "../Receipt";
+import EditableReceipt from "../EditableReceipt";
 import * as React from "react";
 
 export default function ReceiptsFromImagePage() {
@@ -21,12 +21,9 @@ export default function ReceiptsFromImagePage() {
 
 
     return (
-        <MainSection>
-            <div className="flex flex-row">
+            <div className="flex flex-row flex-wrap">
                 <EditableReceipt receipts={receipts}/>
                 <div>TODO("Final Output, Filtered Output, Plain Output")</div>
-                <div>TODO("Image")</div>
             </div>
-        </MainSection>
     );
 }
