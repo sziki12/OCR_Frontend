@@ -4,7 +4,7 @@ import {faCalendar, faFloppyDisk, faMessage, faMoneyBill} from "@fortawesome/fre
 import Item from "./items/Item";
 import {Button} from "@mui/material";
 import * as React from "react";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {getSingleReceipt, updateReceipt} from "../utils/BackendAccess";
 import EditableItem from "./items/EditableItem";
 
@@ -13,8 +13,37 @@ export default function EditableReceipt(props) {
 
     const navigate = useNavigate();
 
-    const receipt = props.receipt || props.receipts?.[0] || {}
+    const receiptData = props.receipt || props.receipts?.[0] || {
+        description:"",
+        dateOfPurchase:new Date(),
+        items:[],
+        totalCost:0
+    }
+    const [receipt, setReceipt] = useState({
+        description:receiptData.description,
+        dateOfPurchase:receiptData.dateOfPurchase,
+        items:receiptData.items,
+        totalCost:receiptData.totalCost
+    })
 
+    useEffect(() => {
+        setReceipt({
+            description:receiptData.description,
+            dateOfPurchase:receiptData.dateOfPurchase,
+            items:receiptData.items,
+            totalCost:receiptData.totalCost
+        })
+    }, [receiptData]);
+
+
+
+    const onChange = (e) => {
+        const { name, value } = e.target;
+        setReceipt(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    }
     const update = async(e) => {
         e.preventDefault()
 
@@ -44,15 +73,17 @@ export default function EditableReceipt(props) {
                         className={"text-black"}
                         placeholder="Description"
                         value={receipt.description}
-                        onChange={(e) => {receipt.description = e.target.value}}
+                        name={"description"}
+                        onChange={onChange}
                     />
                     <br/>
                     <input
                         className={"text-black"}
                         type="date"
                         placeholder="Date Of Purchase"
+                        name={"dateOfPurchase"}
                         value={getDateToShow(receipt.dateOfPurchase)}
-                        onChange={(e) => {receipt.dateOfPurcahse = e.target.value}}
+                        onChange={onChange}
                     />
                     <br></br>
                     <EditableItem items={receipt.items}></EditableItem>
