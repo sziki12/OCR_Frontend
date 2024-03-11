@@ -10,8 +10,8 @@ export default function AddItem() {
     const params = useParams()
 
     const [name, setName] = useState('');
-    const [quantity, setQuantity] = useState('');
-    const [totalCost, setTotalCost] = useState('');
+    const [quantity, setQuantity] = useState(1);
+    const [totalCost, setTotalCost] = useState(0);
 
     const create = async(e) => {
         const receiptId = params.receiptId
@@ -20,8 +20,8 @@ export default function AddItem() {
         await createItem(receiptId, name, quantity, totalCost)
 
         setName('');
-        setQuantity('');
-        setTotalCost('');
+        setQuantity(1);
+        setTotalCost(0);
 
         navigate("/receipts/"+receiptId)
     }
