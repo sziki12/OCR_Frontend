@@ -57,13 +57,6 @@ const router = createBrowserRouter([
     {
         path:'/upload/image',
         element:<UploadImage/>,
-        children:
-        [
-            {
-                path:'receipts',
-                element:<ReceiptsFromImagePage/>,
-            }
-        ]
     },
     ])
 

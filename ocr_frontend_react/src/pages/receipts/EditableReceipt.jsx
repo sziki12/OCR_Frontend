@@ -2,7 +2,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCalendar, faFloppyDisk, faMessage, faMoneyBill} from "@fortawesome/free-solid-svg-icons";
 import Item from "./items/Item";
-import {Button} from "@mui/material";
+import {Button,Input} from "@mui/material";
 import * as React from "react";
 import {useEffect, useState} from "react";
 import {getSingleReceipt, updateReceipt} from "../utils/BackendAccess";
@@ -10,7 +10,7 @@ import EditableItem from "./items/EditableItem";
 
 
 export default function EditableReceipt(props) {
-
+    //TODO EditableItem Add button
     const navigate = useNavigate();
 
     const receiptData = props.receipt || props.receipts?.[0] || {
@@ -19,6 +19,7 @@ export default function EditableReceipt(props) {
         items:[],
         totalCost:0
     }
+    console.log("receiptData "+receiptData)
     const [receipt, setReceipt] = useState({
         description:receiptData.description,
         dateOfPurchase:receiptData.dateOfPurchase,
@@ -28,6 +29,7 @@ export default function EditableReceipt(props) {
 
     useEffect(() => {
         setReceipt({
+            id:receiptData.id,
             description:receiptData.description,
             dateOfPurchase:receiptData.dateOfPurchase,
             items:receiptData.items,
@@ -44,12 +46,20 @@ export default function EditableReceipt(props) {
             [name]: value
         }));
     }
+
+    const saveItems = (items)=> {
+        setReceipt({
+            ...receipt,
+            items:items
+        })
+    }
     const update = async(e) => {
         e.preventDefault()
 
-        await updateReceipt(receipt.id,receipt.description,receipt.dateOfPurchase)
+        console.log(receipt)
+        await updateReceipt(receipt.id,receipt.description,receipt.dateOfPurchase,receipt.items)
 
-        navigate("/receipts/"+receipt.id)
+        //navigate("/receipts/"+receipt.id)
     }
     return(<div className="px-10 py-6 m-5 bg-blue-50 shadow rounded">
                 <p className={"text-black"}>
@@ -65,10 +75,9 @@ export default function EditableReceipt(props) {
                     {receipt.totalCost + " "}
                 </p>
 
-                <form>
-                    <textarea
-                        cols={30}
-                        rows={4}
+                <div>
+                    <Input
+                        multiline={true}
                         autoFocus={true}
                         className={"text-black"}
                         placeholder="Description"
@@ -77,7 +86,7 @@ export default function EditableReceipt(props) {
                         onChange={onChange}
                     />
                     <br/>
-                    <input
+                    <Input
                         className={"text-black"}
                         type="date"
                         placeholder="Date Of Purchase"
@@ -86,8 +95,8 @@ export default function EditableReceipt(props) {
                         onChange={onChange}
                     />
                     <br></br>
-                    <EditableItem items={receipt.items}></EditableItem>
-                </form>
+                    <EditableItem items={receipt.items} saveItems={saveItems}></EditableItem>
+                </div>
 
                 {props.showItems === true && <Item items={receipt.items}/>}
 

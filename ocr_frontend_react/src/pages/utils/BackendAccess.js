@@ -46,7 +46,7 @@ const BackendAccess =
             });
         },
 
-        async updateReceipt(receiptId,description,dateOfPurchase)
+        async updateReceipt(receiptId,description,dateOfPurchase,items)
         {
             await fetch('http://localhost:8080/api/receipt/'+receiptId, {
                 method: 'PUT',
@@ -56,6 +56,7 @@ const BackendAccess =
                 body: JSON.stringify({
                     description,
                     dateOfPurchase,
+                    items
                 }),
             });
         },
@@ -108,13 +109,15 @@ const BackendAccess =
                 });
         },
 
-        async uploadImage(image)
+        async processImage(image)
         {
             const url = 'http://localhost:8080/api/receipt/image';
-            await fetch(url, {
+            const response =  await fetch(url, {
                 method: 'POST',
                 body: image
             });
+
+            return await response.json()
         },
 
     }
