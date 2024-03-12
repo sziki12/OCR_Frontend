@@ -2,7 +2,7 @@ import { useState } from 'react';
 import {Button} from "@mui/material";
 import {useNavigate, useParams} from "react-router-dom";
 import MainSection from "../../utils/MainSection";
-import {createItem} from "../../utils/BackendAccess";
+import {addItemToReceipt} from "../../utils/BackendAccess";
 
 export default function AddItem() {
 
@@ -17,7 +17,7 @@ export default function AddItem() {
         const receiptId = params.receiptId
 
         e.preventDefault()
-        await createItem(receiptId, name, quantity, totalCost)
+        await addItemToReceipt(receiptId, name, quantity, totalCost)
 
         setName('');
         setQuantity(1);

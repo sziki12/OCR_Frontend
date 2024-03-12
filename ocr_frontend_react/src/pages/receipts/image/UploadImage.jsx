@@ -29,13 +29,11 @@ const UploadAndDisplayImage = (props) => {
         setProcessingState("processing")
         setResponse(await processImage(formData))
         setProcessingState("processed")
-        navigate("receipts")
-
     }
 
     return (
         <MainSection>
-            <div className={"flex flex-row justify-evenly"}>
+            <div className={"flex flex-row justify-between"}>
                 {
                     (processingState==="processed") &&
                     <ReceiptsFromImagePage response={response}/>

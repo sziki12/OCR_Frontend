@@ -10,6 +10,8 @@ export default function EditableItem(props) {
     //TODO EditableItem Remove button
     const [items, setItems] = useState([])
 
+
+
     useEffect(()=>{
         setItems([...props.items])
     },[props.items])
@@ -27,7 +29,6 @@ export default function EditableItem(props) {
         setItems(newArray);
         props.saveItems(newArray)
     }
-
 
     return (items?.map((item)=>
         {

@@ -68,7 +68,7 @@ const BackendAccess =
                     cache: "no-store"
                 })
         },
-        async createItem(receiptId,name,quantity,totalCost)
+        async addItemToReceipt(receiptId,name,quantity,totalCost)
         {
             const url = 'http://localhost:8080/api/receipt/'+receiptId+'/item'
             await fetch(url, {
@@ -82,6 +82,17 @@ const BackendAccess =
                     totalCost,
                 }),
             });
+        },
+        async createNewItem(receiptId)
+        {
+            const url = 'http://localhost:8080/api/receipt/'+receiptId+'/new/item'
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            return await response.json()
         },
         async updateItem(receiptId,itemId,name,quantity,totalCost)
         {

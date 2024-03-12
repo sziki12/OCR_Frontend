@@ -28,11 +28,9 @@ export default function ReceiptsFromImagePage(props) {
                 <div className="flex flex-row flex-wrap w-1/2">
                     <EditableReceipt receipt={receipt}/>
                 </div>
-                <div className="w-1/2
-                px-10 py-6 m-5 bg-blue-50 shadow rounded">
+                <div className="w-1/2 px-10 py-6 m-5 bg-blue-50 shadow rounded">
                     <OcrResponseView responseToShow={responseToShow} setResponseToShow={setResponseToShow} response={props.response}></OcrResponseView>
                 </div>
-
             </div>
     );
 }
@@ -57,9 +55,9 @@ function OcrResponseView(props)
                     <MenuItem value={"extractedItems"}>Extracted Items</MenuItem>
                 </Select>
             </FormControl>
-            <p>
-                {props.response[props.responseToShow]}
-            </p>
+            {
+                props.response[props.responseToShow].map((item)=><p>{item}</p>)
+            }
         </div>
     )
 }
