@@ -10,7 +10,6 @@ import EditableItem from "./items/EditableItem";
 
 
 export default function EditableReceipt(props) {
-    //TODO EditableItem Add button
     const navigate = useNavigate();
 
     const receiptData = props.receipt || props.receipts?.[0] || {
@@ -97,7 +96,7 @@ export default function EditableReceipt(props) {
                         onChange={onChange}
                     />
                     <br></br>
-                    <EditableItem items={receipt.items} saveItems={saveItems}></EditableItem>
+                    <EditableItem receiptId={receipt.id} items={receipt.items} saveItems={saveItems}></EditableItem>
                 </div>
                     <Button onClick={update}>
                         <FontAwesomeIcon icon={faFloppyDisk} size={"xl"}/>
