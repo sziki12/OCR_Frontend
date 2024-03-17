@@ -8,7 +8,7 @@ import MainSection from "../utils/MainSection";
 import {useEffect, useState} from "react";
 import {green} from "@mui/material/colors";
 import {useNavigate, useParams} from "react-router-dom";
-import Receipts from "./Receipt";
+import Receipts from "../../items/receipts/Receipt";
 import {getSingleReceipt} from "../utils/BackendAccess";
 
 

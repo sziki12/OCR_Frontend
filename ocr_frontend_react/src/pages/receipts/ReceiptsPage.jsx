@@ -4,7 +4,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faPlus,faFileArrowUp,} from '@fortawesome/free-solid-svg-icons'
 import MainSection from "../utils/MainSection";
 import {useEffect, useState} from "react";
-import Receipts from "./Receipt";
+import Receipts from "../../items/receipts/Receipt";
 import {useNavigate} from "react-router-dom";
 import {getReceipts} from "../utils/BackendAccess";
 

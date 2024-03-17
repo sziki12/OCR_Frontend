@@ -3,12 +3,11 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPenToSquare, faTrashCan, faBox, faSignature, faTag, faPlus} from "@fortawesome/free-solid-svg-icons";
 import * as React from "react";
 import {useEffect, useState} from "react";
-import {deleteItem} from "../../utils/BackendAccess"
+import {deleteItem} from "../../pages/utils/BackendAccess"
 
 
 export default function EditableItem(props) {
 
-    //TODO EditableItem Remove button
     const [items, setItems] = useState([])
 
     const deleteItem = async (itemId) => {
@@ -21,6 +20,8 @@ export default function EditableItem(props) {
 
     useEffect(()=>{
         setItems([...props.items])
+        console.log("ITEMS")
+        console.log([...props.items])
     },[props.items])
 
     const onChange = (e,id) => {
@@ -35,11 +36,17 @@ export default function EditableItem(props) {
         newArray.sort((a,b)=>a.id-b.id)
         setItems(newArray);
         props.saveItems(newArray)
+        console.log("otherItems")
+        console.log([...otherItems])
+        console.log("selectedItem")
+        console.log(selectedItem)
+        console.log("SAVE")
+        console.log(newArray)
     }
 
     return (items?.map((item)=>
         {
-            return(<FormControl key={item.id} className={"flex flex-row flex-wrap py-2"}>
+            return(<div key={item.id} className={"flex flex-row flex-wrap py-2"}>
                 <div>
                     <FontAwesomeIcon icon={faSignature} />
                     <Input
@@ -81,7 +88,7 @@ export default function EditableItem(props) {
                 </Button>
 
                 <br/>
-            </FormControl>)
+            </div>)
         })
     )
 }

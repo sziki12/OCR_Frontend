@@ -1,12 +1,14 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCalendar, faFloppyDisk, faMessage, faMoneyBill,faPlus} from "@fortawesome/free-solid-svg-icons";
-import Item from "./items/Item";
+import Item from "../items/Item";
 import {Button,Input} from "@mui/material";
 import * as React from "react";
 import {useEffect, useState} from "react";
-import {getSingleReceipt, updateReceipt,createNewItem} from "../utils/BackendAccess";
-import EditableItem from "./items/EditableItem";
+import {getSingleReceipt, updateReceipt,createNewItem} from "../../pages/utils/BackendAccess";
+import EditableItem from "../items/EditableItem";
+import getDateToShow from "../../pages/utils/DateConverter";
+import Paper from '@mui/material/Paper';
 
 
 export default function EditableReceipt(props) {
@@ -62,7 +64,7 @@ export default function EditableReceipt(props) {
         navigate("/receipts/"+receipt.id)
     }
 
-    return(<div className="px-10 py-6 m-5 bg-blue-50 shadow rounded">
+    return(<Paper elevation={12} className="px-10 py-6 m-5 bg-blue-50">
                 <p className={"text-black"}>
                     <FontAwesomeIcon icon={faMessage} color={"Dodgerblue"}/>
                     {receipt.description}
@@ -104,15 +106,6 @@ export default function EditableReceipt(props) {
                     <Button onClick={insertItem}>
                         <FontAwesomeIcon icon={faPlus}  size={"xl"}/>
                     </Button>
-            </div>
+            </Paper>
     )
-}
-
-function getDateToShow(dateOfPurchase)
-{
-    const date = new Date(dateOfPurchase)
-    const year = date.getFullYear()
-    const month = date.getMonth()+1
-    const day = date.getDate()
-    return year + "-" + (month < 10 ? '0' + month : month) + "-" + (day < 10 ? '0' + day : day)
 }

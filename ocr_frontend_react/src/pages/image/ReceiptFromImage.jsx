@@ -5,7 +5,7 @@ import MainSection from "../../utils/MainSection";
 import {Button, FormControl, InputLabel, MenuItem, Select} from "@mui/material";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faFileArrowUp, faPlus} from "@fortawesome/free-solid-svg-icons";
-import EditableReceipt from "../EditableReceipt";
+import EditableReceipt from "../../../items/receipts/EditableReceipt";
 import * as React from "react";
 
 export default function ReceiptsFromImagePage(props) {

@@ -33,7 +33,7 @@ const UploadAndDisplayImage = (props) => {
 
     return (
         <MainSection>
-            <div className={"flex flex-row justify-between"}>
+            <div className={"flex flex-row justify-center"}>
                 {
                     (processingState==="processed") &&
                     <ReceiptsFromImagePage response={response}/>
@@ -52,7 +52,6 @@ const UploadAndDisplayImage = (props) => {
                                     />
                                     <br />
                                 </div>
-                                <br />
                                 <br />
                                 {
                                     (processingState==="waiting") &&(
