@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import {Button} from "@mui/material";
 import {useNavigate, useParams} from "react-router-dom";
-import MainSection from "../../utils/MainSection";
-import {addItemToReceipt} from "../../utils/BackendAccess";
+import MainSection from "../../components/utils/MainSection";
+import {addItemToReceipt} from "../../components/utils/BackendAccess";
 
 export default function AddItem() {
 

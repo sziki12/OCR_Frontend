@@ -6,33 +6,41 @@
 module.exports = {
   content: [
       //Root
-    "./src/pages/ErrorPage.jsx",
-    "./src/pages/Root.jsx",
+      "./src/pages/ErrorPage.jsx",
+      "./src/pages/Root.jsx",
 
-      //Utils
-    "./src/pages/utils/Toolbar.jsx",
-    "./src/pages/utils/MainSection.jsx",
+    //Components
 
-      //Receipts
-    "./src/pages/receipts/Receipt.jsx",
-    "./src/pages/receipts/EditableReceipt.jsx",
-    "./src/pages/receipts/ReceiptsPage.jsx",
-    "./src/pages/receipts/SingleReceiptPage.jsx",
-    "./src/pages/receipts/AddReceipt.jsx",
-    "./src/pages/receipts/UpdateReceipt.jsx",
-    "./src/pages/receipts/DeleteReceipt.jsx",
+          //Utils
+          "./src/components/utils/Toolbar.jsx",
+          "./src/components/utils/MainSection.jsx",
+
+          //Receipts
+          "./src/components/receipts/Receipt.jsx",
+          "./src/components/receipts/EditableReceipt.jsx",
+
+          //Items
+          "./src/components/items/Item.jsx",
+          "./src/components/items/EditableItem.jsx",
+
+    //Pages
+
+        //Receipts
+        "./src/pages/receipts/ReceiptsPage.jsx",
+        "./src/pages/receipts/SingleReceiptPage.jsx",
+        "./src/pages/receipts/AddReceipt.jsx",
+        "./src/pages/receipts/UpdateReceipt.jsx",
+        "./src/pages/receipts/DeleteReceipt.jsx",
 
 
-      //Items
-    "./src/pages/receipts/items/Item.jsx",
-    "./src/pages/receipts/items/EditableItem.jsx",
-    "./src/pages/receipts/items/AddItem.jsx",
-    "./src/pages/receipts/items/UpdateItemPage.jsx",
-    "./src/pages/receipts/items/DeleteItemPage.jsx",
+        //Items
+        "./src/pages/receipts/items/AddItem.jsx",
+        "./src/pages/receipts/items/UpdateItemPage.jsx",
+        "./src/pages/receipts/items/DeleteItemPage.jsx",
 
-      //Image
-    "./src/pages/receipts/image/UploadImage.jsx",
-    "./src/pages/receipts/image/ReceiptFromImage.jsx",
+        //Image
+        "./src/pages/image/UploadImage.jsx",
+        "./src/pages/image/ReceiptFromImage.jsx",
 
 
   ],

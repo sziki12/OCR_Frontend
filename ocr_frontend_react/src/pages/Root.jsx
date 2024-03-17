@@ -1,6 +1,6 @@
 import logo from '../logo.svg';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import MainSection from "./utils/MainSection";
+import MainSection from "../components/utils/MainSection";
 
 //props.name
 function Root() {

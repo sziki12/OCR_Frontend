@@ -1,11 +1,10 @@
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {getSingleReceipt} from "../../utils/BackendAccess";
-import MainSection from "../../utils/MainSection";
+import {getSingleReceipt} from "../../components/utils/BackendAccess";
 import {Button, FormControl, InputLabel, MenuItem, Select} from "@mui/material";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faFileArrowUp, faPlus} from "@fortawesome/free-solid-svg-icons";
-import EditableReceipt from "../../../items/receipts/EditableReceipt";
+import EditableReceipt from "../../components/receipts/EditableReceipt";
 import * as React from "react";
 
 export default function ReceiptsFromImagePage(props) {

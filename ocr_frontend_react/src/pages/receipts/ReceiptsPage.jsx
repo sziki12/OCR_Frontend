@@ -2,11 +2,11 @@ import * as React from 'react';
 import {Button} from '@mui/material';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faPlus,faFileArrowUp,} from '@fortawesome/free-solid-svg-icons'
-import MainSection from "../utils/MainSection";
+import MainSection from "../../components/utils/MainSection";
 import {useEffect, useState} from "react";
-import Receipts from "../../items/receipts/Receipt";
+import Receipts from "../../components/receipts/Receipt";
 import {useNavigate} from "react-router-dom";
-import {getReceipts} from "../utils/BackendAccess";
+import {getReceipts} from "../../components/utils/BackendAccess";
 
 export default function ReceiptsPage() {
 

@@ -3,7 +3,6 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPenToSquare, faTrashCan, faBox, faSignature, faTag, faPlus} from "@fortawesome/free-solid-svg-icons";
 import * as React from "react";
 import {useEffect, useState} from "react";
-import {deleteItem} from "../../pages/utils/BackendAccess"
 
 
 export default function EditableItem(props) {

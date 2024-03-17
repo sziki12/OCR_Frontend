@@ -5,9 +5,9 @@ import Item from "../items/Item";
 import {Button,Input} from "@mui/material";
 import * as React from "react";
 import {useEffect, useState} from "react";
-import {getSingleReceipt, updateReceipt,createNewItem} from "../../pages/utils/BackendAccess";
+import {getSingleReceipt, updateReceipt,createNewItem} from "../utils/BackendAccess";
 import EditableItem from "../items/EditableItem";
-import getDateToShow from "../../pages/utils/DateConverter";
+import getDateToShow from "../utils/DateConverter";
 import Paper from '@mui/material/Paper';
 
 

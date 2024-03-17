@@ -1,9 +1,9 @@
 import {useEffect, useState} from 'react';
 import {Button} from "@mui/material";
 import {useNavigate, useParams} from "react-router-dom";
-import MainSection from "../utils/MainSection";
-import {getSingleReceipt, updateReceipt} from "../utils/BackendAccess";
-import getDateToShow from "../utils/DateConverter";
+import MainSection from "../../components/utils/MainSection";
+import {getSingleReceipt, updateReceipt} from "../../components/utils/BackendAccess";
+import getDateToShow from "../../components/utils/DateConverter";
 
 export default function UpdateReceipt() {
 

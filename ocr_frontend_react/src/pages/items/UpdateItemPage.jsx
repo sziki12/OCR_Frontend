@@ -1,8 +1,8 @@
 import {useEffect,useState} from 'react';
 import {Button} from "@mui/material";
 import {useNavigate, useParams} from "react-router-dom";
-import MainSection from "../../utils/MainSection";
-import {updateItem,getItem} from "../../utils/BackendAccess";
+import MainSection from "../../components/utils/MainSection";
+import {updateItem,getItem} from "../../components/utils/BackendAccess";
 export default function UpdateReceipt() {
 
     const navigate = useNavigate();

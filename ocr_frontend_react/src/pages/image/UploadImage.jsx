@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import MainSection from "../../utils/MainSection";
+import MainSection from "../../components/utils/MainSection";
 import {Button} from "@mui/material";
-import {processImage} from "../../utils/BackendAccess";
-import {useNavigate,Outlet} from "react-router-dom";
+import {processImage} from "../../components/utils/BackendAccess";
+import {useNavigate} from "react-router-dom";
 import {faSpinner} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import ReceiptsFromImagePage from "./ReceiptFromImage";
