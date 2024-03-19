@@ -1,8 +1,8 @@
 import {useNavigate, useParams} from "react-router-dom";
-import MainSection from "../utils/MainSection";
+import MainSection from "../../components/utils/MainSection";
 import {Receipt} from "@mui/icons-material";
 import {Button} from "@mui/material";
-import {deleteReceipts} from "../utils/BackendAccess";
+import {deleteReceipts} from "../../components/utils/BackendAccess";
 
 
 

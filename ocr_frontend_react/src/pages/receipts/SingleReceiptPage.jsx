@@ -4,12 +4,12 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {
     faPlus,
 } from '@fortawesome/free-solid-svg-icons'
-import MainSection from "../utils/MainSection";
+import MainSection from "../../components/utils/MainSection";
 import {useEffect, useState} from "react";
 import {green} from "@mui/material/colors";
 import {useNavigate, useParams} from "react-router-dom";
-import Receipts from "./Receipt";
-import {getSingleReceipt} from "../utils/BackendAccess";
+import Receipts from "../../components/receipts/Receipt";
+import {getSingleReceipt} from "../../components/utils/BackendAccess";
 
 
 export default function ReceiptsPage() {

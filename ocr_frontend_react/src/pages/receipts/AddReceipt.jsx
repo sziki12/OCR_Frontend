@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import {Button} from "@mui/material";
 import {useNavigate} from "react-router-dom";
-import MainSection from "../utils/MainSection";
-import {createReceipt} from "../utils/BackendAccess";
+import MainSection from "../../components/utils/MainSection";
+import {createReceipt} from "../../components/utils/BackendAccess";
 export default function AddReceipt() {
 
     const navigate = useNavigate();

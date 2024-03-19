@@ -5,8 +5,9 @@ export default function MainSection({children}) {
     return (
         <main>
             <MainToolbar/>
-            <div className="p-24">
+            <div className="p-10">
                 {children}
             </div>
-        </main>)
+        </main>
+    )
 }

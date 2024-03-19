@@ -1,39 +1,41 @@
 import {useEffect, useState} from 'react';
 import {Button} from "@mui/material";
 import {useNavigate, useParams} from "react-router-dom";
-import MainSection from "../utils/MainSection";
-import {updateReceipt,getSingleReceipt} from "../utils/BackendAccess";
+import MainSection from "../../components/utils/MainSection";
+import {getSingleReceipt, updateReceipt} from "../../components/utils/BackendAccess";
+import getDateToShow from "../../components/utils/DateConverter";
+
 export default function UpdateReceipt() {
 
     const navigate = useNavigate();
     const params = useParams()
 
-    const [description, setDescription] = useState('');
-    const [dateOfPurchase, setDateOfPurchase] = useState('');
-
+    const [receipt, setReceipt] = useState({
+        description:"",
+        dateOfPurchase:new Date(),
+        items:[],
+        totalCost:0
+    })
 
     useEffect(()=>{
         getSingleReceipt(params.receiptId).then((receipt)=>{
-            const date = new Date(receipt.dateOfPurchase)
-            const year = date.getFullYear()
-            const month = date.getMonth()+1
-            const day = date.getDate()
-            const dateToShow = year+"-"+(month<10?'0'+month:month)+"-"+(day<10?'0'+day:day)
-            console.log(date)
-            console.log("Show: "+dateToShow)
-            setDescription(receipt.description)
-            setDateOfPurchase(dateToShow)
+            setReceipt({...receipt})
         })
     },[])
+
+    const onChange = (e) => {
+        const { name, value } = e.target;
+        setReceipt(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    }
 
     const update = async(e) => {
 
         e.preventDefault()
 
-        await updateReceipt(params.receiptId,description,dateOfPurchase)
-
-        setDescription('');
-        setDateOfPurchase('');
+        await updateReceipt(params.receiptId,receipt.description,receipt.dateOfPurchase,receipt.items)
 
         navigate("/receipts")
     }
@@ -48,16 +50,18 @@ export default function UpdateReceipt() {
                     autoFocus={"true"}
                     className={"text-black"}
                     placeholder="Description"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
+                    value={receipt.description}
+                    name={"description"}
+                    onChange={onChange}
                 />
                 <br/>
                 <input
                     className={"text-black"}
                     type="date"
                     placeholder="Date Of Purchase"
-                    value={dateOfPurchase}
-                    onChange={(e) => setDateOfPurchase(e.target.value)}
+                    value={getDateToShow(receipt.dateOfPurchase)}
+                    name={"dateOfPurchase"}
+                    onChange={onChange}
                 />
                 <br></br>
                 <Button type="submit">
@@ -67,3 +71,6 @@ export default function UpdateReceipt() {
         </MainSection>
     );
 }
+
+
+

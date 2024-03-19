@@ -10,10 +10,10 @@ import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import AddReceipt from "./pages/receipts/AddReceipt";
 import DeleteReceiptPage from "./pages/receipts/DeleteReceipt";
 import UpdateReceipt from "./pages/receipts/UpdateReceipt";
-import AddItem from "./pages/receipts/items/AddItem";
+import AddItem from "./pages/items/AddItem";
 import UploadImage from "./pages/image/UploadImage";
-import DeleteItemPage from "./pages/receipts/items/DeleteItemPage";
-import UpdateItemPage from "./pages/receipts/items/UpdateItemPage";
+import DeleteItemPage from "./pages/items/DeleteItemPage";
+import UpdateItemPage from "./pages/items/UpdateItemPage";
 
 const router = createBrowserRouter([
     {

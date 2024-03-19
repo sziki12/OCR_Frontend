@@ -8,7 +8,7 @@ import {useNavigate, useParams} from "react-router-dom";
 export default function Item(props)
 {
     const navigate = useNavigate();
-    const params = useParams()
+    const params = useParams();
 
     return(props.items?.map((item)=>
         {

@@ -1,12 +1,12 @@
 import * as React from 'react';
 import {Button} from '@mui/material';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faPlus,} from '@fortawesome/free-solid-svg-icons'
-import MainSection from "../utils/MainSection";
+import {faPlus,faFileArrowUp,} from '@fortawesome/free-solid-svg-icons'
+import MainSection from "../../components/utils/MainSection";
 import {useEffect, useState} from "react";
-import Receipts from "./Receipt";
+import Receipts from "../../components/receipts/Receipt";
 import {useNavigate} from "react-router-dom";
-import {getReceipts} from "../utils/BackendAccess";
+import {getReceipts} from "../../components/utils/BackendAccess";
 
 export default function ReceiptsPage() {
 
@@ -23,6 +23,7 @@ export default function ReceiptsPage() {
     return (
         <MainSection>
             <Button onClick={()=>{navigate("/create/receipts")}}><FontAwesomeIcon icon={faPlus}  size={"xl"}/></Button>
+            <Button onClick={()=>{navigate("/upload/image")}}><FontAwesomeIcon icon={faFileArrowUp}  size={"xl"}/></Button>
             <div className="flex flex-wrap flex-row">
                 <Receipts receipts={receipts}/>
             </div>

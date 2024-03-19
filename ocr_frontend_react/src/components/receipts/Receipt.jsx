@@ -3,7 +3,8 @@ import {faCalendar, faEye, faMessage, faMoneyBill, faPenToSquare, faTrashCan} fr
 import {Button} from "@mui/material";
 import * as React from "react";
 import {useNavigate} from "react-router-dom";
-import Item from "./items/Item";
+import Item from "../items/Item";
+import Paper from '@mui/material/Paper';
 
 
 export default function Receipts(props)
@@ -12,7 +13,7 @@ export default function Receipts(props)
     return(props.receipts?.map((receipt)=>
     {
         return  (
-            <div className="px-10 py-6 m-5 bg-blue-50 shadow rounded">
+            <Paper elevation={12} className="px-10 py-6 m-5 bg-blue-50">
                 <p className={"text-black"}><FontAwesomeIcon icon={faMessage} color={"Dodgerblue"}/> {receipt.description}</p>
                 <p className={"text-black"}><FontAwesomeIcon icon={faCalendar}/> {new Date(receipt.dateOfPurchase).toLocaleDateString()}</p>
                 <p className={"text-black"}><FontAwesomeIcon icon={faMoneyBill} color={"green"} /> {receipt.totalCost+" "}</p>
@@ -28,7 +29,7 @@ export default function Receipts(props)
                 <Button className={"text-red-700"} onClick={()=>{navigate("/delete/receipts/"+receipt.id)}}>
                     <FontAwesomeIcon icon={faTrashCan} width={25} color={"red"}/>
                 </Button>
-            </div>)
+            </Paper>)
     })
     )
 }
