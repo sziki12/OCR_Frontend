@@ -1,10 +1,14 @@
 import {AppBar, Toolbar, Button, Box, Icon, Typography, IconButton} from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faReceipt } from '@fortawesome/free-solid-svg-icons'
-import {useNavigate} from "react-router-dom";
+import {redirect, useNavigate} from "react-router-dom";
+import {AuthData} from "../handlers/LoginHandler";
+
 
 export default function MainToolbar()
 {
+    const {user,logout} = AuthData();
+    console.log(user);
     const navigate = useNavigate();
     return(
         <Box sx={{ flexGrow: 1 }}>
@@ -13,9 +17,19 @@ export default function MainToolbar()
                     <IconButton onClick={()=>{navigate('/receipts')}}>
                         <FontAwesomeIcon icon={faReceipt} width={50} color={"lightBlue"}/>
                     </IconButton>
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>{user.userName}
                     </Typography>
-                    <Button color="inherit">Login</Button>
+                        <>
+                            {
+                                (user.isAuthenticated)?
+                                    <Button color="inherit" onClick={()=>{
+                                        logout();
+                                        //console.log(user)
+                                        navigate("/");
+                                    }}>Logout</Button> :
+                                    <Button color="inherit" onClick={()=>navigate("/login")}>Login</Button>
+                            }
+                        </>
                 </Toolbar>
             </AppBar>
         </Box>

@@ -2,7 +2,6 @@
 
 const BackendAccess =
     {
-
         async getReceipts() {
             let receiptsRequest = await fetch("http://localhost:8080/api/receipt",
                 {
@@ -46,7 +45,7 @@ const BackendAccess =
             });
         },
 
-        async updateReceipt(receiptId,description,dateOfPurchase,items)
+        async updateReceipt(receiptId,description,dateOfPurchase)
         {
             await fetch('http://localhost:8080/api/receipt/'+receiptId, {
                 method: 'PUT',
@@ -56,7 +55,6 @@ const BackendAccess =
                 body: JSON.stringify({
                     description,
                     dateOfPurchase,
-                    items
                 }),
             });
         },
@@ -68,7 +66,7 @@ const BackendAccess =
                     cache: "no-store"
                 })
         },
-        async addItemToReceipt(receiptId,name,quantity,totalCost)
+        async createItem(receiptId,name,quantity,totalCost)
         {
             const url = 'http://localhost:8080/api/receipt/'+receiptId+'/item'
             await fetch(url, {
@@ -82,17 +80,6 @@ const BackendAccess =
                     totalCost,
                 }),
             });
-        },
-        async createNewItem(receiptId)
-        {
-            const url = 'http://localhost:8080/api/receipt/'+receiptId+'/new/item'
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-            return await response.json()
         },
         async updateItem(receiptId,itemId,name,quantity,totalCost)
         {
@@ -120,18 +107,41 @@ const BackendAccess =
                 });
         },
 
-        async processImage(image)
+        async uploadImage(image)
         {
-            const url = 'http://localhost:8080/api/receipt/image';
+            const url = 'http://localhost:8080/api/receipt/image'
+            await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(image)
+            });
+        },
+
+        async loginUser(user)
+        {
+            const url = 'http://localhost:8080/login';
             const response =  await fetch(url, {
                 method: 'POST',
-                body: image
+                body: user
             });
 
             return await response.json()
         },
+        async registerUser(user)
+        {
+            const url = 'http://localhost:8080/register';
+            const response =  await fetch(url, {
+                method: 'POST',
+                body: user
+            });
+
+            return await response.json()
+        }
 
     }
+
 
 
     module.exports = BackendAccess

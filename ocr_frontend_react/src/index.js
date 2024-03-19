@@ -14,56 +14,63 @@ import AddItem from "./pages/items/AddItem";
 import UploadImage from "./pages/image/UploadImage";
 import DeleteItemPage from "./pages/items/DeleteItemPage";
 import UpdateItemPage from "./pages/items/UpdateItemPage";
+import LoginPage from "./pages/auth/LoginPage";
+
 
 const router = createBrowserRouter([
     {
         path:'/',
         element:<Root/>,
-        errorElement:<ErrorPage/>
-    },
-    {
-        path:'/receipts',
-        element:<ReceiptsPage/>,
-    },
-    {
-        path:'/receipts/:receiptId',
-        element:<SingleReceiptPage/>,
-    },
-    {
-        path:'/create/receipts',
-        element:<AddReceipt/>,
-    },
-    {
-        path:'/create/receipts/:receiptId',
-        element:<AddItem/>,
-    },
-    {
-        path:'/delete/receipts/:receiptId',
-        element:<DeleteReceiptPage/>,
-    },
-    {
-        path:'/update/receipts/:receiptId',
-        element:<UpdateReceipt/>,
-    },
-    {
-        path:'/delete/receipts/:receiptId/items/:itemId',
-        element:<DeleteItemPage/>,
-    },
-    {
-        path:'/update/receipts/:receiptId/items/:itemId',
-        element:<UpdateItemPage/>,
-    },
-    {
-        path:'/upload/image',
-        element:<UploadImage/>,
-    },
-    ])
+        errorElement:<ErrorPage/>,
+        children:[
+            {
+                path:'/receipts',
+                element:<ReceiptsPage/>,
+            },
+            {
+                path:'/receipts/:receiptId',
+                element:<SingleReceiptPage/>,
+            },
+            {
+                path:'/create/receipts',
+                element:<AddReceipt/>,
+            },
+            {
+                path:'/create/receipts/:receiptId',
+                element:<AddItem/>,
+            },
+            {
+                path:'/delete/receipts/:receiptId',
+                element:<DeleteReceiptPage/>,
+            },
+            {
+                path:'/update/receipts/:receiptId',
+                element:<UpdateReceipt/>,
+            },
+            {
+                path:'/delete/receipts/:receiptId/items/:itemId',
+                element:<DeleteItemPage/>,
+            },
+            {
+                path:'/update/receipts/:receiptId/items/:itemId',
+                element:<UpdateItemPage/>,
+            },
+            {
+                path:'/upload/image',
+                element:<UploadImage/>,
+            },
+            {
+                path:'/login',
+                element:<LoginPage/>,
+            },
+        ]
+    }])
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
+        <React.StrictMode>
+            <RouterProvider router={router} />
+        </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
