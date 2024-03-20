@@ -106,6 +106,19 @@ const BackendAccess =
                 }),
             });
         },
+
+        async createNewItem(receiptId)
+        {
+            const url = 'http://localhost:8080/api/receipt/'+receiptId+'/new/item'
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization':  getAuth(),
+                },
+            });
+            return await response.json()
+        },
         async updateItem(receiptId,itemId,name,quantity,totalCost)
         {
             await fetch("http://localhost:8080/api/receipt/"+receiptId+"/item/"+itemId,

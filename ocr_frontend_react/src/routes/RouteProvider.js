@@ -3,13 +3,12 @@ import SingleReceiptPage from "../pages/receipts/SingleReceiptPage";
 import AddReceipt from "../pages/receipts/AddReceipt";
 import AddItem from "../pages/items/AddItem";
 import DeleteReceiptPage from "../pages/receipts/DeleteReceipt";
-import UpdateReceipt from "../pages/receipts/UpdateReceipt";
 import DeleteItemPage from "../pages/items/DeleteItemPage";
-import UpdateItemPage from "../pages/items/UpdateItemPage";
 import UploadImage from "../pages/image/UploadImage";
 import LoginPage from "../pages/auth/LoginPage";
 import React from "react";
 import {AuthData} from "../components/handlers/LoginHandler";
+import ReceiptMainPage from "../pages/receipts/ReceiptMainPage";
 
 
 export default function RouteProvider(isAuthenticated)
@@ -22,7 +21,7 @@ export default function RouteProvider(isAuthenticated)
     },
     {
         path:'/receipts/:receiptId',
-        element:<SingleReceiptPage/>,
+        element:<ReceiptMainPage/>,
         isProtected:true,
     },
     {
@@ -41,18 +40,8 @@ export default function RouteProvider(isAuthenticated)
         isProtected:true,
     },
     {
-        path:'/update/receipts/:receiptId',
-        element:<UpdateReceipt/>,
-        isProtected:true,
-    },
-    {
         path:'/delete/receipts/:receiptId/items/:itemId',
         element:<DeleteItemPage/>,
-        isProtected:true,
-    },
-    {
-        path:'/update/receipts/:receiptId/items/:itemId',
-        element:<UpdateItemPage/>,
         isProtected:true,
     },
     {

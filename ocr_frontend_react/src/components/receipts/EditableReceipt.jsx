@@ -61,21 +61,23 @@ export default function EditableReceipt(props) {
     const update = async(e) => {
         e.preventDefault()
         await updateReceipt(receipt.id,receipt.description,receipt.dateOfPurchase,receipt.items)
-        navigate("/receipts/"+receipt.id)
+        props.setReceipt({
+            ...receipt
+        })
     }
 
     return(<Paper elevation={12} className="px-10 py-6 m-5 bg-blue-50">
                 <p className={"text-black"}>
                     <FontAwesomeIcon icon={faMessage} color={"Dodgerblue"}/>
-                    {receipt.description}
+                    {" "+receipt.description}
                 </p>
                 <p className={"text-black"}>
                     <FontAwesomeIcon icon={faCalendar}/>
-                    {new Date(receipt.dateOfPurchase).toLocaleDateString()}
+                    {" "+new Date(receipt.dateOfPurchase).toLocaleDateString()}
                 </p>
                 <p className={"text-black"}>
                     <FontAwesomeIcon icon={faMoneyBill} color={"green"}/>
-                    {receipt.totalCost + " "}
+                    {" "+receipt.totalCost + " "}
                 </p>
 
                 <div>
@@ -97,7 +99,7 @@ export default function EditableReceipt(props) {
                         value={getDateToShow(receipt.dateOfPurchase)}
                         onChange={onChange}
                     />
-                    <br></br>
+                    <br/>
                     <EditableItem receiptId={receipt.id} items={receipt.items} saveItems={saveItems}></EditableItem>
                 </div>
                     <Button onClick={update}>

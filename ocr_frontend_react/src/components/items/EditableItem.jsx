@@ -45,7 +45,7 @@ export default function EditableItem(props) {
 
     return (items?.map((item)=>
         {
-            return(<div key={item.id} className={"flex flex-row flex-wrap py-2"}>
+            return(<div key={item.id} className={"p-2"}>
                 <div>
                     <FontAwesomeIcon icon={faSignature} />
                     <Input
@@ -58,35 +58,33 @@ export default function EditableItem(props) {
                     />
                 </div>
                 <br/>
-                <div>
-                    <FontAwesomeIcon icon={faBox} />
-                    <Input
-                        className={"text-black w-1/4"}
-                        type="number"
-                        placeholder="Quantity"
-                        value={item.quantity}
-                        name={"quantity"}
-                        onChange={(e)=>{onChange(e,item.id)}}
-                    />
+                <div className={"flex flex-row flex-wrap"}>
+                    <div className={"w-1/3"}>
+                        <FontAwesomeIcon icon={faBox} className={"px-2"}/>
+                        <Input
+                            className={"text-black w-3/4"}
+                            type="number"
+                            placeholder="Quantity"
+                            value={item.quantity}
+                            name={"quantity"}
+                            onChange={(e)=>{onChange(e,item.id)}}
+                        />
+                    </div>
+                    <div className={"w-1/2"}>
+                        <FontAwesomeIcon icon={faTag} className={"px-2"}/>
+                        <Input
+                            className={"text-black w-3/4"}
+                            type="number"
+                            placeholder="Total Cost"
+                            value={item.totalCost}
+                            name={"totalCost"}
+                            onChange={(e)=>{onChange(e,item.id)}}
+                        />
+                    </div>
+                    <Button onClick={()=>deleteItem(item.id)} size={"large"}>
+                        <FontAwesomeIcon icon={faTrashCan} color={"red"} size={"lg"}/>
+                    </Button>
                 </div>
-
-                <br/>
-                <div>
-                    <FontAwesomeIcon icon={faTag} />
-                    <Input
-                        className={"text-black w-1/2"}
-                        type="number"
-                        placeholder="Total Cost"
-                        value={item.totalCost}
-                        name={"totalCost"}
-                        onChange={(e)=>{onChange(e,item.id)}}
-                    />
-                </div>
-                <Button onClick={()=>deleteItem(item.id)}>
-                    <FontAwesomeIcon icon={faTrashCan} color={"red"}/>
-                </Button>
-
-                <br/>
             </div>)
         })
     )

@@ -29,13 +29,11 @@ module.exports = {
         "./src/pages/receipts/ReceiptsPage.jsx",
         "./src/pages/receipts/SingleReceiptPage.jsx",
         "./src/pages/receipts/AddReceipt.jsx",
-        "./src/pages/receipts/UpdateReceipt.jsx",
         "./src/pages/receipts/DeleteReceipt.jsx",
 
 
         //Items
         "./src/pages/receipts/items/AddItem.jsx",
-        "./src/pages/receipts/items/UpdateItemPage.jsx",
         "./src/pages/receipts/items/DeleteItemPage.jsx",
 
         //Image
