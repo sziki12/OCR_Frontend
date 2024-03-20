@@ -14,7 +14,12 @@ export default function MainToolbar()
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
                 <Toolbar>
-                    <IconButton onClick={()=>{navigate('/receipts')}}>
+                    <IconButton onClick={()=>{
+                        if(user.isAuthenticated)
+                            navigate('/receipts')
+                        else
+                            navigate('/login')
+                    }}>
                         <FontAwesomeIcon icon={faReceipt} width={50} color={"lightBlue"}/>
                     </IconButton>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>{user.userName}
@@ -24,8 +29,6 @@ export default function MainToolbar()
                                 (user.isAuthenticated)?
                                     <Button color="inherit" onClick={()=>{
                                         logout();
-                                        //console.log(user)
-                                        navigate("/");
                                     }}>Logout</Button> :
                                     <Button color="inherit" onClick={()=>navigate("/login")}>Login</Button>
                             }

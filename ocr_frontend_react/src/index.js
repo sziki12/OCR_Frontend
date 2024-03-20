@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM, {hydrateRoot} from 'react-dom/client';
 import './css/index.css';
 import Root from './pages/Root';
 import ErrorPage from './pages/ErrorPage';
@@ -15,62 +15,38 @@ import UploadImage from "./pages/image/UploadImage";
 import DeleteItemPage from "./pages/items/DeleteItemPage";
 import UpdateItemPage from "./pages/items/UpdateItemPage";
 import LoginPage from "./pages/auth/LoginPage";
+import RouteProvider from "./routes/RouteProvider";
+import LoginHandler from "./components/handlers/LoginHandler";
 
 
-const router = createBrowserRouter([
-    {
-        path:'/',
-        element:<Root/>,
-        errorElement:<ErrorPage/>,
-        children:[
-            {
-                path:'/receipts',
-                element:<ReceiptsPage/>,
-            },
-            {
-                path:'/receipts/:receiptId',
-                element:<SingleReceiptPage/>,
-            },
-            {
-                path:'/create/receipts',
-                element:<AddReceipt/>,
-            },
-            {
-                path:'/create/receipts/:receiptId',
-                element:<AddItem/>,
-            },
-            {
-                path:'/delete/receipts/:receiptId',
-                element:<DeleteReceiptPage/>,
-            },
-            {
-                path:'/update/receipts/:receiptId',
-                element:<UpdateReceipt/>,
-            },
-            {
-                path:'/delete/receipts/:receiptId/items/:itemId',
-                element:<DeleteItemPage/>,
-            },
-            {
-                path:'/update/receipts/:receiptId/items/:itemId',
-                element:<UpdateItemPage/>,
-            },
-            {
-                path:'/upload/image',
-                element:<UploadImage/>,
-            },
-            {
-                path:'/login',
-                element:<LoginPage/>,
-            },
-        ]
-    }])
-
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
+export function updateRouter(isAuthenticated)
+{
+    let router = createRouter(isAuthenticated)
+    root.render(
         <React.StrictMode>
             <RouterProvider router={router} />
         </React.StrictMode>
+    );
+}
+
+function createRouter(isAuthenticated)
+{
+    return createBrowserRouter([
+        {
+            path:'/',
+            element:<Root/>,
+            errorElement:<ErrorPage/>,
+            children:RouteProvider(isAuthenticated)
+        }])
+}
+
+let router = createRouter(false)
+
+let root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+    <React.StrictMode>
+        <RouterProvider router={router} />
+    </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

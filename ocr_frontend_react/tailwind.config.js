@@ -42,6 +42,9 @@ module.exports = {
         "./src/pages/image/UploadImage.jsx",
         "./src/pages/image/ReceiptFromImage.jsx",
 
+        //Auth
+        "./src/pages/auth/LoginPage.jsx"
+
 
   ],
   theme: {

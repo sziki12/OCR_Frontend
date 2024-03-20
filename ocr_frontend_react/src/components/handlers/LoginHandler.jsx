@@ -1,40 +1,52 @@
 import {createContext, useContext, useState} from "react";
 import {loginUser} from "../utils/BackendAccess"
+import {useNavigate} from "react-router-dom";
+import {updateRouter} from "../../index"
 
 
 
 const AuthContext = createContext(
     {
-        userName:"Failed",
-        isAuthenticated:true
+        user:{
+            userName:"",
+            isAuthenticated:false
+        }
     }
 );
-export const AuthData = ()=> useContext(AuthContext)
+export const AuthData = ()=>
+{
+    try {
+        return useContext(AuthContext)
+    }
+    catch (e)
+    {
+        return({})
+    }
+
+}
 
 export default function LoginHandler({children})
 {
+    let navigate = useNavigate()
 
     const [user,setUser] = useState({
-        userName:"Alma",
-        isAuthenticated:true
+        userName:"",
+        isAuthenticated:false
     })
 
-
-    const login = async (userName, password) => {
-        const user = {
-            userName: userName,
-            password: password
-        }
+    const login = async (user) => {
 
         return new Promise((reject,resolve) => {
 
             //TODO Call Backend Login
             // const response = await loginUser(user)
 
-            if(password==="password")
+            if(user.password==="password")
             {
-                setUser({userName: userName,isAuthenticated: true})
+                setUser({userName: user.userName,isAuthenticated: true})
                 resolve("Success")
+                navigate("/")
+                updateRouter(true)
             }
             else
             {
@@ -46,6 +58,8 @@ export default function LoginHandler({children})
     const logout = () => {
         setUser({userName: "",isAuthenticated: false})
         //TODO Call Backend Logout
+        navigate("/login")
+        updateRouter(false)
     }
 
 
