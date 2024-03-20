@@ -40,7 +40,8 @@ function createRouter(isAuthenticated)
         }])
 }
 
-let router = createRouter(false)
+//Locks the auth required pages
+let router = createRouter(true)
 
 let root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

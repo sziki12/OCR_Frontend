@@ -35,7 +35,6 @@ export default function UpdateReceipt() {
     }
 
     return (
-        <MainSection>
             <form onSubmit={update}>
                 <h3>Update selected Item</h3>
                 <textarea
@@ -67,6 +66,5 @@ export default function UpdateReceipt() {
                     Update Item
                 </Button>
             </form>
-        </MainSection>
     );
 }

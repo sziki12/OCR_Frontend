@@ -21,12 +21,12 @@ export default function ReceiptsPage() {
 
 
     return (
-        <MainSection>
+        <>
             <Button onClick={()=>{navigate("/create/receipts")}}><FontAwesomeIcon icon={faPlus}  size={"xl"}/></Button>
             <Button onClick={()=>{navigate("/upload/image")}}><FontAwesomeIcon icon={faFileArrowUp}  size={"xl"}/></Button>
             <div className="flex flex-wrap flex-row">
                 <Receipts receipts={receipts}/>
             </div>
-        </MainSection>
+        </>
     );
 }

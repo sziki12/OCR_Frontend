@@ -12,12 +12,12 @@ export default function DeleteReceiptPage()
     const params = useParams()
 
     return(
-        <MainSection>
+        <>
             <p>Are you sure you would like to delete this receipt?</p>
             <div className={""}>
                 <Button onClick={()=>{deleteReceipts(params.receiptId).then(()=>{navigate("/receipts")})}}>Delete</Button>
                 <Button onClick={()=>{navigate("/receipts")}}>Back</Button>
             </div>
-        </MainSection>
+        </>
     )
 }
