@@ -40,10 +40,11 @@ export default function LoginHandler({children})
 
             //TODO Call Backend Login
             const response = await loginUser(user)
-            if(response.code===200)
+            if(response.status===200)
             {
+                let json = await response.json()
                 setUser({userName: user.userName,isAuthenticated: true})
-                setAuthToken(response.token)
+                setAuthToken(json.token)
                 resolve("Success")
                 navigate("/")
                 updateRouter(true)
@@ -51,6 +52,7 @@ export default function LoginHandler({children})
             else
             {
                 reject("Wrong Username or Password")
+                console.log("Login Status: "+response.status)
             }
 
             /*if(user.password==="password")

@@ -3,7 +3,7 @@
 function getAuth()
 {
     let token = getAuthToken()
-    if(typeof token === 'undefined')
+    if(token === null)
     {
         return {}
     }
@@ -173,11 +173,11 @@ const BackendAccess =
             const url = 'http://localhost:8080/login';
             const response =  await fetch(url, {
                 method: 'POST',
-                body: user,
+                body: JSON.stringify(user),
                 headers: getHeaders(true)
             });
 
-            return await response.json()
+            return response
         },
         async registerUser(user)
         {
@@ -188,7 +188,7 @@ const BackendAccess =
                 headers: getHeaders(true)
             });
 
-            return await response.json()
+            return response
         }
 
     }
