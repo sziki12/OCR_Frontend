@@ -169,7 +169,6 @@ const BackendAccess =
 
         async loginUser(user)
         {
-            console.log(user)
             const url = 'http://localhost:8080/login';
             const response =  await fetch(url, {
                 method: 'POST',
@@ -186,7 +185,7 @@ const BackendAccess =
             const url = 'http://localhost:8080/register';
             const response =  await fetch(url, {
                 method: 'POST',
-                body: user,
+                body: JSON.stringify(user),
                 headers: {
                     'Content-Type': 'application/json'
                 }

@@ -2,7 +2,7 @@ import {Avatar, Button, Card, Popper,Typography,CardContent,CardActions} from "@
 import React from "react";
 import {AuthData} from "../handlers/LoginHandler";
 
-export default function ProfileAvatar(props)
+export default function ProfileAvatar()
 {
     const {user,logout} = AuthData();
 

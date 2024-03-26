@@ -1,5 +1,5 @@
 import {createContext, useContext, useState} from "react";
-import {loginUser,setAuthToken} from "../utils/BackendAccess"
+import {loginUser,setAuthToken,registerUser} from "../utils/BackendAccess"
 import {useNavigate} from "react-router-dom";
 import {updateRouter} from "../../index"
 
@@ -38,34 +38,41 @@ export default function LoginHandler({children})
 
         return new Promise(async (reject, resolve) => {
 
-            //TODO Call Backend Login
             const response = await loginUser(user)
             if(response.status===200)
             {
                 let json = await response.json()
                 setUser({userName: user.userName,isAuthenticated: true})
                 setAuthToken(json.token)
-                resolve("Success")
-                navigate("/")
+                resolve("Logged In")
                 updateRouter(true)
+                navigate("/")
             }
             else
             {
                 reject("Wrong Username or Password")
                 console.log("Login Status: "+response.status)
             }
+        })
+    }
 
-            /*if(user.password==="password")
+    const register = async (user)=>{
+        return new Promise(async (reject, resolve) => {
+            const response = await registerUser(user)
+            if(response.status===200)
             {
+                let json = await response.json()
                 setUser({userName: user.userName,isAuthenticated: true})
-                resolve("Success")
+                setAuthToken(json.token)
+                resolve("Registered")
                 navigate("/")
                 updateRouter(true)
             }
             else
             {
-                reject("Wrong Username or Password")
-            }*/
+                reject("User with Username already Exists!")
+                console.log("Login Status: "+response.status)
+            }
         })
     }
 
@@ -83,6 +90,7 @@ export default function LoginHandler({children})
             user,
             login,
             logout,
+            register,
         }}>
             {children}
         </AuthContext.Provider>

@@ -6,6 +6,7 @@ import DeleteReceiptPage from "../pages/receipts/DeleteReceipt";
 import DeleteItemPage from "../pages/items/DeleteItemPage";
 import UploadImage from "../pages/image/UploadImage";
 import LoginPage from "../pages/auth/LoginPage";
+import RegistrationPage from "../pages/auth/RegistrationPage";
 import React from "react";
 import {AuthData} from "../components/handlers/LoginHandler";
 import ReceiptMainPage from "../pages/receipts/ReceiptMainPage";
@@ -52,6 +53,11 @@ export default function RouteProvider(isAuthenticated)
     {
         path:'/login',
         element:<LoginPage/>,
+        isProtected:false,
+    },
+    {
+        path:'/register',
+        element:<RegistrationPage/>,
         isProtected:false,
     },
 ]

@@ -50,6 +50,7 @@ export default function LoginPage()
 
                          })
                      }}>Login</Button>
+                     <Button onClick={()=>navigate("/register")}>Don't have account?</Button>
                      {
                          (attempt.hasAttempt)
                              ?
