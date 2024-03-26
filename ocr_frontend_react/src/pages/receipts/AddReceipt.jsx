@@ -23,7 +23,6 @@ export default function AddReceipt() {
     }
 
     return (
-        <MainSection>
             <form onSubmit={create}>
                 <h3>Create a new Receipt</h3>
                 <textarea
@@ -48,6 +47,5 @@ export default function AddReceipt() {
                     Add Receipt
                 </Button>
             </form>
-        </MainSection>
     );
 }

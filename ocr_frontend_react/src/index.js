@@ -1,69 +1,41 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM  from 'react-dom/client';
 import './css/index.css';
 import Root from './pages/Root';
 import ErrorPage from './pages/ErrorPage';
-import ReceiptsPage from './pages/receipts/ReceiptsPage';
-import SingleReceiptPage from './pages/receipts/SingleReceiptPage';
 import reportWebVitals from './reportWebVitals';
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
-import AddReceipt from "./pages/receipts/AddReceipt";
-import DeleteReceiptPage from "./pages/receipts/DeleteReceipt";
-import UpdateReceipt from "./pages/receipts/UpdateReceipt";
-import AddItem from "./pages/items/AddItem";
-import UploadImage from "./pages/image/UploadImage";
-import DeleteItemPage from "./pages/items/DeleteItemPage";
-import UpdateItemPage from "./pages/items/UpdateItemPage";
+import RouteProvider from "./routes/RouteProvider";
 
-const router = createBrowserRouter([
-    {
-        path:'/',
-        element:<Root/>,
-        errorElement:<ErrorPage/>
-    },
-    {
-        path:'/receipts',
-        element:<ReceiptsPage/>,
-    },
-    {
-        path:'/receipts/:receiptId',
-        element:<SingleReceiptPage/>,
-    },
-    {
-        path:'/create/receipts',
-        element:<AddReceipt/>,
-    },
-    {
-        path:'/create/receipts/:receiptId',
-        element:<AddItem/>,
-    },
-    {
-        path:'/delete/receipts/:receiptId',
-        element:<DeleteReceiptPage/>,
-    },
-    {
-        path:'/update/receipts/:receiptId',
-        element:<UpdateReceipt/>,
-    },
-    {
-        path:'/delete/receipts/:receiptId/items/:itemId',
-        element:<DeleteItemPage/>,
-    },
-    {
-        path:'/update/receipts/:receiptId/items/:itemId',
-        element:<UpdateItemPage/>,
-    },
-    {
-        path:'/upload/image',
-        element:<UploadImage/>,
-    },
-    ])
+export function updateRouter(isAuthenticated)
+{
+    let router = createRouter(isAuthenticated)
+    root.render(
+        <React.StrictMode>
+            <RouterProvider router={router} />
+        </React.StrictMode>
+    );
+}
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+function createRouter(isAuthenticated)
+{
+    return createBrowserRouter([
+        {
+            path:'/',
+            element:<Root/>,
+            errorElement:<ErrorPage/>,
+            children:RouteProvider(isAuthenticated)
+        }])
+}
+
+//Locks the auth required pages
+let router = createRouter(false)
+
+let root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
+    <React.StrictMode>
+        <RouterProvider router={router} />
+    </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -27,8 +27,7 @@ export default function AddItem() {
     }
 
     return (
-        <MainSection>
-            <form onSubmit={create}>
+        <form onSubmit={create}>
                 <h3>Create a new Item</h3>
                 <textarea
                     autoFocus={true}
@@ -59,6 +58,5 @@ export default function AddItem() {
                     Add Item
                 </Button>
             </form>
-        </MainSection>
     );
 }

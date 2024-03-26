@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import MainSection from "../../components/utils/MainSection";
 import {Button} from "@mui/material";
-import {processImage} from "../../components/utils/BackendAccess";
+import {uploadImageForOCR} from "../../components/utils/BackendAccess";
 import {useNavigate} from "react-router-dom";
 import {faSpinner} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -20,19 +20,23 @@ const UploadAndDisplayImage = (props) => {
     //waiting, processing, processed
     const [processingState, setProcessingState] = useState("waiting");
 
-    const [response, setResponse] = useState({});
+    const [response, setResponse] = useState({
+        extractedItems:[],
+        filteredReceipt:[],
+        plainText:[],
+        newReceiptId:-1,
+    });
 
     const uploadImageWrapper = async (file) => {
         const formData = new FormData();
         formData.append('file',file,file.name);
         setImageData(formData);
         setProcessingState("processing")
-        setResponse(await processImage(formData))
+        setResponse(await uploadImageForOCR(formData))
         setProcessingState("processed")
     }
 
     return (
-        <MainSection>
             <div className={"flex flex-row justify-center"}>
                 {
                     (processingState==="processed") &&
@@ -84,7 +88,6 @@ const UploadAndDisplayImage = (props) => {
                     }
                 </div>
             </div>
-        </MainSection>
     );
 };
 

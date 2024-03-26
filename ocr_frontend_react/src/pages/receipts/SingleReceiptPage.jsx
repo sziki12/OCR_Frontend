@@ -29,11 +29,11 @@ export default function ReceiptsPage() {
 
 
     return (
-        <MainSection>
+        <>
             <Button onClick={()=>{navigate("/create/receipts/"+receiptId)}}><FontAwesomeIcon icon={faPlus}  size={"xl"}/></Button>
             <div className="flex flex-wrap flex-row">
                 <Receipts showItems={true} receipts={[receipts]}/>
             </div>
-        </MainSection>
+        </>
     );
 }
