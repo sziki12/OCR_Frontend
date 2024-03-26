@@ -20,7 +20,12 @@ const UploadAndDisplayImage = (props) => {
     //waiting, processing, processed
     const [processingState, setProcessingState] = useState("waiting");
 
-    const [response, setResponse] = useState({});
+    const [response, setResponse] = useState({
+        extractedItems:[],
+        filteredReceipt:[],
+        plainText:[],
+        newReceiptId:-1,
+    });
 
     const uploadImageWrapper = async (file) => {
         const formData = new FormData();

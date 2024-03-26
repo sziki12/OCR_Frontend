@@ -35,7 +35,12 @@ export default function LoginPage()
                      <TextField value={attempt.userName} label={"username"} name={"userName"} variant={"outlined"} onChange={onChange}/>
                      <TextField value={attempt.password} label={"password"} name={"password"} variant={"outlined"} onChange={onChange}/>
                      <Button onClick={async () => {
-                         login(attempt).then((message)=>{
+                         login(
+                             {
+                                 userName:attempt.userName,
+                                 password:attempt.password
+                             }
+                         ).then((message)=>{
                              //Failed
                              setAttempt({...attempt,message: message, hasAttempt: true, isAuthenticated:false})
                          }).catch((message)=>{

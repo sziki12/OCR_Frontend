@@ -2,20 +2,51 @@
 
 function getAuth()
 {
-    return 'Basic YWRtaW46YWRtaW4='
+    let token = getAuthToken()
+    if(typeof token === 'undefined')
+    {
+        return {}
+    }
+    else
+    {
+        return{
+            'Authorization':`Bearer ${token}`
+        }
+    }
+}
+
+function getHeaders(isJson)
+{
+    if(isJson)
+    {
+        return{
+            'Content-Type': 'application/json',
+            'Authorization':getAuth().Authorization
+        }
+    }
+    else
+    {
+        return getAuth()
+    }
+}
+
+function getAuthToken(){
+    return window.localStorage.getItem("auth_token")
 }
 
 const BackendAccess =
     {
+        setAuthToken(token)
+        {
+            window.localStorage.setItem("auth_token",token)
+        },
 
         //TODO Refactor params in objects and add auth param
         async getReceipts() {
             let receiptsRequest = await fetch("http://localhost:8080/api/receipt",
                 {
                     cache: 'no-store',
-                    headers: {
-                           'Authorization':  getAuth(),
-                        }
+                    headers: getHeaders(false)
                 })
 
             return await receiptsRequest.json()
@@ -26,9 +57,7 @@ const BackendAccess =
             let receiptsRequest = await fetch("http://localhost:8080/api/receipt/"+receiptId,
                 {
                     cache: "no-store",
-                    headers: {
-                        'Authorization':  getAuth(),
-                    }
+                    headers: getHeaders(false)
                 })
 
             return await receiptsRequest.json()
@@ -39,9 +68,7 @@ const BackendAccess =
                 {
                     cache: "no-store"
                     ,
-                    headers: {
-                        'Authorization':  getAuth(),
-                    }
+                    headers: getHeaders(false)
                 })
 
             return await receiptsRequest.json()
@@ -51,10 +78,7 @@ const BackendAccess =
         {
             await fetch('http://localhost:8080/api/receipt', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization':  getAuth(),
-                },
+                headers: getHeaders(true),
                 body: JSON.stringify({
                     description,
                     dateOfPurchase,
@@ -67,11 +91,7 @@ const BackendAccess =
         {
             await fetch('http://localhost:8080/api/receipt/'+receiptId, {
                 method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization':  getAuth(),
-
-                },
+                headers: getHeaders(true),
                 body: JSON.stringify({
                     description,
                     dateOfPurchase,
@@ -85,9 +105,7 @@ const BackendAccess =
                 {
                     method: 'DELETE',
                     cache: "no-store",
-                    headers: {
-                        'Authorization':  getAuth(),
-                    }
+                    headers: getHeaders(false)
                 })
         },
         async addItemToReceipt(receiptId,name,quantity,totalCost)
@@ -95,10 +113,7 @@ const BackendAccess =
             const url = 'http://localhost:8080/api/receipt/'+receiptId+'/item'
             await fetch(url, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization':  getAuth(),
-                },
+                headers: getHeaders(true),
                 body: JSON.stringify({
                     name,
                     quantity,
@@ -112,10 +127,7 @@ const BackendAccess =
             const url = 'http://localhost:8080/api/receipt/'+receiptId+'/new/item'
             const response = await fetch(url, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization':  getAuth(),
-                },
+                headers: getHeaders(true),
             });
             return await response.json()
         },
@@ -125,10 +137,7 @@ const BackendAccess =
                 {
                     method: 'PUT',
                     cache: "no-store",
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization':  getAuth(),
-                    },
+                    headers: getHeaders(true),
                     body: JSON.stringify(
                         {
                             name,
@@ -143,33 +152,29 @@ const BackendAccess =
                 {
                     method: 'DELETE',
                     cache: "no-store",
-                    headers: {
-                        'Authorization':  getAuth(),
-                    }
+                    headers: getHeaders(false)
                 });
         },
 
         async uploadImageForOCR(image)
         {
-            const url = 'http://localhost:8080/api/receipt/image'
-            await fetch(url, {
+            const url = 'http://localhost:8080/api/image'
+            let response = await fetch(url, {
                 method: 'POST',
-                headers: {
-                    'Authorization':  getAuth(),
-                },
+                headers: getHeaders(false),
                 body: image
             });
+            return await response.json()
         },
 
         async loginUser(user)
         {
+            console.log(user)
             const url = 'http://localhost:8080/login';
             const response =  await fetch(url, {
                 method: 'POST',
                 body: user,
-                headers: {
-                    'Authorization':  getAuth(),
-                }
+                headers: getHeaders(true)
             });
 
             return await response.json()
@@ -180,9 +185,7 @@ const BackendAccess =
             const response =  await fetch(url, {
                 method: 'POST',
                 body: user,
-                headers: {
-                    'Authorization':  getAuth(),
-                }
+                headers: getHeaders(true)
             });
 
             return await response.json()

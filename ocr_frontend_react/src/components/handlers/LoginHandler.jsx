@@ -1,5 +1,5 @@
 import {createContext, useContext, useState} from "react";
-import {loginUser} from "../utils/BackendAccess"
+import {loginUser,setAuthToken} from "../utils/BackendAccess"
 import {useNavigate} from "react-router-dom";
 import {updateRouter} from "../../index"
 
@@ -36,12 +36,24 @@ export default function LoginHandler({children})
 
     const login = async (user) => {
 
-        return new Promise((reject,resolve) => {
+        return new Promise(async (reject, resolve) => {
 
             //TODO Call Backend Login
-            // const response = await loginUser(user)
+            const response = await loginUser(user)
+            if(response.code===200)
+            {
+                setUser({userName: user.userName,isAuthenticated: true})
+                setAuthToken(response.token)
+                resolve("Success")
+                navigate("/")
+                updateRouter(true)
+            }
+            else
+            {
+                reject("Wrong Username or Password")
+            }
 
-            if(user.password==="password")
+            /*if(user.password==="password")
             {
                 setUser({userName: user.userName,isAuthenticated: true})
                 resolve("Success")
@@ -51,7 +63,7 @@ export default function LoginHandler({children})
             else
             {
                 reject("Wrong Username or Password")
-            }
+            }*/
         })
     }
 

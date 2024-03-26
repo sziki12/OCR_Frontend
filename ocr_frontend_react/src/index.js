@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM  from 'react-dom/client';
 import './css/index.css';
 import Root from './pages/Root';
 import ErrorPage from './pages/ErrorPage';
