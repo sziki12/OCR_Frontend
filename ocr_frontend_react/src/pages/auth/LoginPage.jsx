@@ -33,7 +33,7 @@ export default function LoginPage()
                  <Stack spacing={2} className={"p-4"}>
 
                      <TextField value={attempt.userName} label={"username"} name={"userName"} variant={"outlined"} onChange={onChange}/>
-                     <TextField value={attempt.password} label={"password"} name={"password"} variant={"outlined"} onChange={onChange}/>
+                     <TextField value={attempt.password} type={"password"} label={"password"} name={"password"} variant={"outlined"} onChange={onChange}/>
                      <Button onClick={async () => {
                          login(
                              {

@@ -1,15 +1,17 @@
-import {AppBar, Toolbar, Button, Box, Icon, Typography, IconButton} from '@mui/material';
+import {AppBar, Toolbar, Button, Box, Icon, Typography, IconButton, Popper,Card} from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faReceipt } from '@fortawesome/free-solid-svg-icons'
 import {redirect, useNavigate} from "react-router-dom";
 import {AuthData} from "../handlers/LoginHandler";
+import ProfileAvatar from "../avatars/ProfileAvatar";
+import React from "react";
 
 
 export default function MainToolbar()
 {
-    const {user,logout} = AuthData();
-    console.log(user);
+    const {user} = AuthData();
     const navigate = useNavigate();
+
     return(
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
@@ -22,15 +24,19 @@ export default function MainToolbar()
                     }}>
                         <FontAwesomeIcon icon={faReceipt} width={50} color={"lightBlue"}/>
                     </IconButton>
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>{user.userName}
-                    </Typography>
+                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>Receipt OCR</Typography>
                         <>
                             {
-                                (user.isAuthenticated)?
-                                    <Button color="inherit" onClick={()=>{
-                                        logout();
-                                    }}>Logout</Button> :
-                                    <Button color="inherit" onClick={()=>navigate("/login")}>Login</Button>
+                                (user.isAuthenticated)
+                                    ?
+                                        <>
+                                            <Typography variant="h6" component="div">{user.userName}</Typography>
+                                            <ProfileAvatar/>
+                                        </>
+                                    :
+                                    <>
+                                        <Button color="inherit" onClick={()=>navigate("/login")}>Login</Button>
+                                    </>
                             }
                         </>
                 </Toolbar>

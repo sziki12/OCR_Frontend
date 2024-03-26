@@ -174,7 +174,9 @@ const BackendAccess =
             const response =  await fetch(url, {
                 method: 'POST',
                 body: JSON.stringify(user),
-                headers: getHeaders(true)
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             });
 
             return response
@@ -185,7 +187,9 @@ const BackendAccess =
             const response =  await fetch(url, {
                 method: 'POST',
                 body: user,
-                headers: getHeaders(true)
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             });
 
             return response
