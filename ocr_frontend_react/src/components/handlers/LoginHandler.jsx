@@ -73,6 +73,7 @@ export default function LoginHandler({children})
         setUser({userName: "",isAuthenticated: false})
         //TODO Call Backend Logout
         navigate("/login")
+        setAuthToken("")
         updateRouter(false)
     }
 

@@ -3,7 +3,7 @@
 function getAuth()
 {
     let token = getAuthToken()
-    if(token === null)
+    if(token === null || token === "")
     {
         return {}
     }
