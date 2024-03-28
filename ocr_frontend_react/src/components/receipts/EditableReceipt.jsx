@@ -13,29 +13,16 @@ import Paper from '@mui/material/Paper';
 
 export default function EditableReceipt(props) {
     const navigate = useNavigate();
-
-    const receiptData = props.receipt || props.receipts?.[0] || {
+    const [receipt, setReceipt] = useState({
         description:"",
         dateOfPurchase:new Date(),
         items:[],
         totalCost:0
-    }
-    const [receipt, setReceipt] = useState({
-        description:receiptData.description,
-        dateOfPurchase:receiptData.dateOfPurchase,
-        items:receiptData.items,
-        totalCost:receiptData.totalCost
     })
 
     useEffect(() => {
-        setReceipt({
-            id:receiptData.id,
-            description:receiptData.description,
-            dateOfPurchase:receiptData.dateOfPurchase,
-            items:receiptData.items,
-            totalCost:receiptData.totalCost
-        })
-    }, [receiptData]);
+        setReceipt({...props.receipt})
+    }, [props.receipt]);
 
 
 

@@ -7,6 +7,7 @@ import {getSingleReceipt} from "../../components/utils/BackendAccess";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPlus} from "@fortawesome/free-solid-svg-icons";
 import * as React from "react";
+import ReceiptDataGrid from "./ReceiptDataGrid";
 
 
 
@@ -17,7 +18,12 @@ export default function ReceiptMainPage()
 
     const receiptId = params.receiptId
 
-    const [receipt,setReceipt] = useState({})
+    const [receipt,setReceipt] = useState({
+        description:"",
+        dateOfPurchase:new Date(),
+        items:[],
+        totalCost:0
+    })
 
     const [viewMode,setViewMode] = useState({mode:"view"})
 
@@ -40,13 +46,17 @@ export default function ReceiptMainPage()
                 <Switch onChange={handleSwitch}/>
                 <p>Edit Mode</p>
             </div>
-            <div className="flex flex-wrap flex-row">
+            <div className={"flex flex-row justify-center flex-grow"}>
                 {
                     (viewMode.mode==="view")
                     ?
-                        <Receipts showItems={true} receipts={[receipt]}/>
+                        <>
+                            <Receipts showItems={true} receipts={[receipt]}/>
+                        </>
                     :
-                        <EditableReceipt receipt={receipt} setReceipt={setReceipt}/>
+                        <>
+                            <ReceiptDataGrid receipt={receipt} setReceipt={setReceipt}></ReceiptDataGrid>
+                        </>
                 }
 
             </div>

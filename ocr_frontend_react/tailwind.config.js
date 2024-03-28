@@ -30,6 +30,7 @@ module.exports = {
         "./src/pages/receipts/SingleReceiptPage.jsx",
         "./src/pages/receipts/AddReceipt.jsx",
         "./src/pages/receipts/DeleteReceipt.jsx",
+        "./src/pages/receipts/ReceiptDataGrid.jsx",
 
 
         //Items

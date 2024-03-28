@@ -10,6 +10,8 @@ import RegistrationPage from "../pages/auth/RegistrationPage";
 import React from "react";
 import {AuthData} from "../components/handlers/LoginHandler";
 import ReceiptMainPage from "../pages/receipts/ReceiptMainPage";
+import ReceiptDataGrid from "../pages/receipts/ReceiptDataGrid";
+import {getSingleReceipt} from "../components/utils/BackendAccess"
 
 
 export default function RouteProvider(isAuthenticated)
@@ -58,6 +60,13 @@ export default function RouteProvider(isAuthenticated)
     {
         path:'/register',
         element:<RegistrationPage/>,
+        isProtected:false,
+    },
+    {
+        path:'/test',
+        element:<ReceiptDataGrid receipt={async () => {
+            await getSingleReceipt(1)
+        }}/>,
         isProtected:false,
     },
 ]

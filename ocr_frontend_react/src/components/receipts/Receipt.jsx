@@ -42,7 +42,6 @@ export default function Receipts(props)
             </Button>
         </Paper>
     </>
-    console.log(props.receipts)
     return(props.receipts?.map((receipt)=>
     {
         return  (

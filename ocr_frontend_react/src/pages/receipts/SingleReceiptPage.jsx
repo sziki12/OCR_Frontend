@@ -10,6 +10,7 @@ import {green} from "@mui/material/colors";
 import {useNavigate, useParams} from "react-router-dom";
 import Receipts from "../../components/receipts/Receipt";
 import {getSingleReceipt} from "../../components/utils/BackendAccess";
+import ReceiptDataGrid from "./ReceiptDataGrid";
 
 
 export default function ReceiptsPage() {
@@ -19,11 +20,11 @@ export default function ReceiptsPage() {
 
     const receiptId = params.receiptId
 
-    const [receipts,setReceipts] = useState([])
+    const [receipt,setReceipt] = useState([])
 
     useEffect(()=>{
         getSingleReceipt(receiptId).then((data)=>{{
-            setReceipts(data)
+            setReceipt(data)
         }})
     },[])
 
@@ -32,7 +33,10 @@ export default function ReceiptsPage() {
         <>
             <Button onClick={()=>{navigate("/create/receipts/"+receiptId)}}><FontAwesomeIcon icon={faPlus}  size={"xl"}/></Button>
             <div className="flex flex-wrap flex-row">
-                <Receipts showItems={true} receipts={[receipts]}/>
+                {
+                    //<Receipts showItems={true} receipts={[receipts]}/>
+                }
+                    <ReceiptDataGrid receipt={[receipt]}></ReceiptDataGrid>
             </div>
         </>
     );

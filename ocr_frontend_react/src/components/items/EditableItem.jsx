@@ -19,8 +19,6 @@ export default function EditableItem(props) {
 
     useEffect(()=>{
         setItems([...props.items])
-        console.log("ITEMS")
-        console.log([...props.items])
     },[props.items])
 
     const onChange = (e,id) => {
@@ -35,12 +33,6 @@ export default function EditableItem(props) {
         newArray.sort((a,b)=>a.id-b.id)
         setItems(newArray);
         props.saveItems(newArray)
-        console.log("otherItems")
-        console.log([...otherItems])
-        console.log("selectedItem")
-        console.log(selectedItem)
-        console.log("SAVE")
-        console.log(newArray)
     }
 
     return (items?.map((item)=>
