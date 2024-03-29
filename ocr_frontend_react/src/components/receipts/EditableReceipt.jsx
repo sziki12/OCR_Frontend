@@ -41,13 +41,24 @@ export default function EditableReceipt(props) {
         return item
     }
 
+    const calculateTotalCost = ()=>{
+        let sum = 0
+        for(let item of receipt.items)
+        {
+            sum += item.totalCost
+        }
+        return sum
+    }
+
+
     const saveItems = async (items) => {
         const updatedReceipt = {
             ...receipt,
-            items: items
+            items: items,
+            totalCost: calculateTotalCost()
         }
         setReceipt(updatedReceipt)
-        await update(updatedReceipt)
+        //await update(updatedReceipt)
     }
     const update = async(updatedReceipt) => {
         //e.preventDefault()
@@ -57,36 +68,46 @@ export default function EditableReceipt(props) {
         })
     }
 
-    return(<Paper elevation={12} className="px-10 py-6 m-5 bg-blue-50">
+    return(
+        <div className={"flex flex-col"}>
             <div>
-                <FontAwesomeIcon className={"pr-2"} icon={faMessage} color={"Dodgerblue"}/>
-                <Input
-                    multiline={true}
-                    autoFocus={true}
-                    className={"text-black"}
-                    placeholder="Description"
-                    value={receipt.description}
-                    name={"description"}
-                    onChange={onChange}
-                />
-                <br/>
-                <FontAwesomeIcon className={"pr-2"} icon={faCalendar}/>
-                <Input
-                    className={"text-black"}
-                    type="date"
-                    placeholder="Date Of Purchase"
-                    name={"dateOfPurchase"}
-                    value={getDateToShow(receipt.dateOfPurchase)}
-                    onChange={onChange}
-                />
-                <br/>
-                <p className={"text-black"}>
-                    <FontAwesomeIcon className={"pr-2"} icon={faMoneyBill} color={"green"}/>
-                    {receipt.totalCost}
-                </p>
-                <br/>
-                <ItemDataGrid insertItem={insertItem} items={receipt.items} saveItems={saveItems}></ItemDataGrid>
+                <Button onClick={async()=>{
+                            await update(receipt)}}>
+                    <FontAwesomeIcon size={"2xl"} icon={faFloppyDisk} />
+                </Button>
+
             </div>
-        </Paper>
+            <Paper elevation={12} className="px-10 py-6 m-5 bg-blue-50">
+                <div>
+                    <FontAwesomeIcon className={"pr-2"} icon={faMessage} color={"Dodgerblue"}/>
+                    <Input
+                        multiline={true}
+                        autoFocus={true}
+                        className={"text-black"}
+                        placeholder="Description"
+                        value={receipt.description}
+                        name={"description"}
+                        onChange={onChange}
+                    />
+                    <br/>
+                    <FontAwesomeIcon className={"pr-2"} icon={faCalendar}/>
+                    <Input
+                        className={"text-black"}
+                        type="date"
+                        placeholder="Date Of Purchase"
+                        name={"dateOfPurchase"}
+                        value={getDateToShow(receipt.dateOfPurchase)}
+                        onChange={onChange}
+                    />
+                    <br/>
+                    <p className={"text-black"}>
+                        <FontAwesomeIcon className={"pr-2"} icon={faMoneyBill} color={"green"}/>
+                        {receipt.totalCost}
+                    </p>
+                    <br/>
+                    <ItemDataGrid insertItem={insertItem} items={receipt.items} saveItems={saveItems}></ItemDataGrid>
+                </div>
+            </Paper>
+        </div>
     )
 }
