@@ -9,6 +9,7 @@ import {getSingleReceipt, updateReceipt,createNewItem} from "../utils/BackendAcc
 import EditableItem from "../items/EditableItem";
 import getDateToShow from "../utils/DateConverter";
 import Paper from '@mui/material/Paper';
+import ItemDataGrid from "../items/ItemDataGrid";
 
 
 export default function EditableReceipt(props) {
@@ -17,7 +18,7 @@ export default function EditableReceipt(props) {
         description:"",
         dateOfPurchase:new Date(),
         items:[],
-        totalCost:0
+        totalCost:0,
     })
 
     useEffect(() => {
@@ -36,65 +37,55 @@ export default function EditableReceipt(props) {
 
     const insertItem = async (e) => {
         const item = await createNewItem(receipt.id)
-        saveItems([...receipt.items, item])
+        await saveItems([...receipt.items, item])
     }
 
-    const saveItems = (items)=> {
-        setReceipt({
+    const saveItems = async (items) => {
+        const updatedReceipt = {
             ...receipt,
-            items:items
-        })
+            items: items
+        }
+        setReceipt(updatedReceipt)
+        await update(updatedReceipt)
     }
-    const update = async(e) => {
-        e.preventDefault()
-        await updateReceipt(receipt.id,receipt.description,receipt.dateOfPurchase,receipt.items)
+    const update = async(updatedReceipt) => {
+        //e.preventDefault()
+        await updateReceipt(updatedReceipt.id,updatedReceipt.description,updatedReceipt.dateOfPurchase,updatedReceipt.items)
         props.setReceipt({
-            ...receipt
+            ...updatedReceipt
         })
     }
 
     return(<Paper elevation={12} className="px-10 py-6 m-5 bg-blue-50">
+            <div>
+                <FontAwesomeIcon className={"pr-2"} icon={faMessage} color={"Dodgerblue"}/>
+                <Input
+                    multiline={true}
+                    autoFocus={true}
+                    className={"text-black"}
+                    placeholder="Description"
+                    value={receipt.description}
+                    name={"description"}
+                    onChange={onChange}
+                />
+                <br/>
+                <FontAwesomeIcon className={"pr-2"} icon={faCalendar}/>
+                <Input
+                    className={"text-black"}
+                    type="date"
+                    placeholder="Date Of Purchase"
+                    name={"dateOfPurchase"}
+                    value={getDateToShow(receipt.dateOfPurchase)}
+                    onChange={onChange}
+                />
+                <br/>
                 <p className={"text-black"}>
-                    <FontAwesomeIcon icon={faMessage} color={"Dodgerblue"}/>
-                    {" "+receipt.description}
+                    <FontAwesomeIcon className={"pr-2"} icon={faMoneyBill} color={"green"}/>
+                    {receipt.totalCost}
                 </p>
-                <p className={"text-black"}>
-                    <FontAwesomeIcon icon={faCalendar}/>
-                    {" "+new Date(receipt.dateOfPurchase).toLocaleDateString()}
-                </p>
-                <p className={"text-black"}>
-                    <FontAwesomeIcon icon={faMoneyBill} color={"green"}/>
-                    {" "+receipt.totalCost + " "}
-                </p>
-
-                <div>
-                    <Input
-                        multiline={true}
-                        autoFocus={true}
-                        className={"text-black"}
-                        placeholder="Description"
-                        value={receipt.description}
-                        name={"description"}
-                        onChange={onChange}
-                    />
-                    <br/>
-                    <Input
-                        className={"text-black"}
-                        type="date"
-                        placeholder="Date Of Purchase"
-                        name={"dateOfPurchase"}
-                        value={getDateToShow(receipt.dateOfPurchase)}
-                        onChange={onChange}
-                    />
-                    <br/>
-                    <EditableItem receiptId={receipt.id} items={receipt.items} saveItems={saveItems}></EditableItem>
-                </div>
-                    <Button onClick={update}>
-                        <FontAwesomeIcon icon={faFloppyDisk} size={"xl"}/>
-                    </Button>
-                    <Button onClick={insertItem}>
-                        <FontAwesomeIcon icon={faPlus}  size={"xl"}/>
-                    </Button>
-            </Paper>
+                <br/>
+                <ItemDataGrid insertItem={insertItem} items={receipt.items} saveItems={saveItems}></ItemDataGrid>
+            </div>
+        </Paper>
     )
 }

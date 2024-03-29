@@ -1,28 +1,57 @@
-function EditToolbar(props) {
-    const { setRows, setRowModesModel } = props;
+import {
+    DataGrid,
+    GridActionsCellItem,
+    GridRowEditStopReasons,
+    GridRowModes,
+    GridToolbarContainer
+} from '@mui/x-data-grid';
+import {Box, Button} from "@mui/material";
+import * as React from 'react';
+import {useNavigate, useParams} from "react-router-dom";
+import {useEffect, useState} from "react";
+import {getSingleReceipt,createNewItem} from "../utils/BackendAccess";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faFloppyDisk, faPen, faPlus, faTrash, faXmark} from "@fortawesome/free-solid-svg-icons";
 
-    const handleClick = () => {
-        //TODO Create new item
-        const id = randomId();
-        setRows((oldRows) => [...oldRows, { id, name: '', age: '', isNew: true }]);
+
+function EditToolbar(props) {
+    const setRows = props.setRows
+    const setRowModesModel = props.setRowModesModel
+
+    const handleClick = async () => {
+        let newItem = await createNewItem(props.receiptId)
+        const id = newItem.id;
+        setRows((oldRows) => [...oldRows, {id, name: '', quantity: 1, totalCost: 0}]);
         setRowModesModel((oldModel) => ({
             ...oldModel,
-            [id]: { mode: GridRowModes.Edit, fieldToFocus: 'name' },
+            [id]: {mode: GridRowModes.Edit, fieldToFocus: 'name'},
         }));
     };
 
     return (
         <GridToolbarContainer>
-            <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
-                Add record
+            <Button color="primary" startIcon={<FontAwesomeIcon icon={faPlus} />} onClick={handleClick}>
+                Add Item
             </Button>
         </GridToolbarContainer>
     );
 }
 
-export default function FullFeaturedCrudGrid() {
-    const [rows, setRows] = React.useState(initialRows);
-    const [rowModesModel, setRowModesModel] = React.useState({});
+
+export default function ItemDataGrid(props)
+{
+
+    useEffect(() => {
+        setRows([...props.items])
+    }, [props.items]);
+
+    useEffect(() => {
+        setReceiptId(props.receiptId)
+    }, [props.receiptId]);
+
+    const [receiptId,setReceiptId] = useState(-1)
+    const [rows, setRows] = useState([]);
+    const [rowModesModel, setRowModesModel] = useState({});
 
     const handleRowEditStop = (params, event) => {
         if (params.reason === GridRowEditStopReasons.rowFocusOut) {
@@ -56,7 +85,9 @@ export default function FullFeaturedCrudGrid() {
 
     const processRowUpdate = (newRow) => {
         const updatedRow = { ...newRow, isNew: false };
-        setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
+        const updatedRows = rows.map((row) => (row.id === newRow.id ? updatedRow : row))
+        setRows(updatedRows);
+        props.saveItems(updatedRows)
         return updatedRow;
     };
 
@@ -67,33 +98,23 @@ export default function FullFeaturedCrudGrid() {
     const columns = [
         { field: 'name', headerName: 'Name', width: 180, editable: true },
         {
-            field: 'age',
-            headerName: 'Age',
+            field: 'quantity',
+            headerName: 'Quantity',
             type: 'number',
-            width: 80,
-            align: 'left',
-            headerAlign: 'left',
-            editable: true,
-        },
-        {
-            field: 'joinDate',
-            headerName: 'Join date',
-            type: 'date',
             width: 180,
             editable: true,
         },
         {
-            field: 'role',
-            headerName: 'Department',
+            field: 'totalCost',
+            headerName: 'Cost',
+            type: 'number',
             width: 220,
             editable: true,
-            type: 'singleSelect',
-            valueOptions: ['Market', 'Finance', 'Development'],
         },
         {
             field: 'actions',
             type: 'actions',
-            headerName: 'Actions',
+            headerName: '',
             width: 100,
             cellClassName: 'actions',
             getActions: ({ id }) => {
@@ -102,7 +123,7 @@ export default function FullFeaturedCrudGrid() {
                 if (isInEditMode) {
                     return [
                         <GridActionsCellItem
-                            icon={<SaveIcon />}
+                            icon={<FontAwesomeIcon icon={faFloppyDisk} />}
                             label="Save"
                             sx={{
                                 color: 'primary.main',
@@ -110,7 +131,7 @@ export default function FullFeaturedCrudGrid() {
                             onClick={handleSaveClick(id)}
                         />,
                         <GridActionsCellItem
-                            icon={<CancelIcon />}
+                            icon={<FontAwesomeIcon icon={faXmark} />}
                             label="Cancel"
                             className="textPrimary"
                             onClick={handleCancelClick(id)}
@@ -121,14 +142,14 @@ export default function FullFeaturedCrudGrid() {
 
                 return [
                     <GridActionsCellItem
-                        icon={<EditIcon />}
+                        icon={<FontAwesomeIcon icon={faPen} />}
                         label="Edit"
                         className="textPrimary"
                         onClick={handleEditClick(id)}
                         color="inherit"
                     />,
                     <GridActionsCellItem
-                        icon={<DeleteIcon />}
+                        icon={<FontAwesomeIcon icon={faTrash} />}
                         label="Delete"
                         onClick={handleDeleteClick(id)}
                         color="inherit"
@@ -163,7 +184,7 @@ export default function FullFeaturedCrudGrid() {
                     toolbar: EditToolbar,
                 }}
                 slotProps={{
-                    toolbar: { setRows, setRowModesModel },
+                    toolbar: { setRows, setRowModesModel,receiptId },
                 }}
             />
         </Box>

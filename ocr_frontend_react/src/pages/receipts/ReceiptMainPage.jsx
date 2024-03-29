@@ -7,7 +7,6 @@ import {getSingleReceipt} from "../../components/utils/BackendAccess";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPlus} from "@fortawesome/free-solid-svg-icons";
 import * as React from "react";
-import ReceiptDataGrid from "./ReceiptDataGrid";
 
 
 
@@ -55,7 +54,7 @@ export default function ReceiptMainPage()
                         </>
                     :
                         <>
-                            <ReceiptDataGrid receipt={receipt} setReceipt={setReceipt}></ReceiptDataGrid>
+                            <EditableReceipt receipt={receipt} setReceipt={setReceipt}/>
                         </>
                 }
 

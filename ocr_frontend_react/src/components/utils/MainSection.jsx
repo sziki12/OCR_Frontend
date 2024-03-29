@@ -7,7 +7,7 @@ export default function MainSection({children}) {
         <MainHandler>
             <main>
                 <MainToolbar/>
-                <div className="p-24">
+                <div className="p-6">
                     {children}
                 </div>
             </main>
