@@ -9,7 +9,6 @@ import {Box, Button} from "@mui/material";
 import * as React from 'react';
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {getSingleReceipt,createNewItem} from "../utils/BackendAccess";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faFloppyDisk, faPen, faPlus, faTrash, faXmark} from "@fortawesome/free-solid-svg-icons";
 
@@ -19,7 +18,7 @@ function EditToolbar(props) {
     const setRowModesModel = props.setRowModesModel
 
     const handleClick = async () => {
-        let newItem = await createNewItem(props.receiptId)
+        let newItem = await props.insertItem()
         const id = newItem.id;
         setRows((oldRows) => [...oldRows, {id, name: '', quantity: 1, totalCost: 0}]);
         setRowModesModel((oldModel) => ({
@@ -45,11 +44,7 @@ export default function ItemDataGrid(props)
         setRows([...props.items])
     }, [props.items]);
 
-    useEffect(() => {
-        setReceiptId(props.receiptId)
-    }, [props.receiptId]);
-
-    const [receiptId,setReceiptId] = useState(-1)
+    const insertItem = props.insertItem
     const [rows, setRows] = useState([]);
     const [rowModesModel, setRowModesModel] = useState({});
 
@@ -68,7 +63,9 @@ export default function ItemDataGrid(props)
     };
 
     const handleDeleteClick = (id) => () => {
-        setRows(rows.filter((row) => row.id !== id));
+        const updatedRows = rows.filter((row) => row.id !== id)
+        setRows(updatedRows);
+        props.saveItems(updatedRows)
     };
 
     const handleCancelClick = (id) => () => {
@@ -96,19 +93,19 @@ export default function ItemDataGrid(props)
     };
 
     const columns = [
-        { field: 'name', headerName: 'Name', width: 180, editable: true },
+        { field: 'name', headerName: 'Name', width: 220, editable: true },
         {
             field: 'quantity',
             headerName: 'Quantity',
             type: 'number',
-            width: 180,
+            width: 140,
             editable: true,
         },
         {
             field: 'totalCost',
             headerName: 'Cost',
             type: 'number',
-            width: 220,
+            width: 140,
             editable: true,
         },
         {
@@ -184,7 +181,7 @@ export default function ItemDataGrid(props)
                     toolbar: EditToolbar,
                 }}
                 slotProps={{
-                    toolbar: { setRows, setRowModesModel,receiptId },
+                    toolbar: { setRows, setRowModesModel,insertItem },
                 }}
             />
         </Box>

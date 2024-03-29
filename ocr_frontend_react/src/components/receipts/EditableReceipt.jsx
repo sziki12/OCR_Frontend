@@ -38,6 +38,7 @@ export default function EditableReceipt(props) {
     const insertItem = async (e) => {
         const item = await createNewItem(receipt.id)
         await saveItems([...receipt.items, item])
+        return item
     }
 
     const saveItems = async (items) => {
