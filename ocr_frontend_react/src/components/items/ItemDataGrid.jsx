@@ -40,6 +40,8 @@ function EditToolbar(props) {
 export default function ItemDataGrid(props)
 {
 
+    let isEditable = props.isEditable || false
+
     useEffect(() => {
         setRows([...props.items])
     }, [props.items]);
@@ -93,20 +95,20 @@ export default function ItemDataGrid(props)
     };
 
     const columns = [
-        { field: 'name', headerName: 'Name', width: 220, editable: true },
+        { field: 'name', headerName: 'Name', width: 220, editable: isEditable },
         {
             field: 'quantity',
             headerName: 'Quantity',
             type: 'number',
             width: 140,
-            editable: true,
+            editable: isEditable,
         },
         {
             field: 'totalCost',
             headerName: 'Cost',
             type: 'number',
             width: 140,
-            editable: true,
+            editable: isEditable,
         },
         {
             field: 'actions',
@@ -116,6 +118,11 @@ export default function ItemDataGrid(props)
             cellClassName: 'actions',
             getActions: ({ id }) => {
                 const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
+
+                if(!isEditable)
+                {
+                    return []
+                }
 
                 if (isInEditMode) {
                     return [

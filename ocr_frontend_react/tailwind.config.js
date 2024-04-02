@@ -15,17 +15,23 @@ module.exports = {
           "./src/components/utils/Toolbar.jsx",
           "./src/components/utils/MainSection.jsx",
 
-          //Receipts
-          "./src/components/receipts/Receipt.jsx",
-          "./src/components/receipts/EditableReceipt.jsx",
+          //AllReceipts
+          "./src/components/receipts/AllReceipts.jsx",
+          "./src/components/receipts/SingleReceipt.jsx",
 
           //Items
           "./src/components/items/Item.jsx",
           "./src/components/items/EditableItem.jsx",
 
+          //Map
+          "./src/components/maps/GoogleMap.js",
+
+          //Avatar
+          "./src/components/avatars/ProfileAvatar.jsx",
+
     //Pages
 
-        //Receipts
+        //AllReceipts
         "./src/pages/receipts/ReceiptsPage.jsx",
         "./src/pages/receipts/SingleReceiptPage.jsx",
         "./src/pages/receipts/AddReceipt.jsx",

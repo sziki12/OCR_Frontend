@@ -7,7 +7,7 @@ import Item from "../items/Item";
 import Paper from '@mui/material/Paper';
 
 
-export default function Receipts(props)
+export default function AllReceipts(props)
 {
     const navigate = useNavigate()
 

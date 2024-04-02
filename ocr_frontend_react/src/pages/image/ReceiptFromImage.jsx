@@ -4,7 +4,7 @@ import {getSingleReceipt} from "../../components/utils/BackendAccess";
 import {Button, FormControl, InputLabel, MenuItem, Select} from "@mui/material";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faFileArrowUp, faPlus} from "@fortawesome/free-solid-svg-icons";
-import EditableReceipt from "../../components/receipts/EditableReceipt";
+import SingleReceipt from "../../components/receipts/SingleReceipt";
 import * as React from "react";
 
 export default function ReceiptsFromImagePage(props) {
@@ -25,7 +25,7 @@ export default function ReceiptsFromImagePage(props) {
     return (
             <div className="flex flex-row w-2/3">
                 <div className="flex flex-row flex-wrap w-1/2">
-                    <EditableReceipt receipt={receipt} setReceipt={setReceipt}/>
+                    <SingleReceipt receipt={receipt} setReceipt={setReceipt}/>
                 </div>
                 <div className="w-1/2 px-10 py-6 m-5 bg-blue-50 shadow rounded">
                     <OcrResponseView responseToShow={responseToShow} setResponseToShow={setResponseToShow} response={props.response}></OcrResponseView>

@@ -1,12 +1,13 @@
 import {Button, Switch} from "@mui/material";
-import Receipts from "../../components/receipts/Receipt";
-import EditableReceipt from "../../components/receipts/EditableReceipt";
+import AllReceipts from "../../components/receipts/AllReceipts";
+import SingleReceipt from "../../components/receipts/SingleReceipt";
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {getSingleReceipt} from "../../components/utils/BackendAccess";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPlus} from "@fortawesome/free-solid-svg-icons";
 import * as React from "react";
+import GoogleMap from "../../components/maps/GoogleMap";
 
 
 
@@ -45,19 +46,21 @@ export default function ReceiptMainPage()
                 <Switch onChange={handleSwitch}/>
                 <p>Edit Mode</p>
             </div>
-            <div className={"flex flex-row justify-center flex-grow"}>
+            <div className={"flex flex-row justify-between flex-grow"}>
                 {
                     (viewMode.mode==="view")
                     ?
                         <>
-                            <Receipts showItems={true} receipts={[receipt]}/>
+                            {//<AllReceipts showItems={true} receipts={[receipt]}/>
+                            }
+                            <SingleReceipt receipt={receipt} setReceipt={setReceipt}/>
                         </>
                     :
                         <>
-                            <EditableReceipt receipt={receipt} setReceipt={setReceipt}/>
+                            <SingleReceipt receipt={receipt} setReceipt={setReceipt} isEditable={true}/>
                         </>
                 }
-
+                <GoogleMap/>
             </div>
         </>
 
