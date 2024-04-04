@@ -24,7 +24,7 @@ module.exports = {
           "./src/components/items/EditableItem.jsx",
 
           //Map
-          "./src/components/maps/GoogleMap.js",
+          "./src/components/maps/GoogleMap.jsx",
 
           //Avatar
           "./src/components/avatars/ProfileAvatar.jsx",
