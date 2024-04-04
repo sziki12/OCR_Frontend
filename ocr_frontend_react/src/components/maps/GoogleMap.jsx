@@ -4,11 +4,16 @@ import {MarkerClusterer} from '@googlemaps/markerclusterer';
 
 export default function GoogleMap(props)
 {
-    //
-    const map = useMap();
-    const defaultLocation = {lat: 47.507, lng: 19.045};
+    //TODO On first marker place the clusterer not works properly, leaves out the new Marker
+    const defaultLocations = [
+        {id:1,lat: 47.507, lng: 19.045},
+        {id:2,lat: 48.507, lng: 18.045},
+        {id:3,lat: 47.807, lng: 20.045},
+        {id:4,lat: 47.707, lng: 19.945},
+        {id:5,lat: 47.707, lng: 21.945},
+        {id:6,lat: 49.707, lng: 19.945}];
     let [newPlace,setNewPlace] = useState({})
-    const [places, setPlaces] = useState(props.places || [defaultLocation]);
+    const [places, setPlaces] = useState(props.places || [...defaultLocations]);
 
     return (
             <APIProvider apiKey={'AIzaSyAN_KMLA-2J691xqMysa6_5ERNLJAnbYJ0'}>
@@ -17,7 +22,7 @@ export default function GoogleMap(props)
                         onClick={(e)=>{
                             let newLocation = e.detail.latLng
                             setNewPlace({
-                                id:-1,
+                                id:10,
                                 lat:newLocation.lat,
                                 lng:newLocation.lng
                                 })
@@ -25,7 +30,7 @@ export default function GoogleMap(props)
                         mapId={"3d321da67ef9306"}
                         defaultCenter={places[0]}
                         defaultZoom={12}>
-                        <Markers places={[...places,newPlace]} />//TODO newPlace is {} ERROR
+                        <Markers places={[...places,newPlace]} />
                     </Map>
                 </div>
             </APIProvider>
@@ -34,10 +39,9 @@ export default function GoogleMap(props)
 
 const Markers = ({places}) => {
     const map = useMap();
-    const [markers, setMarkers] = useState({});
+    const markers = useRef({});
     const clusterer = useRef(null);
 
-    // Initialize MarkerClusterer
     useEffect(() => {
         if (!map) return;
         if (!clusterer.current) {
@@ -45,37 +49,34 @@ const Markers = ({places}) => {
         }
     }, [map]);
 
-    // Update markers
     useEffect(() => {
         clusterer.current?.clearMarkers();
-        clusterer.current?.addMarkers(Object.values(markers));
-    }, [markers]);
+        clusterer.current?.addMarkers(Object.values(markers.current));
+    }, [markers.current]);
 
-    const setMarkerRef = (marker, key) => {
-        if (marker && markers[key]) return;
-        if (!marker && !markers[key]) return;
-
-        setMarkers(prev => {
-            if (marker) {
-                return {...prev, [key]: marker};
+    const setMarkerRef = (ref, key) => {
+        if (ref && markers[key]) return;
+        if (!ref && !markers[key]) return;
+        markers.current = (() => {
+            if (ref) {
+                return {...markers.current, [key]: ref};
             } else {
-                const newMarkers = {...prev};
+                const newMarkers = {...markers.current};
                 delete newMarkers[key];
                 return newMarkers;
             }
-        });
+        })();
     };
-
-    {console.log(places)}
     return (
         <>
-            {places.map(place => (
+            {places.map(place => (place&&place.id)?(
                 <AdvancedMarker
                     position={place}
                     key={place.id}
-                    ref={marker => setMarkerRef(marker, place.id)}>
+                    ref={ref => setMarkerRef(ref, place.id)}
+                    >
                 </AdvancedMarker>
-            ))}
+            ):(<></>))}
         </>
     );
 };
