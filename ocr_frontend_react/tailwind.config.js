@@ -29,6 +29,9 @@ module.exports = {
           //Avatar
           "./src/components/avatars/ProfileAvatar.jsx",
 
+            //Place
+            "./src/components/places/EditablePlace.jsx",
+
     //Pages
 
         //AllReceipts

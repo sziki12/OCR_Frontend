@@ -8,6 +8,8 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPlus} from "@fortawesome/free-solid-svg-icons";
 import * as React from "react";
 import GoogleMap from "../../components/maps/GoogleMap";
+import {getPlaces} from "../../components/utils/BackendAccess"
+import {get} from "axios";
 
 
 
@@ -27,6 +29,9 @@ export default function ReceiptMainPage()
 
     const [viewMode,setViewMode] = useState({mode:"view"})
 
+    const [places,setPlaces] = useState([])
+
+
     const handleSwitch = (e)=>{
         setViewMode({
             mode: (viewMode.mode==="view")?"edit":"view"
@@ -37,6 +42,9 @@ export default function ReceiptMainPage()
         getSingleReceipt(receiptId).then((data)=>{{
             setReceipt(data)
         }})
+        getPlaces().then((data)=>{
+            setPlaces(data)
+        })
     },[])
 
     return(
@@ -60,7 +68,7 @@ export default function ReceiptMainPage()
                             <SingleReceipt receipt={receipt} setReceipt={setReceipt} isEditable={true}/>
                         </>
                 }
-                <GoogleMap/>
+                <GoogleMap places={places} canCreateMarker={false}/>
             </div>
         </>
 

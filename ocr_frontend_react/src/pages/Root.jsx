@@ -3,26 +3,29 @@ import MainSection from "../components/utils/MainSection";
 import {Card, CardContent,Box,Typography,Stack,Paper,} from "@mui/material";
 import {faComputer, faDatabase, faImage} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {AuthData} from "../components/handlers/LoginHandler";
 
 function Root() {
     const location = useLocation();
-  return (
-      <MainSection>
-        <div>
-            {
-                (location.pathname === "/")
-                ?
-                    <>
-                        <RootContent key={"root_content"}/>
-                    </>
-                :
-                    <>
-                        <Outlet key={"outlet"}/>
-                    </>
-            }
-        </div>
-      </MainSection>
-  );
+    const {user} = AuthData();
+
+    return (
+        <MainSection>
+            <div>
+                {
+                    (location.pathname === "/")
+                    ?
+                        <>
+                            <RootContent key={"root_content"}/>
+                        </>
+                    :
+                        <>
+                            <Outlet key={"outlet"}/>
+                        </>
+                }
+            </div>
+</MainSection>
+    );
 }
 
 function RootContent()
@@ -55,6 +58,7 @@ function RootContent()
                     </CardContent>
                 </Card>
             </Stack>
+
         </Paper>
 
     )

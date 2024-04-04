@@ -183,15 +183,32 @@ const BackendAccess =
         async registerUser(user)
         {
             const url = 'http://localhost:8080/register';
-            const response =  await fetch(url, {
+            return await fetch(url, {
                 method: 'POST',
                 body: JSON.stringify(user),
                 headers: {
                     'Content-Type': 'application/json'
                 }
+            })
+        },
+        async getPlaces()
+        {
+            const url = 'http://localhost:8080/api/place';
+            const response =  await fetch(url, {
+                method: 'GET',
+                headers: getHeaders(false),
             });
 
-            return response
+            return await response.json()
+        },
+        async savePlace(place)
+        {
+            const url = 'http://localhost:8080/api/place/save';
+            return await fetch(url, {
+                method: 'POST',
+                body: JSON.stringify(place),
+                headers: getHeaders(true)
+            })
         }
 
     }

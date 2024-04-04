@@ -11,6 +11,7 @@ import {AuthData} from "../components/handlers/LoginHandler";
 import ReceiptMainPage from "../pages/receipts/ReceiptMainPage";
 import {getSingleReceipt} from "../components/utils/BackendAccess"
 import GoogleMap from "../components/maps/GoogleMap";
+import EditablePlace from "../components/places/EditablePlace";
 
 
 export default function RouteProvider(isAuthenticated)
@@ -61,24 +62,11 @@ export default function RouteProvider(isAuthenticated)
         element:<RegistrationPage/>,
         isProtected:false,
     },
-        {
-            path:'/map',
-            element:<GoogleMap markers={[
-                {
-                    id:1,
-                    location:{lat: 61.2176, lng: -149.8997}
-                },
-                {
-                    id:2,
-                    location:{lat: 60.2176, lng: -150.8997}
-                },
-                {
-                    id:3,
-                    location:{lat: 62.2176, lng: -151.8997}
-                }
-            ]}/>,
-            isProtected:false,
-        },
+    {
+        path:'/places',
+        element:<EditablePlace/>,
+        isProtected:true,
+    },
 ]
 
     return routes.filter((route)=>{
