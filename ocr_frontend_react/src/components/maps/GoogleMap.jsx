@@ -1,7 +1,17 @@
-import {AdvancedMarker, APIProvider, InfoWindow, Map, Marker, Pin, useMap} from '@vis.gl/react-google-maps';
+import {
+    AdvancedMarker,
+    APIProvider,
+    InfoWindow,
+    Map,
+    Marker,
+    Pin,
+    useAdvancedMarkerRef,
+    useMap
+} from '@vis.gl/react-google-maps';
 import {useEffect, useRef, useState} from "react";
 import {MarkerClusterer} from '@googlemaps/markerclusterer';
 import {red} from "@mui/material/colors";
+import PlaceMarker from "./PlaceMarker";
 
 export default function GoogleMap(props)
 {
@@ -47,13 +57,8 @@ export default function GoogleMap(props)
 
 const Markers = ({places}) => {
     const map = useMap();
-    const markers = useRef({});
+    const [markers,setMarkers] = useState({});
     const clusterer = useRef(null);
-    const infoWindowShown = useRef({});
-    const [forcedRedraw,setForcedRedraw] = useState(0)
-
-    const toggleInfoWindow = () =>
-        infoWindowShown.current = (previousState) => !previousState;
 
     useEffect(() => {
         if (!map) return;
@@ -64,78 +69,31 @@ const Markers = ({places}) => {
 
     useEffect(() => {
         clusterer.current?.clearMarkers();
-        clusterer.current?.addMarkers(Object.values(markers.current));
-    }, [markers.current]);
-
-    const handleMarkerClick = (place)=>
-    {
-        infoWindowShown.current[place.id] = !infoWindowShown.current[place.id]
-        console.log(place);
-        console.log(infoWindowShown.current);
-        setForcedRedraw(forcedRedraw+1)
-    }
-
-    const handleMarkerClose = (place)=>
-    {
-        infoWindowShown.current[place.id] = false
-        console.log(place);
-        console.log(infoWindowShown.current);
-        setForcedRedraw(forcedRedraw+1)
-    }
+        clusterer.current?.addMarkers(Object.values(markers));
+    }, [markers]);
 
     const setMarkerRef = (ref, key) => {
         if (ref && markers[key]) return;
         if (!ref && !markers[key]) return;
 
-        markers.current = (() => {
+        setMarkers((prev) => {
             if (ref) {
-                return {...markers.current, [key]: ref};
+                return {...prev, [key]: ref};
             } else {
-                const newMarkers = {...markers.current};
+                const newMarkers = {...prev};
                 delete newMarkers[key];
                 return newMarkers;
             }
-        })();
-
-        infoWindowShown.current = (() => {
-            if (ref) {
-                return {...infoWindowShown.current, [key]: infoWindowShown.current[key] || false};
-            } else {
-                const newInfoWindowShown = {...infoWindowShown.current};
-                delete newInfoWindowShown[key];
-                return newInfoWindowShown;
-            }
-        })();
+        });
     };
+
+    const ref = (ref,place)=>setMarkerRef(ref,place.id)
     return (
         <>
             {places.map(place => (place&&place.id)?(
-                <AdvancedMarker
-                    position={place}
-                    key={place.id}
-                    ref={ref => setMarkerRef(ref, place.id)}
-                    onClick={()=>handleMarkerClick(place)}
-                    >
-                    {
-                        (infoWindowShown.current&&infoWindowShown.current[place.id])
-                        ?
-                            <InfoWindow
-                                anchor={markers.current[place.id]}
-                                onCloseClick={()=>handleMarkerClose(place)}>
-                                <h2>{place.name}</h2>
-                                <p>{place.description || "Desc"}</p>
-                            </InfoWindow>
-                        :
-                            <></>
-                    }
-
-                    {
-                        (place.validated)
-                        ?<><Pin background={"red"} borderColor={"red"}></Pin></>
-                        :<><Pin background={"gray"} borderColor={"gray"}></Pin></>
-                    }
-
-                </AdvancedMarker>
+                <>
+                    <PlaceMarker place={place} refHandler={ref}/>
+                </>
             ):(<></>))}
         </>
     );
