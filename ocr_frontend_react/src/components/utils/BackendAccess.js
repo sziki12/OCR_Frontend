@@ -1,5 +1,3 @@
-
-
 function getAuth()
 {
     let token = getAuthToken()
@@ -48,7 +46,6 @@ const BackendAccess =
                     cache: 'no-store',
                     headers: getHeaders(false)
                 })
-
             return await receiptsRequest.json()
         },
 
@@ -59,7 +56,6 @@ const BackendAccess =
                     cache: "no-store",
                     headers: getHeaders(false)
                 })
-
             return await receiptsRequest.json()
         },
         async getItem(receiptId,itemId) {
@@ -70,13 +66,12 @@ const BackendAccess =
                     ,
                     headers: getHeaders(false)
                 })
-
             return await receiptsRequest.json()
         },
 
         async createReceipt(description,dateOfPurchase)
         {
-            await fetch('http://localhost:8080/api/receipt', {
+            let receiptsRequest = await fetch('http://localhost:8080/api/receipt', {
                 method: 'POST',
                 headers: getHeaders(true),
                 body: JSON.stringify({
@@ -89,7 +84,7 @@ const BackendAccess =
 
         async updateReceipt(receiptId,description,dateOfPurchase,items)
         {
-            await fetch('http://localhost:8080/api/receipt/'+receiptId, {
+            let receiptsRequest = await fetch('http://localhost:8080/api/receipt/'+receiptId, {
                 method: 'PUT',
                 headers: getHeaders(true),
                 body: JSON.stringify({
@@ -101,7 +96,7 @@ const BackendAccess =
         },
 
         async deleteReceipts(receiptId) {
-            await fetch("http://localhost:8080/api/receipt/"+receiptId,
+            let receiptsRequest = await fetch("http://localhost:8080/api/receipt/"+receiptId,
                 {
                     method: 'DELETE',
                     cache: "no-store",
@@ -111,7 +106,7 @@ const BackendAccess =
         async addItemToReceipt(receiptId,name,quantity,totalCost)
         {
             const url = 'http://localhost:8080/api/receipt/'+receiptId+'/item'
-            await fetch(url, {
+            let request = await fetch(url, {
                 method: 'POST',
                 headers: getHeaders(true),
                 body: JSON.stringify({
@@ -208,6 +203,14 @@ const BackendAccess =
                 method: 'POST',
                 body: JSON.stringify(place),
                 headers: getHeaders(true)
+            })
+        },
+        async assignPlace(placeId,receiptId)
+        {
+            const url = 'http://localhost:8080/api/place/'+placeId+"/to/"+receiptId;
+            await fetch(url, {
+                method: 'PUT',
+                headers: getHeaders(false)
             })
         }
 

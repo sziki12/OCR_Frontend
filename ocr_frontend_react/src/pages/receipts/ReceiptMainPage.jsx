@@ -10,6 +10,7 @@ import * as React from "react";
 import GoogleMap from "../../components/maps/GoogleMap";
 import {getPlaces} from "../../components/utils/BackendAccess"
 import {get} from "axios";
+import {assignPlace} from "../../components/utils/BackendAccess"
 
 
 
@@ -38,13 +39,23 @@ export default function ReceiptMainPage()
         })
     }
 
-    useEffect(()=>{
+    const updateState = ()=>
+    {
         getSingleReceipt(receiptId).then((data)=>{{
             setReceipt(data)
         }})
         getPlaces().then((data)=>{
             setPlaces(data)
         })
+    }
+
+    const handlePlaceSelect = async (placeId) => {
+        await assignPlace(placeId, receiptId)
+        updateState()
+    }
+
+    useEffect(()=>{
+        updateState()
     },[])
 
     return(
@@ -59,8 +70,6 @@ export default function ReceiptMainPage()
                     (viewMode.mode==="view")
                     ?
                         <>
-                            {//<AllReceipts showItems={true} receipts={[receipt]}/>
-                            }
                             <SingleReceipt receipt={receipt} setReceipt={setReceipt}/>
                         </>
                     :
@@ -68,7 +77,7 @@ export default function ReceiptMainPage()
                             <SingleReceipt receipt={receipt} setReceipt={setReceipt} isEditable={true}/>
                         </>
                 }
-                <GoogleMap places={places} canCreateMarker={false}/>
+                <GoogleMap places={places} canCreateMarker={false} inSelectMode={true} select={handlePlaceSelect} receiptId={receiptId}/>
             </div>
         </>
 

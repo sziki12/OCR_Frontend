@@ -48,14 +48,14 @@ export default function GoogleMap(props)
                         mapId={"3d321da67ef9306"}
                         defaultCenter={places[0]||defaultLocation[0]}
                         defaultZoom={12}>
-                        <Markers places={placesToPass} />
+                        <Markers places={placesToPass} inSelectMode={props.inSelectMode} select={props.select} receiptId={props.receiptId}/>
                     </Map>
                 </div>
             </APIProvider>
         );
 }
 
-const Markers = ({places}) => {
+const Markers = ({places,inSelectMode,select,receiptId}) => {
     const map = useMap();
     const [markers,setMarkers] = useState({});
     const clusterer = useRef(null);
@@ -71,14 +71,12 @@ const Markers = ({places}) => {
     useEffect(() => {
         clusterer.current?.clearMarkers();
         clusterer.current?.addMarkers(Object.values(markers));
-        //console.log(markers)
     }, [markers]);
 
     const setMarkerRef = (ref, key) => {
         if (ref && markers[key]) return;
         if (!ref && !markers[key]) return;
 
-        console.log(markers)
         setMarkers((prev) => {
             if (ref) {
                 return {...prev, [key]: ref};
@@ -93,7 +91,7 @@ const Markers = ({places}) => {
         <>
             {places.map(place => (place&&place.id)?(
                 <>
-                    <PlaceMarker key={place.id} place={place} refHandler={setMarkerRef}/>
+                    <PlaceMarker key={place.id} place={place} refHandler={setMarkerRef} inSelectMode={inSelectMode} select={select} receiptId={receiptId}/>
                 </>
             ):(<></>))}
         </>
