@@ -1,20 +1,28 @@
 import {AdvancedMarker, InfoWindow, Pin, useAdvancedMarkerRef} from "@vis.gl/react-google-maps";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 
 export default function PlaceMarker({place,refHandler})
 {
     const [markerRef, marker] = useAdvancedMarkerRef()
     const [infoWindowShown,setInfoWindowShown] = useState(false)
-    refHandler(marker,place)
+    refHandler(marker,place.id)
 
+    useEffect(() => {
+        // Ensure that the InfoWindow is closed when the marker is unmounted
+        return () => {
+            setInfoWindowShown(false);
+        };
+    }, []);
+
+    //console.log(place.id)
+    //console.log(infoWindowShown)
     return (
         <>
             <AdvancedMarker
                 position={place}
-                key={place.id}
                 ref={markerRef}
-                onClick={()=>setInfoWindowShown((prev)=>!prev)}
+                onClick={()=>setInfoWindowShown(true)}
             >
                 {
                     (infoWindowShown)

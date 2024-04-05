@@ -62,20 +62,23 @@ const Markers = ({places}) => {
 
     useEffect(() => {
         if (!map) return;
+
         if (!clusterer.current) {
-            clusterer.current = new MarkerClusterer({map});
+            clusterer.current = new MarkerClusterer({ map });
         }
     }, [map]);
 
     useEffect(() => {
         clusterer.current?.clearMarkers();
         clusterer.current?.addMarkers(Object.values(markers));
+        //console.log(markers)
     }, [markers]);
 
     const setMarkerRef = (ref, key) => {
         if (ref && markers[key]) return;
         if (!ref && !markers[key]) return;
 
+        console.log(markers)
         setMarkers((prev) => {
             if (ref) {
                 return {...prev, [key]: ref};
@@ -86,13 +89,11 @@ const Markers = ({places}) => {
             }
         });
     };
-
-    const ref = (ref,place)=>setMarkerRef(ref,place.id)
     return (
         <>
             {places.map(place => (place&&place.id)?(
                 <>
-                    <PlaceMarker place={place} refHandler={ref}/>
+                    <PlaceMarker key={place.id} place={place} refHandler={setMarkerRef}/>
                 </>
             ):(<></>))}
         </>
