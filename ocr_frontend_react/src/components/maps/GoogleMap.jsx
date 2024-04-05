@@ -67,6 +67,22 @@ const Markers = ({places}) => {
         clusterer.current?.addMarkers(Object.values(markers.current));
     }, [markers.current]);
 
+    const handleMarkerClick = (place)=>
+    {
+        infoWindowShown.current[place.id] = !infoWindowShown.current[place.id]
+        console.log(place);
+        console.log(infoWindowShown.current);
+        setForcedRedraw(forcedRedraw+1)
+    }
+
+    const handleMarkerClose = (place)=>
+    {
+        infoWindowShown.current[place.id] = false
+        console.log(place);
+        console.log(infoWindowShown.current);
+        setForcedRedraw(forcedRedraw+1)
+    }
+
     const setMarkerRef = (ref, key) => {
         if (ref && markers[key]) return;
         if (!ref && !markers[key]) return;
@@ -81,15 +97,15 @@ const Markers = ({places}) => {
             }
         })();
 
-        if(ref)
-        {
-            infoWindowShown.current = (()=>{
-                if(Object.keys(infoWindowShown.current).length === 0)
-                    return {[key]:false}
-                else
-                    return {...infoWindowShown.current,[key]:false}
-            })()
-        }
+        infoWindowShown.current = (() => {
+            if (ref) {
+                return {...infoWindowShown.current, [key]: infoWindowShown.current[key] || false};
+            } else {
+                const newInfoWindowShown = {...infoWindowShown.current};
+                delete newInfoWindowShown[key];
+                return newInfoWindowShown;
+            }
+        })();
     };
     return (
         <>
@@ -98,11 +114,14 @@ const Markers = ({places}) => {
                     position={place}
                     key={place.id}
                     ref={ref => setMarkerRef(ref, place.id)}
+                    onClick={()=>handleMarkerClick(place)}
                     >
                     {
-                        (infoWindowShown[place.id])
+                        (infoWindowShown.current&&infoWindowShown.current[place.id])
                         ?
-                            <InfoWindow anchor={markers.current[place.id]}>
+                            <InfoWindow
+                                anchor={markers.current[place.id]}
+                                onCloseClick={()=>handleMarkerClose(place)}>
                                 <h2>{place.name}</h2>
                                 <p>{place.description || "Desc"}</p>
                             </InfoWindow>
