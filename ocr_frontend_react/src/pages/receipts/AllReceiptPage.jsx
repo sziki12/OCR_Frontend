@@ -7,6 +7,7 @@ import {useEffect, useState} from "react";
 import AllReceipts from "../../components/receipts/AllReceipts";
 import {useNavigate} from "react-router-dom";
 import {getReceipts} from "../../components/utils/BackendAccess";
+import ReceiptState from "../../components/states/ReceiptState";
 
 export default function AllReceiptPage() {
 
@@ -24,9 +25,12 @@ export default function AllReceiptPage() {
         <>
             <Button onClick={()=>{navigate("/create/receipts")}}><FontAwesomeIcon icon={faPlus}  size={"xl"}/></Button>
             <Button onClick={()=>{navigate("/upload/image")}}><FontAwesomeIcon icon={faFileArrowUp}  size={"xl"}/></Button>
-            <div className="flex flex-wrap flex-row">
-                <AllReceipts receipts={receipts}/>
-            </div>
+            <ReceiptState>
+                <div className="flex flex-wrap flex-row">
+                    <AllReceipts/>
+                </div>
+            </ReceiptState>
+
         </>
     );
 }
