@@ -16,6 +16,7 @@ export default function ReceiptToggleEditableWrapper({receipt,setReceipt,childre
         setViewMode({
             mode: (viewMode.mode==="view")?"edit":"view"
         })
+        //TODO BUG When editing and then switch without saving tha item, it stays in editing mode
     }
 
     return(
@@ -28,7 +29,7 @@ export default function ReceiptToggleEditableWrapper({receipt,setReceipt,childre
                 </div>
                 <div className={"flex flex-row justify-between flex-grow"}>
                     {
-                        <SingleReceipt isEditable={viewMode.mode==="view"}/>
+                        <SingleReceipt isEditable={viewMode.mode==="edit"}/>
                     }
                     {children}
                 </div>
