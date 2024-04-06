@@ -31,6 +31,8 @@ function getHeaders(isJson)
 function getAuthToken(){
     return window.localStorage.getItem("auth_token")
 }
+const ipAddress = "172.17.32.1"
+const baseAddress = `http://${ipAddress}:8080/`
 
 const BackendAccess =
     {
@@ -41,7 +43,7 @@ const BackendAccess =
 
         //TODO Refactor params in objects and add auth param
         async getReceipts() {
-            let receiptsRequest = await fetch("http://localhost:8080/api/receipt",
+            let receiptsRequest = await fetch(baseAddress+"api/receipt",
                 {
                     cache: 'no-store',
                     headers: getHeaders(false)
@@ -51,7 +53,7 @@ const BackendAccess =
 
         async getSingleReceipt(receiptId) {
 
-            let receiptsRequest = await fetch("http://localhost:8080/api/receipt/"+receiptId,
+            let receiptsRequest = await fetch(baseAddress+"api/receipt/"+receiptId,
                 {
                     cache: "no-store",
                     headers: getHeaders(false)
@@ -60,7 +62,7 @@ const BackendAccess =
         },
         async getItem(receiptId,itemId) {
 
-            let receiptsRequest = await fetch("http://localhost:8080/api/receipt/"+receiptId+"/item/"+itemId,
+            let receiptsRequest = await fetch(baseAddress+"api/receipt/"+receiptId+"/item/"+itemId,
                 {
                     cache: "no-store"
                     ,
@@ -71,7 +73,7 @@ const BackendAccess =
 
         async createReceipt(description,dateOfPurchase)
         {
-            let receiptsRequest = await fetch('http://localhost:8080/api/receipt', {
+            let receiptsRequest = await fetch(baseAddress+'api/receipt', {
                 method: 'POST',
                 headers: getHeaders(true),
                 body: JSON.stringify({
@@ -84,7 +86,7 @@ const BackendAccess =
 
         async updateReceipt(receiptId,description,dateOfPurchase,items)
         {
-            let receiptsRequest = await fetch('http://localhost:8080/api/receipt/'+receiptId, {
+            let receiptsRequest = await fetch(baseAddress+'api/receipt/'+receiptId, {
                 method: 'PUT',
                 headers: getHeaders(true),
                 body: JSON.stringify({
@@ -96,7 +98,7 @@ const BackendAccess =
         },
 
         async deleteReceipts(receiptId) {
-            let receiptsRequest = await fetch("http://localhost:8080/api/receipt/"+receiptId,
+            let receiptsRequest = await fetch(baseAddress+"api/receipt/"+receiptId,
                 {
                     method: 'DELETE',
                     cache: "no-store",
@@ -105,7 +107,7 @@ const BackendAccess =
         },
         async addItemToReceipt(receiptId,name,quantity,totalCost)
         {
-            const url = 'http://localhost:8080/api/receipt/'+receiptId+'/item'
+            const url = baseAddress+'api/receipt/'+receiptId+'/item'
             let request = await fetch(url, {
                 method: 'POST',
                 headers: getHeaders(true),
@@ -119,7 +121,7 @@ const BackendAccess =
 
         async createNewItem(receiptId)
         {
-            const url = 'http://localhost:8080/api/receipt/'+receiptId+'/new/item'
+            const url = baseAddress+'api/receipt/'+receiptId+'/new/item'
             const response = await fetch(url, {
                 method: 'POST',
                 headers: getHeaders(true),
@@ -128,7 +130,7 @@ const BackendAccess =
         },
         async updateItem(receiptId,itemId,name,quantity,totalCost)
         {
-            await fetch("http://localhost:8080/api/receipt/"+receiptId+"/item/"+itemId,
+            await fetch(baseAddress+"api/receipt/"+receiptId+"/item/"+itemId,
                 {
                     method: 'PUT',
                     cache: "no-store",
@@ -143,7 +145,7 @@ const BackendAccess =
         },
         async deleteItem(receiptId,itemId)
         {
-            await fetch("http://localhost:8080/api/receipt/"+receiptId+"/item/"+itemId,
+            await fetch(baseAddress+"api/receipt/"+receiptId+"/item/"+itemId,
                 {
                     method: 'DELETE',
                     cache: "no-store",
@@ -153,7 +155,7 @@ const BackendAccess =
 
         async uploadImageForOCR(image)
         {
-            const url = 'http://localhost:8080/api/image'
+            const url = baseAddress+'api/image'
             let response = await fetch(url, {
                 method: 'POST',
                 headers: getHeaders(false),
@@ -164,7 +166,7 @@ const BackendAccess =
 
         async loginUser(user)
         {
-            const url = 'http://localhost:8080/login';
+            const url = baseAddress+'login';
             const response =  await fetch(url, {
                 method: 'POST',
                 body: JSON.stringify(user),
@@ -177,7 +179,7 @@ const BackendAccess =
         },
         async registerUser(user)
         {
-            const url = 'http://localhost:8080/register';
+            const url = baseAddress+'register';
             return await fetch(url, {
                 method: 'POST',
                 body: JSON.stringify(user),
@@ -188,7 +190,7 @@ const BackendAccess =
         },
         async getPlaces()
         {
-            const url = 'http://localhost:8080/api/place';
+            const url = baseAddress+'api/place';
             const response =  await fetch(url, {
                 method: 'GET',
                 headers: getHeaders(false),
@@ -198,7 +200,7 @@ const BackendAccess =
         },
         async savePlace(place)
         {
-            const url = 'http://localhost:8080/api/place/save';
+            const url = baseAddress+'api/place/save';
             return await fetch(url, {
                 method: 'POST',
                 body: JSON.stringify(place),
@@ -207,7 +209,7 @@ const BackendAccess =
         },
         async assignPlace(placeId,receiptId)
         {
-            const url = 'http://localhost:8080/api/place/'+placeId+"/to/"+receiptId;
+            const url = baseAddress+'api/place/'+placeId+"/to/"+receiptId;
             await fetch(url, {
                 method: 'PUT',
                 headers: getHeaders(false)

@@ -43,7 +43,10 @@ export default function ItemDataGrid(props)
     let isEditable = props.isEditable || false
 
     useEffect(() => {
-        setRows([...props.items])
+        if(props.items && props.items.length>0)
+            setRows([...props.items])
+        else
+            setRows([])
     }, [props.items]);
 
     const insertItem = props.insertItem

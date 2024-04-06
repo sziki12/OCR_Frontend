@@ -1,20 +1,20 @@
-import {useNavigate, useParams} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCalendar, faFloppyDisk, faMessage, faMoneyBill,faPlus} from "@fortawesome/free-solid-svg-icons";
-import Item from "../items/Item";
+import {faCalendar, faMessage, faMoneyBill,} from "@fortawesome/free-solid-svg-icons";
 import {Button,Input} from "@mui/material";
 import * as React from "react";
-import {useEffect, useState} from "react";
-import {getSingleReceipt, updateReceipt,createNewItem} from "../utils/BackendAccess";
-import EditableItem from "../items/EditableItem";
+import {useContext, useEffect, useState} from "react";
+import {updateReceipt,createNewItem} from "../utils/BackendAccess";
 import getDateToShow from "../utils/DateConverter";
 import Paper from '@mui/material/Paper';
 import ItemDataGrid from "../items/ItemDataGrid";
+import {ReceiptData} from "../states/ReceiptState";
 
 
 export default function SingleReceipt(props) {
-    const navigate = useNavigate();
+    let receiptData = ReceiptData()
+
     const [receipt, setReceipt] = useState({
+        id:-1,
         description:"",
         dateOfPurchase:new Date(),
         items:[],
@@ -22,9 +22,12 @@ export default function SingleReceipt(props) {
     })
     const isEditable = props.isEditable || false
 
+
+
     useEffect(() => {
-        setReceipt({...props.receipt})
-    }, [props.receipt]);
+        console.log(receiptData.receipt)
+        setReceipt({...receiptData.receipt})
+    }, [receiptData.receipt]);
 
     const insertItem = async (e) => {
         const item = await createNewItem(receipt.id)
@@ -56,12 +59,11 @@ export default function SingleReceipt(props) {
             totalCost: calculateTotalCost()
         }
         setReceipt(updatedReceipt)
-        //await update(updatedReceipt)
     }
     const update = async(updatedReceipt) => {
         //e.preventDefault()
         await updateReceipt(updatedReceipt.id,updatedReceipt.description,updatedReceipt.dateOfPurchase,updatedReceipt.items)
-        props.setReceipt({
+        receiptData.setReceipt({
             ...updatedReceipt
         })
     }
@@ -72,6 +74,9 @@ export default function SingleReceipt(props) {
                 <div>
                     <ReceiptHeader receipt={receipt} isEditable={isEditable} onChange={onChange}/>
                     <ItemDataGrid insertItem={insertItem} items={receipt.items} saveItems={saveItems} isEditable={isEditable}></ItemDataGrid>
+                </div>
+                <div>
+                    <Button onClick={()=>update(receipt)}>Submit</Button>
                 </div>
             </Paper>
         </div>

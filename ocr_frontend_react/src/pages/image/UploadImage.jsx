@@ -24,6 +24,7 @@ const UploadAndDisplayImage = (props) => {
         extractedItems:[],
         filteredReceipt:[],
         plainText:[],
+        date:null,
         newReceiptId:-1,
     });
 

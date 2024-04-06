@@ -90,9 +90,7 @@ const Markers = ({places,inSelectMode,select,receiptId}) => {
     return (
         <>
             {places.map(place => (place&&place.id)?(
-                <>
-                    <PlaceMarker key={place.id} place={place} refHandler={setMarkerRef} inSelectMode={inSelectMode} select={select} receiptId={receiptId}/>
-                </>
+                <PlaceMarker key={place.id} place={place} refHandler={setMarkerRef} inSelectMode={inSelectMode} select={select} receiptId={receiptId}/>
             ):(<></>))}
         </>
     );

@@ -8,7 +8,7 @@ import AllReceipts from "../../components/receipts/AllReceipts";
 import {useNavigate} from "react-router-dom";
 import {getReceipts} from "../../components/utils/BackendAccess";
 
-export default function ReceiptsPage() {
+export default function AllReceiptPage() {
 
     const navigate = useNavigate();
     const [receipts,setReceipts] = useState([])

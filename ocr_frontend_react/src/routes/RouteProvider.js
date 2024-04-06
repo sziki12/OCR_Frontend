@@ -1,4 +1,4 @@
-import ReceiptsPage from "../pages/receipts/ReceiptsPage";
+import AllReceiptPage from "../pages/receipts/AllReceiptPage";
 import AddReceipt from "../pages/receipts/AddReceipt";
 import AddItem from "../pages/items/AddItem";
 import DeleteReceiptPage from "../pages/receipts/DeleteReceipt";
@@ -7,10 +7,8 @@ import UploadImage from "../pages/image/UploadImage";
 import LoginPage from "../pages/auth/LoginPage";
 import RegistrationPage from "../pages/auth/RegistrationPage";
 import React from "react";
-import {AuthData} from "../components/handlers/LoginHandler";
 import ReceiptMainPage from "../pages/receipts/ReceiptMainPage";
-import {getSingleReceipt} from "../components/utils/BackendAccess"
-import GoogleMap from "../components/maps/GoogleMap";
+import ReceiptTab from "../components/tabs/ReceiptTab";
 import EditablePlace from "../components/places/EditablePlace";
 
 
@@ -19,7 +17,7 @@ export default function RouteProvider(isAuthenticated)
     let routes = [
     {
         path:'/receipts',
-        element:<ReceiptsPage/>,
+        element:<AllReceiptPage/>,
         isProtected:true,
     },
     {
@@ -63,8 +61,13 @@ export default function RouteProvider(isAuthenticated)
         isProtected:false,
     },
     {
-        path:'/places',
-        element:<EditablePlace/>,
+        path: '/places',
+        element: <EditablePlace/>,
+        isProtected: true,
+    },
+    {
+        path:'/test/1',
+        element:<ReceiptTab/>,
         isProtected:true,
     },
 ]
