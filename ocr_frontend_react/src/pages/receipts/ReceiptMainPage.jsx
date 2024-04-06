@@ -13,6 +13,7 @@ import {get} from "axios";
 import {assignPlace} from "../../components/utils/BackendAccess"
 import ReceiptTab from "../../components/tabs/ReceiptTab";
 import ReceiptState from "../../components/states/ReceiptState";
+import PlaceState from "../../components/states/PlaceState";
 
 
 
@@ -20,9 +21,11 @@ export default function ReceiptMainPage()
 {
     return(
         <>
-            <ReceiptState>
-                <ReceiptTab/>
-            </ReceiptState>
+            <PlaceState>
+                <ReceiptState>
+                    <ReceiptTab/>
+                </ReceiptState>
+            </PlaceState>
         </>
 
     )

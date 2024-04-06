@@ -1,33 +1,35 @@
 import {
-    AdvancedMarker,
     APIProvider,
-    InfoWindow,
     Map,
-    Marker,
-    Pin,
-    useAdvancedMarkerRef,
     useMap
 } from '@vis.gl/react-google-maps';
 import {useEffect, useRef, useState} from "react";
 import {MarkerClusterer} from '@googlemaps/markerclusterer';
-import {red} from "@mui/material/colors";
 import PlaceMarker from "./PlaceMarker";
+import {PlaceData} from "../states/PlaceState";
+import {assignPlace,removePlace} from "../utils/BackendAccess";
 
 export default function GoogleMap(props)
 {
-    //TODO On first marker place the clusterer not works properly, leaves out the new Marker
+    const placeData = PlaceData()
+
     const defaultLocation = [{id:1,lat: 47.507, lng: 19.045}];
     let [newPlace,setNewPlace] = useState({})
-    const [places, setPlaces] = useState(props.places);
+    const [places, setPlaces] = useState(placeData.places);
     const canCreateMarker = props.canCreateMarker || false
-    const [forcedRedraw,setForcedRedraw] = useState(0)
 
     const placesToPass = (places&&places.length>0)?[...places,newPlace]:[newPlace]
 
     useEffect(() => {
-        setPlaces(props.places)
-        setTimeout(()=>{setForcedRedraw(forcedRedraw + 1)},500)
-    }, [props.places]);
+        console.log(placeData.places)
+        setPlaces(placeData.places)
+    }, [placeData.places]);
+
+    const onSelect = async (placeId)=>
+    {
+        (placeId) ? await assignPlace(placeId, props.receiptId): await removePlace(props.receiptId)
+        await placeData.updatePlaces()
+    }
     return (
             <APIProvider apiKey={'AIzaSyAN_KMLA-2J691xqMysa6_5ERNLJAnbYJ0'}>
                 <div style={{height:"50vh", width:"50%"}}>
@@ -39,16 +41,18 @@ export default function GoogleMap(props)
                                 let newPlace= {
                                     id:-1,
                                     lat:newLocation.lat,
-                                    lng:newLocation.lng
+                                    lng:newLocation.lng,
+                                    isNew:true,//TODO if isNew different colored Marker, when saved remove isNew
                                 }
                                 setNewPlace(newPlace)
                                 props.onMarkerCreated(newPlace)
+                                placeData.setPlaces([...placesToPass])
                             }
                         }}
                         mapId={"3d321da67ef9306"}
-                        defaultCenter={places[0]||defaultLocation[0]}
+                        defaultCenter={places && places[0] || defaultLocation[0]}
                         defaultZoom={12}>
-                        <Markers places={placesToPass} inSelectMode={props.inSelectMode} select={props.select} receiptId={props.receiptId}/>
+                        <Markers places={placesToPass} inSelectMode={props.inSelectMode} select={onSelect} receiptId={props.receiptId}/>
                     </Map>
                 </div>
             </APIProvider>

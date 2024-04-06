@@ -31,7 +31,7 @@ function getHeaders(isJson)
 function getAuthToken(){
     return window.localStorage.getItem("auth_token")
 }
-const ipAddress = "172.17.32.1"
+const ipAddress = "localhost"//"172.17.32.1"
 const baseAddress = `http://${ipAddress}:8080/`
 
 const BackendAccess =
@@ -41,7 +41,7 @@ const BackendAccess =
             window.localStorage.setItem("auth_token",token)
         },
 
-        //TODO Refactor params in objects and add auth param
+        //TODO Refactor params in objects
         async getReceipts() {
             let receiptsRequest = await fetch(baseAddress+"api/receipt",
                 {
@@ -210,6 +210,14 @@ const BackendAccess =
         async assignPlace(placeId,receiptId)
         {
             const url = baseAddress+'api/place/'+placeId+"/to/"+receiptId;
+            await fetch(url, {
+                method: 'PUT',
+                headers: getHeaders(false)
+            })
+        },
+        async removePlace(receiptId)
+        {
+            const url = baseAddress+'api/place/remove/'+receiptId;
             await fetch(url, {
                 method: 'PUT',
                 headers: getHeaders(false)

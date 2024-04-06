@@ -5,11 +5,13 @@ import {getPlaces} from "../utils/BackendAccess"
 import {savePlace} from "../utils/BackendAccess"
 import {faFloppyDisk} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {PlaceData} from "../states/PlaceState";
 
 
 export default function EditablePlace(props)
 {
-    const [places,setPlaces] = useState([])
+    const placeData = PlaceData()
+    const [places,setPlaces] = useState(placeData.places)
     const [selectedPlace,setSelectedPlace]=useState({
         name:"",
         lat:undefined,
@@ -20,9 +22,7 @@ export default function EditablePlace(props)
         isValid:undefined
     })
 
-    useEffect(()=>{
-        getPlaces().then((data)=>{setPlaces({...data})})
-    },[])
+
     const onChange = (e)=>{
         setSelectedPlace({...selectedPlace,[e.target.name]:e.target.value})
     }
@@ -30,6 +30,10 @@ export default function EditablePlace(props)
     const onMarkerCreated = async (place) => {
         setSelectedPlace({...selectedPlace,...place})
     }
+
+    useEffect(()=>{
+        setPlaces(placeData.places)
+    },[placeData.places])
 
     return(<>
         <Paper>

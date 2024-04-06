@@ -10,6 +10,7 @@ import React from "react";
 import ReceiptMainPage from "../pages/receipts/ReceiptMainPage";
 import ReceiptTab from "../components/tabs/ReceiptTab";
 import EditablePlace from "../components/places/EditablePlace";
+import AddPlacePage from "../pages/places/AddPlacePage";
 
 
 export default function RouteProvider(isAuthenticated)
@@ -62,7 +63,7 @@ export default function RouteProvider(isAuthenticated)
     },
     {
         path: '/places',
-        element: <EditablePlace/>,
+        element: <AddPlacePage/>,
         isProtected: true,
     },
     {

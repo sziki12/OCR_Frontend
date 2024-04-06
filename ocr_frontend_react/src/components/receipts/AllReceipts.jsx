@@ -12,7 +12,7 @@ import {useEffect, useState} from "react";
 export default function AllReceipts()
 {
     const navigate = useNavigate()
-
+    //TODO Fix Delete Receipt Page
     const receiptLayout = (receipt)=> <>
         <Paper key={receipt.id} elevation={12} className="px-10 py-6 m-5 bg-blue-50">
             <p className={"text-black"}><FontAwesomeIcon icon={faMessage} color={"Dodgerblue"}/> {receipt.description}</p>

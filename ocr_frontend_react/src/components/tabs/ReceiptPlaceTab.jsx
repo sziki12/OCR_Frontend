@@ -10,7 +10,6 @@ import {useNavigate, useParams} from "react-router-dom";
 
 export default function ReceiptPlaceTab(props)
 {
-    const navigate = useNavigate();
     const params = useParams()
 
     const receiptId = params.receiptId
@@ -35,7 +34,7 @@ export default function ReceiptPlaceTab(props)
     }
 
     const handlePlaceSelect = async (placeId) => {
-        await assignPlace(placeId, receiptId)
+
         updateState()
     }
 
@@ -46,7 +45,7 @@ export default function ReceiptPlaceTab(props)
 
     return(<>
         <ReceiptToggleEditableWrapper receipt={receipt} setReceipt={setReceipt}>
-            <GoogleMap places={places} canCreateMarker={false} inSelectMode={true} select={handlePlaceSelect} receiptId={receiptId}/>
+            <GoogleMap places={places} canCreateMarker={false} inSelectMode={true} receiptId={receiptId}/>
         </ReceiptToggleEditableWrapper>
     </>)
 }

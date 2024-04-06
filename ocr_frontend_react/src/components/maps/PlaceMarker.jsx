@@ -41,7 +41,10 @@ export default function PlaceMarker({place,refHandler,inSelectMode,select,receip
             <AdvancedMarker
                 position={place}
                 ref={markerRef}
-                onClick={()=>setInfoWindowShown(true)}
+                onClick={()=>{
+                    setInfoWindowShown(true)
+                    console.log(place)
+                 }}
             >
                 {
                     (infoWindowShown)
@@ -56,7 +59,7 @@ export default function PlaceMarker({place,refHandler,inSelectMode,select,receip
                                     ?
                                         (isPlaceSelected())
                                         ?
-                                            <><Button variant={"contained"} color={"error"} onClick={()=>select(null)}>
+                                            <><Button variant={"contained"} color={"error"} onClick={()=>select()}>
                                                 Unselect
                                             </Button></>
                                         :
