@@ -222,8 +222,15 @@ const BackendAccess =
                 method: 'PUT',
                 headers: getHeaders(false)
             })
-        }
-
+        },
+        async getOcrResponse(receiptId)
+        {
+            const url = baseAddress+'api/ocr/response/'+receiptId;
+            return await fetch(url, {
+                method: 'GET',
+                headers: getHeaders(false)
+            })
+        },
     }
 
 
