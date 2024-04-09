@@ -12,7 +12,7 @@ export default function OcrResponseView()
         setResponse(ocrResponseData.ocrResponse)
     }, [ocrResponseData.ocrResponse]);
     const [responseToShow,setResponseToShow] = useState("extractedItems")
-    console.log(response)
+    //console.log(response)
     return (
         <Paper className="px-10 py-6 m-5">
             <FormControl>

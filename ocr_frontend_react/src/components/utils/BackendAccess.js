@@ -231,6 +231,15 @@ const BackendAccess =
                 headers: getHeaders(false)
             })
         },
+        async getImage(receiptId,imageId)
+        {
+            const url = baseAddress+`api/image/${receiptId}/${imageId}`;
+            return await fetch(url, {
+                method: 'GET',
+                headers: getHeaders(false)
+            })
+        },
+
     }
 
 
