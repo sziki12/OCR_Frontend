@@ -48,6 +48,14 @@ export default function ReceiptTab() {
     const [value, setValue] = React.useState(0);
     let receiptData = ReceiptData()
 
+    const hasOcrResponse = ()=>{
+        return receiptData.receipt&&receiptData.receipt.ocrEntity
+    }
+
+    const hasImage = ()=>{
+        return receiptData.receipt&&receiptData.receipt.images&&receiptData.receipt.images.length>0
+    }
+
     useEffect(()=>{
         if(receiptData&&receiptData.updateReceipt)
         {
@@ -67,23 +75,37 @@ export default function ReceiptTab() {
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+
+    console.log(receiptData.receipt)
     return (
         <Box sx={{ width: '100%' }}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                     <Tab label="Place" {...a11yProps(0)} />
-                    <Tab label="Ocr Response" {...a11yProps(1)} />
-                    <Tab label="Uploaded Image" {...a11yProps(2)} />
+                    {
+                        (hasOcrResponse())
+                        ?
+                            <Tab label="Ocr Response" {...a11yProps(1)} />
+                        :
+                            <Tab label="Ocr Response" {...a11yProps(1)} disabled/>
+                    }
+                    {
+                        (hasImage())
+                            ?
+                            <Tab label="Uploaded Image" {...a11yProps(2)} />
+                            :
+                            <Tab label="Uploaded Image" {...a11yProps(2)} disabled/>
+                    }
                 </Tabs>
             </Box>
                 <TabPanel value={value} index={0}>
                     <ReceiptPlaceTab/>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
-                    <ReceiptResponseTab/>
+                    <ReceiptResponseTab isDisabled={!hasOcrResponse()}/>
                 </TabPanel>
                 <TabPanel value={value} index={2}>
-                    <ReceiptImageTab/>
+                    <ReceiptImageTab isDisabled={!hasImage()}/>
                 </TabPanel>
         </Box>
     );

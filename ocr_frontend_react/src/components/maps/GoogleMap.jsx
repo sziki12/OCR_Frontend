@@ -21,7 +21,6 @@ export default function GoogleMap(props)
     const placesToPass = (places&&places.length>0)?[...places,newPlace]:[newPlace]
 
     useEffect(() => {
-        console.log(placeData.places)
         setPlaces(placeData.places)
     }, [placeData.places]);
 

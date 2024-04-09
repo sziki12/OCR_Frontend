@@ -3,7 +3,7 @@ import * as React from "react";
 import ReceiptImageList from "../images/ReceiptImageList";
 
 
-export default function ReceiptImageTab(props)
+export default function ReceiptImageTab()
 {
 
     return(<>

@@ -8,7 +8,7 @@ import {getPlaces, getSingleReceipt} from "../utils/BackendAccess";
 import ReceiptState from "../states/ReceiptState";
 
 
-export default function ReceiptToggleEditableWrapper({receipt,setReceipt,children})
+export default function ReceiptToggleEditableWrapper({children})
 {
 
     const [viewMode,setViewMode] = useState({mode:"view"})
@@ -21,19 +21,17 @@ export default function ReceiptToggleEditableWrapper({receipt,setReceipt,childre
 
     return(
         <>
-            <ReceiptState>
-                <div className={"flex flex-row align-middle"}>
-                    <p>View Mode</p>
-                    <Switch onChange={handleSwitch}/>
-                    <p>Edit Mode</p>
-                </div>
-                <div className={"flex flex-row justify-between flex-grow"}>
-                    {
-                        <SingleReceipt isEditable={viewMode.mode==="edit"}/>
-                    }
-                    {children}
-                </div>
-            </ReceiptState>
+            <div className={"flex flex-row align-middle"}>
+                <p>View Mode</p>
+                <Switch onChange={handleSwitch}/>
+                <p>Edit Mode</p>
+            </div>
+            <div className={"flex flex-row justify-between flex-grow"}>
+                {
+                    <SingleReceipt isEditable={viewMode.mode==="edit"}/>
+                }
+                {children}
+            </div>
         </>
     )
 }

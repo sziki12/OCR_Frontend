@@ -25,7 +25,6 @@ export default function SingleReceipt(props) {
 
 
     useEffect(() => {
-        console.log(receiptData.receipt)
         setReceipt({...receiptData.receipt})
     }, [receiptData.receipt]);
 
@@ -61,7 +60,6 @@ export default function SingleReceipt(props) {
         setReceipt(updatedReceipt)
     }
     const update = async(updatedReceipt) => {
-        //e.preventDefault()
         await updateReceipt(updatedReceipt.id,updatedReceipt.description,updatedReceipt.dateOfPurchase,updatedReceipt.items)
         receiptData.setReceipt({
             ...updatedReceipt

@@ -4,7 +4,7 @@ import * as React from "react";
 import ReceiptToggleEditableWrapper from "../receipts/ReceiptToggleEditableWrapper";
 
 
-export default function ReceiptResponseTab(props)
+export default function ReceiptResponseTab()
 {
 
     return(<>

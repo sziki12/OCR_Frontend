@@ -25,8 +25,9 @@ export default function ReceiptState({children})
     const updateReceipt = (receiptId)=>{
         if(!receiptId)
             return
-        console.log(receiptId)
-        getSingleReceipt(receiptId).then((data)=>{setReceipt(data)})
+        getSingleReceipt(receiptId).then((data)=>{
+            setReceipt(data)
+        })
     }
 
     const updateAllReceipt = ()=>{
