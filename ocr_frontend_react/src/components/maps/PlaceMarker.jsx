@@ -4,19 +4,17 @@ import {Button} from "@mui/material";
 import PlacePin from "./pins/PlacePin";
 
 
-export default function PlaceMarker({place,refHandler,inSelectMode,select,receiptId})
+export default function PlaceMarker({place,refHandler,inSelectMode,select,receiptId,infoWindowShown,setInfoWindowShown})
 {
     const [markerRef, marker] = useAdvancedMarkerRef()
-    const [infoWindowShown,setInfoWindowShown] = useState(false)
     const [selectMode,setSelectMode] = useState(inSelectMode || false)
 
-    refHandler(marker,place.id)
-
     useEffect(() => {
-        return () => {
-            setInfoWindowShown(false);
-        };
-    }, []);
+        if (!marker) {
+            return;
+        }
+        refHandler(marker,place.id)
+    }, [marker]);
 
     const containsNumber = (array,value)=>
     {
@@ -36,22 +34,29 @@ export default function PlaceMarker({place,refHandler,inSelectMode,select,receip
         return containsNumber(place.receipts && place.receipts.map((receipt)=>{return receipt.id}),receiptId)
     }
 
+    //console.log(`Draw ${place.id} Marker`)
     return (
-        <>
+        <>W
             <AdvancedMarker
                 position={place}
                 ref={markerRef}
                 onClick={()=>{
-                    setInfoWindowShown(true)
-                    console.log(place)
+                    setInfoWindowShown({[place.id]:true})
                  }}
             >
                 {
-                    (infoWindowShown&&markerRef)
+                    (infoWindowShown[place.id])
                         ?
                         <InfoWindow
                             anchor={marker}
-                            onCloseClick={()=>setInfoWindowShown(false)}>
+                            onCloseClick={()=>{
+                                setInfoWindowShown((prev)=>{
+                                    const newInfoWindowShown = {...prev};
+                                    delete newInfoWindowShown[place.id];
+                                    return newInfoWindowShown;
+                                })
+                            }}
+                            shouldFocus={false}>
                             <h2>{place.name}</h2>
                             <p className={"pb-2"}>{place.description || "Desc"}</p>
                             {
