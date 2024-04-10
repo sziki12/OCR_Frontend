@@ -8,21 +8,27 @@ import {MarkerClusterer} from '@googlemaps/markerclusterer';
 import PlaceMarker from "./PlaceMarker";
 import {PlaceData} from "../states/PlaceState";
 import {assignPlace,removePlace} from "../utils/BackendAccess";
+import * as Utils from "../utils/Utils";
 
 export default function GoogleMap(props)
 {
     const placeData = PlaceData()
 
     const defaultLocation = [{id:1,lat: 47.507, lng: 19.045}];
-    let [newPlace,setNewPlace] = useState({})
-    const [places, setPlaces] = useState(placeData.places);
-    const canCreateMarker = props.canCreateMarker || false
 
-    const placesToPass = (places&&places.length>0)?[...places,newPlace]:[newPlace]
+    const [places, setPlaces] = useState(placeData.places);
+    const [selectedPlace, setSelectedPlace] = useState(props.selectedPlace);
+    const canCreateMarker = props.canCreateMarker || false
 
     useEffect(() => {
         setPlaces(placeData.places)
+        console.log(placeData.places)
+        console.log(selectedPlace)
     }, [placeData.places]);
+
+    useEffect(()=>{
+        setSelectedPlace(props.selectedPlace)
+    },[props.selectedPlace])
 
     const onSelect = async (placeId)=>
     {
@@ -43,15 +49,15 @@ export default function GoogleMap(props)
                                     lng:newLocation.lng,
                                     isNew:true,//TODO if isNew different colored Marker, when saved remove isNew
                                 }
-                                setNewPlace(newPlace)
-                                props.onMarkerCreated(newPlace)
-                                placeData.setPlaces([...placesToPass])
+                                console.log(newPlace)
+                                setSelectedPlace(newPlace)
+                                props.onSelectedPlaceChanged(newPlace)
                             }
                         }}
                         mapId={"3d321da67ef9306"}
                         defaultCenter={places && places[0] || defaultLocation[0]}
                         defaultZoom={12}>
-                        <Markers places={placesToPass} inSelectMode={props.inSelectMode} select={onSelect} receiptId={props.receiptId}/>
+                        <Markers places={(places&&places.length>0)?[...places,selectedPlace]:[selectedPlace]} inSelectMode={props.inSelectMode} select={onSelect} receiptId={props.receiptId}/>
                     </Map>
                 </div>
             </APIProvider>
@@ -62,6 +68,8 @@ const Markers = ({places,inSelectMode,select,receiptId}) => {
     const map = useMap();
     const [markers,setMarkers] = useState({});
     const clusterer = useRef(null);
+
+    const placesToShow = places.filter((place)=>(place&&place.id&&place.lat&&place.lng))
 
     useEffect(() => {
         if (!map) return;
@@ -90,11 +98,37 @@ const Markers = ({places,inSelectMode,select,receiptId}) => {
             }
         });
     };
+
+    const markersUpdate = ()=>{
+        if(!Utils.isObjectEmpty(markers))
+        {
+            for(let key in markers)
+            {
+                const marker = placesToShow.filter((place)=>(Number(place.id)===Number(key)))
+                if(marker.length<=0)
+                {
+                    console.log("REMOVED")
+                    console.log(key)
+                    setMarkerRef(null,key)
+                }
+            }
+        }
+
+    }
+
+    markersUpdate()
+
     return (
         <>
-            {places.map(place => (place&&place.id)?(
-                <PlaceMarker key={place.id} place={place} refHandler={setMarkerRef} inSelectMode={inSelectMode} select={select} receiptId={receiptId}/>
-            ):(<></>))}
+        {
+            placesToShow.map((place)=>
+                (place)
+                    ?
+                    <PlaceMarker key={place.id} place={place} refHandler={setMarkerRef} inSelectMode={inSelectMode} select={select} receiptId={receiptId}/>
+                    :
+                    <></>
+            )
+        }
         </>
     );
 };

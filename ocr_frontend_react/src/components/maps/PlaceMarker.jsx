@@ -47,7 +47,7 @@ export default function PlaceMarker({place,refHandler,inSelectMode,select,receip
                  }}
             >
                 {
-                    (infoWindowShown)
+                    (infoWindowShown&&markerRef)
                         ?
                         <InfoWindow
                             anchor={marker}
@@ -74,7 +74,7 @@ export default function PlaceMarker({place,refHandler,inSelectMode,select,receip
                         <></>
                 }
                 {
-                    <PlacePin validated={place.validated} selected={isPlaceSelected()}/>
+                    <PlacePin validated={place.validated} selected={isPlaceSelected()} isNew={place.isNew}/>
                 }
             </AdvancedMarker>
         </>
