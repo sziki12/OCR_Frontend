@@ -1,3 +1,5 @@
+
+
 function getAuth()
 {
     let token = getAuthToken()
@@ -234,9 +236,33 @@ const BackendAccess =
         async getImage(receiptId,imageId)
         {
             const url = baseAddress+`api/image/${receiptId}/${imageId}`;
-            return await fetch(url, {
+            const response =  await fetch(url, {
                 method: 'GET',
                 headers: getHeaders(false)
+            })
+            const reader = await response.body.getReader();
+            let chunks = [];
+            return reader.read().then(function processText({ done, value }) {
+
+                if (done) {
+                    console.log('Stream finished. Content received:')
+
+                    console.log(chunks);
+
+
+                    const blob = new Blob([chunks], { type: "image/jpg" });
+                    console.log(blob);
+
+                    return blob//URL.createObjectURL(blob)
+                }
+                console.log(`Received ${chunks.length} chars so far!`)
+                // console.log(value);
+                const tempArray = new Uint8Array(chunks.length + value.length);
+                tempArray.set(chunks);
+                tempArray.set(value, chunks.length);
+                chunks = tempArray
+
+                return reader.read().then(processText)
             })
         },
 
