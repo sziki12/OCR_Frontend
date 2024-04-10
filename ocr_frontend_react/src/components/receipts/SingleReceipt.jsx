@@ -4,7 +4,7 @@ import {Button,Input} from "@mui/material";
 import * as React from "react";
 import {useContext, useEffect, useState} from "react";
 import {updateReceipt,createNewItem} from "../utils/BackendAccess";
-import getDateToShow from "../utils/DateConverter";
+import getDateToShow from "../utils/Utils";
 import Paper from '@mui/material/Paper';
 import ItemDataGrid from "../items/ItemDataGrid";
 import {ReceiptData} from "../states/ReceiptState";
