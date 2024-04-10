@@ -34,9 +34,9 @@ export default function SingleReceipt(props) {
         return item
     }
 
-    const calculateTotalCost = ()=>{
+    const calculateTotalCost = (items)=>{
         let sum = 0
-        for(let item of receipt.items)
+        for(let item of items)
         {
             sum += item.totalCost
         }
@@ -55,7 +55,7 @@ export default function SingleReceipt(props) {
         const updatedReceipt = {
             ...receipt,
             items: items,
-            totalCost: calculateTotalCost()
+            totalCost: calculateTotalCost(items)
         }
         setReceipt(updatedReceipt)
     }

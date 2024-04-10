@@ -29,9 +29,15 @@ function EditToolbar(props) {
 
     return (
         <GridToolbarContainer>
-            <Button color="primary" startIcon={<FontAwesomeIcon icon={faPlus} />} onClick={handleClick}>
-                Add Item
-            </Button>
+            {
+                (props.isEditable)
+                ?
+                    <Button color="primary" startIcon={<FontAwesomeIcon icon={faPlus} />} onClick={handleClick}>
+                        Add Item
+                    </Button>
+                :
+                    <></>
+            }
         </GridToolbarContainer>
     );
 }
@@ -191,7 +197,7 @@ export default function ItemDataGrid(props)
                     toolbar: EditToolbar,
                 }}
                 slotProps={{
-                    toolbar: { setRows, setRowModesModel,insertItem },
+                    toolbar: { setRows, setRowModesModel,insertItem,isEditable },
                 }}
             />
         </Box>

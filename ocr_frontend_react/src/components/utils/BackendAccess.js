@@ -245,17 +245,16 @@ const BackendAccess =
             return reader.read().then(function processText({ done, value }) {
 
                 if (done) {
-                    console.log('Stream finished. Content received:')
+                    //console.log('Stream finished. Content received:')
 
-                    console.log(chunks);
+                    //console.log(chunks);
 
 
-                    const blob = new Blob([chunks], { type: "image/jpg" });
-                    console.log(blob);
+                    //console.log(blob);
 
-                    return blob//URL.createObjectURL(blob)
+                    return new Blob([chunks], {type: "image/jpg"})
                 }
-                console.log(`Received ${chunks.length} chars so far!`)
+                //console.log(`Received ${chunks.length} chars so far!`)
                 // console.log(value);
                 const tempArray = new Uint8Array(chunks.length + value.length);
                 tempArray.set(chunks);
