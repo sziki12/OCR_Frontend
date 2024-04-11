@@ -1,5 +1,4 @@
 import AllReceiptPage from "../pages/receipts/AllReceiptPage";
-import AddReceipt from "../pages/receipts/AddReceipt";
 import AddItem from "../pages/items/AddItem";
 import DeleteReceiptPage from "../pages/receipts/DeleteReceipt";
 import DeleteItemPage from "../pages/items/DeleteItemPage";
@@ -24,11 +23,6 @@ export default function RouteProvider(isAuthenticated)
     {
         path:'/receipts/:receiptId',
         element:<ReceiptMainPage/>,
-        isProtected:true,
-    },
-    {
-        path:'/create/receipts',
-        element:<AddReceipt/>,
         isProtected:true,
     },
     {

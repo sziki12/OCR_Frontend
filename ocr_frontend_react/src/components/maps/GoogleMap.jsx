@@ -90,7 +90,7 @@ const Markers = ({places,inSelectMode,select,receiptId}) => {
     }, [markers]);
 
     const setMarkerRef = (ref, key) => {
-        console.log(`markers[key]: ${markers[key]}  ${key}`)
+        //console.log(`markers[key]: ${markers[key]}  ${key}`)
         if (ref && markers[key]) return;
         if (!ref && !markers[key]) return;
 

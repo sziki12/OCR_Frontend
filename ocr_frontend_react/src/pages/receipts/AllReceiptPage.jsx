@@ -9,13 +9,13 @@ import {useNavigate} from "react-router-dom";
 import {getReceipts} from "../../components/utils/BackendAccess";
 import ReceiptState from "../../components/states/ReceiptState";
 import NewReceiptDialog from "../../components/receipts/NewReceiptDialog";
+import ReceiptDeleteDialog from "../../components/receipts/ReceiptDeleteDialog";
 
 export default function AllReceiptPage() {
 
     const navigate = useNavigate();
     const [receipts,setReceipts] = useState([])
-    const [open,setOpen] = useState(false)
-
+    const [addOpen,setAddOpen] = useState(false)
     useEffect(()=>{
         getReceipts().then((data)=>{{
             setReceipts(data)
@@ -25,10 +25,10 @@ export default function AllReceiptPage() {
 
     return (
         <>
-            <Button onClick={()=>{setOpen(true)}}><FontAwesomeIcon icon={faPlus}  size={"xl"}/></Button>
+            <Button onClick={()=>{setAddOpen(true)}}><FontAwesomeIcon icon={faPlus}  size={"xl"}/></Button>
             <Button onClick={()=>{navigate("/upload/image")}}><FontAwesomeIcon icon={faFileArrowUp}  size={"xl"}/></Button>
             <ReceiptState>
-                <NewReceiptDialog open={open} close={()=>setOpen(false)}></NewReceiptDialog>
+                <NewReceiptDialog open={addOpen} close={()=>setAddOpen(false)}></NewReceiptDialog>
                 <div className="flex flex-wrap flex-row">
                     <AllReceipts/>
                 </div>

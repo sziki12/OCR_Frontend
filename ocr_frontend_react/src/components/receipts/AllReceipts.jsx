@@ -7,12 +7,13 @@ import Item from "../items/Item";
 import Paper from '@mui/material/Paper';
 import {ReceiptData} from "../states/ReceiptState";
 import {useEffect, useState} from "react";
+import ReceiptDeleteDialog from "./ReceiptDeleteDialog";
 
 
 export default function AllReceipts()
 {
     const navigate = useNavigate()
-    //TODO Fix Delete Receipt Page
+    const [open,setOpen] = useState({})
     const receiptLayout = (receipt)=> <>
         <Paper key={receipt.id} elevation={12} className="px-10 py-6 m-5 bg-blue-50">
             <p className={"text-black"}><FontAwesomeIcon icon={faMessage} color={"Dodgerblue"}/> {receipt.description}</p>
@@ -22,7 +23,7 @@ export default function AllReceipts()
             <Button onClick={()=>{navigate("/receipts/"+receipt.id)}}>
                 <FontAwesomeIcon icon={faEye} width={30}/>
             </Button>
-            <Button className={"text-red-700"} onClick={()=>{navigate("/delete/receipts/"+receipt.id)}}>
+            <Button className={"text-red-700"} onClick={()=>{setOpen({[receipt.id]:true})}}>
                 <FontAwesomeIcon icon={faTrashCan} width={25} color={"red"}/>
             </Button>
         </Paper>
@@ -37,7 +38,7 @@ export default function AllReceipts()
             <Button disabled={true} onClick={()=>{navigate("/receipts/"+receipt.id)}}>
                 <FontAwesomeIcon icon={faEye} color={"grey"} width={30}/>
             </Button>
-            <Button disabled={true} onClick={()=>{navigate("/delete/receipts/"+receipt.id)}}>
+            <Button disabled={true} onClick={()=>{setOpen({[receipt.id]:true})}}>
                 <FontAwesomeIcon icon={faTrashCan} width={25} color={"grey"}/>
             </Button>
         </Paper>
@@ -46,6 +47,13 @@ export default function AllReceipts()
 
     const receiptData = ReceiptData()
     const [receipts,setReceipts] = useState({})
+
+    const closeDialog = (receiptId)=>
+        setOpen((prev)=>{
+            const newOpen = {...prev};
+            delete newOpen[receiptId];
+            return newOpen;
+        })
 
     useEffect(() => {
         setReceipts(receiptData.allReceipt)
@@ -58,12 +66,20 @@ export default function AllReceipts()
                 receipts?.map((receipt)=>
                 {
                     return  (
-                        (receipt.pending)
-                            ?
-                            pendingLayout(receipt)
-                            :
-                            receiptLayout(receipt)
-                    )
+                        <>
+                            <ReceiptDeleteDialog
+                                open={open[receipt.id]}
+                                close={()=>closeDialog(receipt.id)}
+                                receiptId={receipt.id}
+                            />
+                            {
+                                (receipt.pending)
+                                    ?
+                                        pendingLayout(receipt)
+                                    :
+                                        receiptLayout(receipt)
+                            }
+                        </>)
                 })
                 :
                 <></>
