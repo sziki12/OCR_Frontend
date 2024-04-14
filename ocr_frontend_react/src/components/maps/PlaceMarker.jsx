@@ -14,6 +14,11 @@ export default function PlaceMarker({place,refHandler,inSelectMode,select,receip
             return;
         }
         refHandler(marker,place.id)
+
+        return () => {
+            refHandler(null,place.id)
+            markerRef(null)
+        }
     }, [marker]);
 
     const containsNumber = (array,value)=>
@@ -45,10 +50,8 @@ export default function PlaceMarker({place,refHandler,inSelectMode,select,receip
                  }}
             >
                 {
-                    (infoWindowShown[place.id])
-                        ?
                         <InfoWindow
-                            anchor={marker}
+                            anchor={(infoWindowShown[place.id])?marker:null}
                             onCloseClick={()=>{
                                 setInfoWindowShown((prev)=>{
                                     const newInfoWindowShown = {...prev};
@@ -75,8 +78,6 @@ export default function PlaceMarker({place,refHandler,inSelectMode,select,receip
                                     <></>
                             }
                         </InfoWindow>
-                        :
-                        <></>
                 }
                 {
                     <PlacePin validated={place.validated} selected={isPlaceSelected()} isNew={place.isNew}/>

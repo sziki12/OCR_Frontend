@@ -79,6 +79,13 @@ const Markers = ({places,inSelectMode,select,receiptId}) => {
         if (!clusterer.current) {
             clusterer.current = new MarkerClusterer({ map });
         }
+
+        return () => {
+            clusterer.current = new MarkerClusterer({ map });
+            clusterer.current?.clearMarkers();
+            markersUpdate()
+            setMarkers({})
+        }
     }, [map]);
 
     useEffect(() => {
