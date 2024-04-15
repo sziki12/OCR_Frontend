@@ -81,9 +81,7 @@ const Markers = ({places,inSelectMode,select,receiptId}) => {
         }
 
         return () => {
-            clusterer.current = new MarkerClusterer({ map });
             clusterer.current?.clearMarkers();
-            markersUpdate()
             setMarkers({})
         }
     }, [map]);
@@ -94,6 +92,7 @@ const Markers = ({places,inSelectMode,select,receiptId}) => {
         //console.log(markers)
         clusterer.current?.clearMarkers();
         clusterer.current?.addMarkers(Object.values(markers));
+        markersUpdate()
     }, [markers]);
 
     const setMarkerRef = (ref, key) => {

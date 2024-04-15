@@ -1,6 +1,6 @@
 import {AdvancedMarker, InfoWindow, Pin, useAdvancedMarkerRef} from "@vis.gl/react-google-maps";
 import {useEffect, useState} from "react";
-import {Button} from "@mui/material";
+import {Button, Dialog} from "@mui/material";
 import PlacePin from "./pins/PlacePin";
 
 
@@ -9,6 +9,7 @@ export default function PlaceMarker({place,refHandler,inSelectMode,select,receip
     const [markerRef, marker] = useAdvancedMarkerRef()
     const [selectMode,setSelectMode] = useState(inSelectMode || false)
 
+    const isOpen = infoWindowShown[place.id] || false
     useEffect(() => {
         if (!marker) {
             return;
@@ -41,7 +42,7 @@ export default function PlaceMarker({place,refHandler,inSelectMode,select,receip
 
     //console.log(`Draw ${place.id} Marker`)
     return (
-        <>W
+        <>
             <AdvancedMarker
                 position={place}
                 ref={markerRef}
@@ -50,34 +51,37 @@ export default function PlaceMarker({place,refHandler,inSelectMode,select,receip
                  }}
             >
                 {
-                        <InfoWindow
-                            anchor={(infoWindowShown[place.id])?marker:null}
-                            onCloseClick={()=>{
-                                setInfoWindowShown((prev)=>{
-                                    const newInfoWindowShown = {...prev};
-                                    delete newInfoWindowShown[place.id];
-                                    return newInfoWindowShown;
-                                })
-                            }}
-                            shouldFocus={false}>
+
+                    <Dialog
+                        open={isOpen}
+                        onClose={()=>{
+                            setInfoWindowShown((prev)=>{
+                                const newInfoWindowShown = {...prev};
+                                delete newInfoWindowShown[place.id];
+                                return newInfoWindowShown;
+                            })
+                        }}
+                    >
+                        <div className={"py-2 px-5"}>
                             <h2>{place.name}</h2>
-                            <p className={"pb-2"}>{place.description || "Desc"}</p>
+                            <p className={"pb-2"}>{place.description || "Description..."}</p>
                             {
                                 (selectMode)
                                     ?
-                                        (isPlaceSelected())
+                                    (isPlaceSelected())
                                         ?
-                                            <><Button variant={"contained"} color={"error"} onClick={()=>select()}>
-                                                Unselect
-                                            </Button></>
+                                        <><Button variant={"contained"} color={"error"} onClick={()=>select()}>
+                                            Unselect
+                                        </Button></>
                                         :
-                                            <><Button variant={"contained"} onClick={()=>select(place.id)}>
-                                                Select
-                                            </Button></>
+                                        <><Button variant={"contained"} onClick={()=>select(place.id)}>
+                                            Select
+                                        </Button></>
                                     :
                                     <></>
                             }
-                        </InfoWindow>
+                        </div>
+                    </Dialog>
                 }
                 {
                     <PlacePin validated={place.validated} selected={isPlaceSelected()} isNew={place.isNew}/>
