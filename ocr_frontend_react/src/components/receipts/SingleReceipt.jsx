@@ -74,7 +74,13 @@ export default function SingleReceipt(props) {
                     <ItemDataGrid insertItem={insertItem} items={receipt.items} saveItems={saveItems} isEditable={isEditable}></ItemDataGrid>
                 </div>
                 <div>
-                    <Button onClick={()=>update(receipt)}>Submit</Button>
+                    {
+                        (isEditable)
+                            ?
+                            <Button onClick={()=>update(receipt)}>Submit</Button>
+                            :
+                            <></>
+                    }
                 </div>
             </Paper>
         </div>

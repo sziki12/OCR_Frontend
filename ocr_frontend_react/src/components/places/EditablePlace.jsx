@@ -22,13 +22,13 @@ export default function EditablePlace(props)
         isValid:undefined
     })
 
+    const onSelectedPlaceChanged = (place) => {
+        setSelectedPlace({...selectedPlace,...place})
+    }
+
 
     const onChange = (e)=>{
         setSelectedPlace({...selectedPlace,[e.target.name]:e.target.value})
-    }
-
-    const onMarkerCreated = async (place) => {
-        setSelectedPlace({...selectedPlace,...place})
     }
 
     useEffect(()=>{
@@ -58,8 +58,10 @@ export default function EditablePlace(props)
                             setSelectedPlace({
                                 name:"",
                                 lat:undefined,
-                                lng:undefined
+                                lng:undefined,
+                                id:undefined
                             })
+                            placeData.updatePlaces()
                             setAttempt({isValid: true})
                         }
                         else setAttempt({isValid: false})
@@ -70,7 +72,10 @@ export default function EditablePlace(props)
                     </Button>
                 </div>
                 <div className={"flex justify-center"}>
-                    <GoogleMap places={places} canCreateMarker={true} onMarkerCreated={onMarkerCreated}/>
+                    <GoogleMap
+                        canCreateMarker={true}
+                        selectedPlace={selectedPlace}
+                        onSelectedPlaceChanged={onSelectedPlaceChanged}/>
                 </div>
                 <div className={"flex justify-center"}>
                     {
