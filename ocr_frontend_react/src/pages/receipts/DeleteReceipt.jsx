@@ -1,21 +1,18 @@
-import {useNavigate, useParams} from "react-router-dom";
-import MainSection from "../../components/utils/MainSection";
-import {Receipt} from "@mui/icons-material";
+import {useNavigate} from "react-router-dom";
 import {Button} from "@mui/material";
 import {deleteReceipts} from "../../components/utils/BackendAccess";
 
 
 
-export default function DeleteReceiptPage()
+export default function DeleteReceiptPage({receiptId})
 {
     const navigate = useNavigate()
-    const params = useParams()
 
     return(
         <>
             <p>Are you sure you would like to delete this receipt?</p>
             <div className={""}>
-                <Button onClick={()=>{deleteReceipts(params.receiptId).then(()=>{navigate("/receipts")})}}>Delete</Button>
+                <Button onClick={()=>{deleteReceipts(receiptId).then(()=>{navigate("/receipts")})}}>Delete</Button>
                 <Button onClick={()=>{navigate("/receipts")}}>Back</Button>
             </div>
         </>

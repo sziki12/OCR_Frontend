@@ -1,22 +1,26 @@
 import {AdvancedMarker, InfoWindow, Pin, useAdvancedMarkerRef} from "@vis.gl/react-google-maps";
 import {useEffect, useState} from "react";
-import {Button} from "@mui/material";
+import {Button, Dialog} from "@mui/material";
 import PlacePin from "./pins/PlacePin";
 
 
-export default function PlaceMarker({place,refHandler,inSelectMode,select,receiptId})
+export default function PlaceMarker({place,refHandler,inSelectMode,select,receiptId,infoWindowShown,setInfoWindowShown})
 {
     const [markerRef, marker] = useAdvancedMarkerRef()
-    const [infoWindowShown,setInfoWindowShown] = useState(false)
     const [selectMode,setSelectMode] = useState(inSelectMode || false)
 
-    refHandler(marker,place.id)
-
+    const isOpen = infoWindowShown[place.id] || false
     useEffect(() => {
+        if (!marker) {
+            return;
+        }
+        refHandler(marker,place.id)
+
         return () => {
-            setInfoWindowShown(false);
-        };
-    }, []);
+            refHandler(null,place.id)
+            markerRef(null)
+        }
+    }, [marker]);
 
     const containsNumber = (array,value)=>
     {
@@ -36,45 +40,51 @@ export default function PlaceMarker({place,refHandler,inSelectMode,select,receip
         return containsNumber(place.receipts && place.receipts.map((receipt)=>{return receipt.id}),receiptId)
     }
 
+    //console.log(`Draw ${place.id} Marker`)
     return (
         <>
             <AdvancedMarker
                 position={place}
                 ref={markerRef}
                 onClick={()=>{
-                    setInfoWindowShown(true)
-                    console.log(place)
+                    setInfoWindowShown({[place.id]:true})
                  }}
             >
                 {
-                    (infoWindowShown)
-                        ?
-                        <InfoWindow
-                            anchor={marker}
-                            onCloseClick={()=>setInfoWindowShown(false)}>
+
+                    <Dialog
+                        open={isOpen}
+                        onClose={()=>{
+                            setInfoWindowShown((prev)=>{
+                                const newInfoWindowShown = {...prev};
+                                delete newInfoWindowShown[place.id];
+                                return newInfoWindowShown;
+                            })
+                        }}
+                    >
+                        <div className={"py-2 px-5"}>
                             <h2>{place.name}</h2>
-                            <p className={"pb-2"}>{place.description || "Desc"}</p>
+                            <p className={"pb-2"}>{place.description || "Description..."}</p>
                             {
                                 (selectMode)
                                     ?
-                                        (isPlaceSelected())
+                                    (isPlaceSelected())
                                         ?
-                                            <><Button variant={"contained"} color={"error"} onClick={()=>select()}>
-                                                Unselect
-                                            </Button></>
+                                        <><Button variant={"contained"} color={"error"} onClick={()=>select()}>
+                                            Unselect
+                                        </Button></>
                                         :
-                                            <><Button variant={"contained"} onClick={()=>select(place.id)}>
-                                                Select
-                                            </Button></>
+                                        <><Button variant={"contained"} onClick={()=>select(place.id)}>
+                                            Select
+                                        </Button></>
                                     :
                                     <></>
                             }
-                        </InfoWindow>
-                        :
-                        <></>
+                        </div>
+                    </Dialog>
                 }
                 {
-                    <PlacePin validated={place.validated} selected={isPlaceSelected()}/>
+                    <PlacePin validated={place.validated} selected={isPlaceSelected()} isNew={place.isNew}/>
                 }
             </AdvancedMarker>
         </>

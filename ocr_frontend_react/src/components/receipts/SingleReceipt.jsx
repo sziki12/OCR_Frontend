@@ -4,7 +4,7 @@ import {Button,Input} from "@mui/material";
 import * as React from "react";
 import {useContext, useEffect, useState} from "react";
 import {updateReceipt,createNewItem} from "../utils/BackendAccess";
-import getDateToShow from "../utils/DateConverter";
+import getDateToShow from "../utils/Utils";
 import Paper from '@mui/material/Paper';
 import ItemDataGrid from "../items/ItemDataGrid";
 import {ReceiptData} from "../states/ReceiptState";
@@ -34,9 +34,9 @@ export default function SingleReceipt(props) {
         return item
     }
 
-    const calculateTotalCost = ()=>{
+    const calculateTotalCost = (items)=>{
         let sum = 0
-        for(let item of receipt.items)
+        for(let item of items)
         {
             sum += item.totalCost
         }
@@ -55,7 +55,7 @@ export default function SingleReceipt(props) {
         const updatedReceipt = {
             ...receipt,
             items: items,
-            totalCost: calculateTotalCost()
+            totalCost: calculateTotalCost(items)
         }
         setReceipt(updatedReceipt)
     }
@@ -74,7 +74,13 @@ export default function SingleReceipt(props) {
                     <ItemDataGrid insertItem={insertItem} items={receipt.items} saveItems={saveItems} isEditable={isEditable}></ItemDataGrid>
                 </div>
                 <div>
-                    <Button onClick={()=>update(receipt)}>Submit</Button>
+                    {
+                        (isEditable)
+                            ?
+                            <Button onClick={()=>update(receipt)}>Submit</Button>
+                            :
+                            <></>
+                    }
                 </div>
             </Paper>
         </div>

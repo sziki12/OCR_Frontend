@@ -11,9 +11,7 @@ export function updateRouter(isAuthenticated)
 {
     let router = createRouter(isAuthenticated)
     root.render(
-        <React.StrictMode>
             <RouterProvider router={router} />
-        </React.StrictMode>
     );
 }
 
@@ -33,9 +31,7 @@ let router = createRouter(false)
 
 let root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <React.StrictMode>
-        <RouterProvider router={router} />
-    </React.StrictMode>
+    <RouterProvider router={router} />
 );
 
 // If you want to start measuring performance in your app, pass a function

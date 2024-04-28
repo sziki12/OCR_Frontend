@@ -11,7 +11,7 @@ export default function ReceiptResponseTab()
     return(<>
         <OcrResponseState>
             <div className={"flex flex-row justify-between"}>
-                <div className="w-1/2">
+                <div className="h-1/2">
                     <ReceiptToggleEditableWrapper/>
                 </div>
                 <div className="w-1/2 bg-blue-50">
