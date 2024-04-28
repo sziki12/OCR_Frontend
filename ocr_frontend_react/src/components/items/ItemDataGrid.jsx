@@ -29,9 +29,15 @@ function EditToolbar(props) {
 
     return (
         <GridToolbarContainer>
-            <Button color="primary" startIcon={<FontAwesomeIcon icon={faPlus} />} onClick={handleClick}>
-                Add Item
-            </Button>
+            {
+                (props.isEditable)
+                ?
+                    <Button color="primary" startIcon={<FontAwesomeIcon icon={faPlus} />} onClick={handleClick}>
+                        Add Item
+                    </Button>
+                :
+                    <></>
+            }
         </GridToolbarContainer>
     );
 }
@@ -40,8 +46,13 @@ function EditToolbar(props) {
 export default function ItemDataGrid(props)
 {
 
+    let isEditable = props.isEditable || false
+
     useEffect(() => {
-        setRows([...props.items])
+        if(props.items && props.items.length>0)
+            setRows([...props.items])
+        else
+            setRows([])
     }, [props.items]);
 
     const insertItem = props.insertItem
@@ -93,20 +104,20 @@ export default function ItemDataGrid(props)
     };
 
     const columns = [
-        { field: 'name', headerName: 'Name', width: 220, editable: true },
+        { field: 'name', headerName: 'Name', width: 220, editable: isEditable },
         {
             field: 'quantity',
             headerName: 'Quantity',
             type: 'number',
             width: 140,
-            editable: true,
+            editable: isEditable,
         },
         {
             field: 'totalCost',
             headerName: 'Cost',
             type: 'number',
             width: 140,
-            editable: true,
+            editable: isEditable,
         },
         {
             field: 'actions',
@@ -116,6 +127,11 @@ export default function ItemDataGrid(props)
             cellClassName: 'actions',
             getActions: ({ id }) => {
                 const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
+
+                if(!isEditable)
+                {
+                    return []
+                }
 
                 if (isInEditMode) {
                     return [
@@ -181,7 +197,7 @@ export default function ItemDataGrid(props)
                     toolbar: EditToolbar,
                 }}
                 slotProps={{
-                    toolbar: { setRows, setRowModesModel,insertItem },
+                    toolbar: { setRows, setRowModesModel,insertItem,isEditable },
                 }}
             />
         </Box>

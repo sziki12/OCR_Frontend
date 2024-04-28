@@ -20,28 +20,17 @@ const UploadAndDisplayImage = (props) => {
     //waiting, processing, processed
     const [processingState, setProcessingState] = useState("waiting");
 
-    const [response, setResponse] = useState({
-        extractedItems:[],
-        filteredReceipt:[],
-        plainText:[],
-        newReceiptId:-1,
-    });
-
     const uploadImageWrapper = async (file) => {
         const formData = new FormData();
         formData.append('file',file,file.name);
         setImageData(formData);
         setProcessingState("processing")
-        setResponse(await uploadImageForOCR(formData))
-        setProcessingState("processed")
+        setTimeout(()=>navigate("/receipts"),1500)
+        await uploadImageForOCR(formData)
     }
 
     return (
             <div className={"flex flex-row justify-center"}>
-                {
-                    (processingState==="processed") &&
-                    <ReceiptsFromImagePage response={response}/>
-                }
 
                 <div className={"w-1/3 px-10 py-6 m-5 bg-blue-50 shadow rounded"}>
                     <h1>Upload the Receipt for analysis</h1>

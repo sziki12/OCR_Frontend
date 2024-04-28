@@ -78,7 +78,6 @@ export default function LoginHandler({children})
 
     const logout = () => {
         setUser({userName: "",isAuthenticated: false})
-        //TODO Call Backend Logout
         navigate("/login")
         setAuthToken("")
         updateRouter(false)

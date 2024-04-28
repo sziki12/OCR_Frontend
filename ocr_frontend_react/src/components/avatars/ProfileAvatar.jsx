@@ -14,7 +14,7 @@ export default function ProfileAvatar()
     const isPopperOpen = Boolean(anchorElement);
     const popper_id = isPopperOpen ? 'simple-popper' : undefined;
 
-    return(<>
+    return(<div className={"px-2"}>
         <Avatar onClick={handleClick} sx={name.sx}>{name.children}</Avatar>
         <Popper id={popper_id} open={isPopperOpen} anchorEl={anchorElement}>
             <Card>
@@ -31,7 +31,7 @@ export default function ProfileAvatar()
                 </CardActions>
             </Card>
         </Popper>
-    </>)
+    </div>)
 }
 
 function stringToColor(string) {
