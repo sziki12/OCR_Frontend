@@ -14,6 +14,12 @@ export default function AllReceipts({filterValue})
 {
     const navigate = useNavigate()
     const [open,setOpen] = useState({})
+
+    const receiptNames = filterValue.receiptNames.map((name)=>{return name.label})
+    const placeNames = filterValue.placeNames.map((name)=>{return name.label})
+
+    console.log(receiptNames)
+    console.log(placeNames)
     const receiptLayout = (receipt)=> <>
         <Paper key={receipt.id} elevation={12} className="px-10 py-6 m-5 bg-blue-50">
             <p className={"text-black"}><FontAwesomeIcon icon={faMessage} color={"Dodgerblue"}/> {receipt.name}</p>
@@ -65,21 +71,27 @@ export default function AllReceipts({filterValue})
                 ?
                 receipts?.filter((receipt)=>{
                     //name not in filtered category
-                    if(receipt.name !== filterValue.receiptName && !filterValue.emptyValues.includes(filterValue.receiptName)) {
+                    if(!receiptNames.includes(receipt.name) && receiptNames.filter((name)=>{return filterValue.emptyValues.includes(name)}).length===0) {
                         return false
                     }
                     //place not in filtered category
-                    else if(receipt.placeName !== filterValue.placeName && !filterValue.emptyValues.includes(filterValue.placeName)
-                    && filterValue.placeName !== filterValue.unassignedValue)
+
+                    if(receipt.placeName != null)
                     {
-                        return false
+                        if(!placeNames.includes(receipt.placeName) && placeNames.filter((name)=>{return filterValue.emptyValues.includes(name)}).length===0)
+                        {
+                            return false
+                        }
                     }
-                    //place not unassigned
-                    else if(filterValue.placeName === filterValue.unassignedValue
-                    && receipt.placeName != null)
+                    else
                     {
-                        return false;
+                        if(!placeNames.includes(filterValue.unassignedValue) && placeNames.filter((name)=>{return filterValue.emptyValues.includes(name)}).length===0)//TODO on ALL not shown
+                        {
+                            return false;
+                        }
+
                     }
+
                     return true;
                 })?.map((receipt)=>
                 {

@@ -19,24 +19,25 @@ export default function AllReceiptPage() {
     const emptyValues = ["All",""]
     const unassignedValue = "Unassigned"
     const [filterValue,setFilterValue] = useState({
-        receiptName:emptyValues[0],
-        placeName:emptyValues[0],
+        receiptNames:[{label:emptyValues[0]}],
+        placeNames:[{label:emptyValues[0]}],
         emptyValues:emptyValues,
         unassignedValue:unassignedValue
     })
 
-    const updateReceiptNameFilter = (name)=>{
+    const updateReceiptNameFilter = (names)=>{
         setFilterValue((prev)=>{
-            return ({...prev,receiptName: name})
+            return ({...prev,receiptNames: names})
         })
     }
 
-    const updatePlaceNameFilter = (name)=>{
+    const updatePlaceNameFilter = (names)=>{
         setFilterValue((prev)=>{
-            return ({...prev,placeName: name})
+            return ({...prev,placeNames: names})
         })
     }
 
+    console.log(filterValue)
     const [filterOptions,setFilterOptions] = useState({
         placeNames:[],
         receiptNames:[],
@@ -62,13 +63,13 @@ export default function AllReceiptPage() {
                 <FilterSearchBar
                 options={filterOptions.receiptNames}
                 emptyValues={emptyValues}
-                updateInputValue={updateReceiptNameFilter}
+                updateValue={updateReceiptNameFilter}
                 name={"Receipt Name Search"}
                 />
                 <FilterSearchBar
                     options={filterOptions.placeNames}
                     emptyValues={emptyValues}
-                    updateInputValue={updatePlaceNameFilter}
+                    updateValue={updatePlaceNameFilter}
                     name={"Place Name Search"}
                 />
             </div>
