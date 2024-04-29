@@ -73,26 +73,26 @@ const BackendAccess =
             return await receiptsRequest.json()
         },
 
-        async createReceipt(description,dateOfPurchase)
+        async createReceipt(name,dateOfPurchase)
         {
             let receiptsRequest = await fetch(baseAddress+'api/receipt', {
                 method: 'POST',
                 headers: getHeaders(true),
                 body: JSON.stringify({
-                    description,
+                    name,
                     dateOfPurchase,
                     items:[],
                 }),
             });
         },
 
-        async updateReceipt(receiptId,description,dateOfPurchase,items)
+        async updateReceipt(receiptId,name,dateOfPurchase,items)
         {
             let receiptsRequest = await fetch(baseAddress+'api/receipt/'+receiptId, {
                 method: 'PUT',
                 headers: getHeaders(true),
                 body: JSON.stringify({
-                    description,
+                    name,
                     dateOfPurchase,
                     items
                 }),
@@ -264,6 +264,26 @@ const BackendAccess =
                 return reader.read().then(processText)
             })
         },
+
+        async getPlaceByReceiptId(receiptId)
+        {
+            const url = baseAddress+`api/place/${receiptId}`;
+            const response =  await fetch(url, {
+                method: 'GET',
+                headers: getHeaders(false)
+            })
+            return await response.json();
+        },
+
+        async  getFilterOptions()
+        {
+            const url = baseAddress+`api/filter`;
+            const response =  await fetch(url, {
+                method: 'GET',
+                headers: getHeaders(false)
+            })
+            return await response.json();
+        }
 
     }
 

@@ -15,7 +15,7 @@ export default function ReceiptPlaceTab(props)
     const receiptId = params.receiptId
 
     const [receipt,setReceipt] = useState({
-        description:"",
+        name:"",
         dateOfPurchase:new Date(),
         items:[],
         totalCost:0

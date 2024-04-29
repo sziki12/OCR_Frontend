@@ -14,7 +14,7 @@ export default function ReceiptState({children})
     const params = useParams()
     const [receipt,setReceipt] = useState({
         id:-1,
-        description:"",
+        name:"",
         dateOfPurchase:new Date(),
         items:[],
         totalCost:0

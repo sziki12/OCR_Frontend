@@ -10,13 +10,13 @@ import {useEffect, useState} from "react";
 import ReceiptDeleteDialog from "./ReceiptDeleteDialog";
 
 
-export default function AllReceipts()
+export default function AllReceipts({filterValue})
 {
     const navigate = useNavigate()
     const [open,setOpen] = useState({})
     const receiptLayout = (receipt)=> <>
         <Paper key={receipt.id} elevation={12} className="px-10 py-6 m-5 bg-blue-50">
-            <p className={"text-black"}><FontAwesomeIcon icon={faMessage} color={"Dodgerblue"}/> {receipt.description}</p>
+            <p className={"text-black"}><FontAwesomeIcon icon={faMessage} color={"Dodgerblue"}/> {receipt.name}</p>
             <p className={"text-black"}><FontAwesomeIcon icon={faCalendar}/> {new Date(receipt.dateOfPurchase).toLocaleDateString()}</p>
             <p className={"text-black"}><FontAwesomeIcon icon={faMoneyBill} color={"green"} /> {receipt.totalCost+" "}</p>
 
@@ -31,7 +31,7 @@ export default function AllReceipts()
 
     const pendingLayout = (receipt)=> <>
         <Paper key={receipt.id} elevation={12} className="px-10 py-6 m-5 bg-gray-500">
-            <p className={"text-gray-700"}><FontAwesomeIcon icon={faMessage} color={"grey"}/> {receipt.description}</p>
+            <p className={"text-gray-700"}><FontAwesomeIcon icon={faMessage} color={"grey"}/> {receipt.name}</p>
             <p className={"text-gray-700"}><FontAwesomeIcon icon={faCalendar} color={"grey"}/> {new Date(receipt.dateOfPurchase).toLocaleDateString()}</p>
             <p className={"text-gray-700"}><FontAwesomeIcon icon={faMoneyBill} color={"grey"} /> {receipt.totalCost+" "}</p>
 
@@ -63,7 +63,25 @@ export default function AllReceipts()
         <>
             {(receipts.length>0)
                 ?
-                receipts?.map((receipt)=>
+                receipts?.filter((receipt)=>{
+                    //name not in filtered category
+                    if(receipt.name !== filterValue.receiptName && !filterValue.emptyValues.includes(filterValue.receiptName)) {
+                        return false
+                    }
+                    //place not in filtered category
+                    else if(receipt.placeName !== filterValue.placeName && !filterValue.emptyValues.includes(filterValue.placeName)
+                    && filterValue.placeName !== filterValue.unassignedValue)
+                    {
+                        return false
+                    }
+                    //place not unassigned
+                    else if(filterValue.placeName === filterValue.unassignedValue
+                    && receipt.placeName != null)
+                    {
+                        return false;
+                    }
+                    return true;
+                })?.map((receipt)=>
                 {
                     return  (
                         <>

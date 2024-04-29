@@ -15,7 +15,7 @@ export default function SingleReceipt(props) {
 
     const [receipt, setReceipt] = useState({
         id:-1,
-        description:"",
+        name:"",
         dateOfPurchase:new Date(),
         items:[],
         totalCost:0,
@@ -60,7 +60,7 @@ export default function SingleReceipt(props) {
         setReceipt(updatedReceipt)
     }
     const update = async(updatedReceipt) => {
-        await updateReceipt(updatedReceipt.id,updatedReceipt.description,updatedReceipt.dateOfPurchase,updatedReceipt.items)
+        await updateReceipt(updatedReceipt.id,updatedReceipt.name,updatedReceipt.dateOfPurchase,updatedReceipt.items)
         receiptData.setReceipt({
             ...updatedReceipt
         })
@@ -105,9 +105,9 @@ function ReceiptHeader(props)
                             multiline={true}
                             autoFocus={true}
                             className={"text-black"}
-                            placeholder="Description"
-                            value={receipt.description}
-                            name={"description"}
+                            placeholder="Name"
+                            value={receipt.name}
+                            name={"name"}
                             onChange={onChange}
                         />
                         <br/>
@@ -129,7 +129,7 @@ function ReceiptHeader(props)
                     </>
                 :
                     <>
-                        <p className={"text-black"}><FontAwesomeIcon icon={faMessage} color={"Dodgerblue"}/> {receipt.description}</p>
+                        <p className={"text-black"}><FontAwesomeIcon icon={faMessage} color={"Dodgerblue"}/> {receipt.name}</p>
                         <p className={"text-black"}><FontAwesomeIcon icon={faCalendar}/> {new Date(receipt.dateOfPurchase).toLocaleDateString()}</p>
                         <p className={"text-black"}><FontAwesomeIcon icon={faMoneyBill} color={"green"} /> {receipt.totalCost+" "}</p>
                     </>

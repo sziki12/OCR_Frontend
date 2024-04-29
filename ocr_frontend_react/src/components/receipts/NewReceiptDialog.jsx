@@ -15,7 +15,7 @@ export default function NewReceiptDialog({open,close})
 
     const [receipt, setReceipt] = useState({
         id:-1,
-        description:"",
+        name:"",
         dateOfPurchase:new Date(),
         items:[],
         totalCost:0,
@@ -41,9 +41,9 @@ export default function NewReceiptDialog({open,close})
                         multiline={true}
                         autoFocus={true}
                         className={"text-black"}
-                        placeholder="Description"
-                        value={receipt.description}
-                        name={"description"}
+                        placeholder="Name"
+                        value={receipt.name}
+                        name={"name"}
                         onChange={onChange}
                     />
                     <br/>
@@ -63,11 +63,11 @@ export default function NewReceiptDialog({open,close})
                     </p>
                     <br/>
                     <Button onClick={async () => {
-                        await createReceipt(receipt.description, receipt.dateOfPurchase)
+                        await createReceipt(receipt.name, receipt.dateOfPurchase)
                         receiptData.updateAllReceipt()
                         setReceipt({
                             id:-1,
-                            description:"",
+                            name:"",
                             dateOfPurchase:new Date(),
                             items:[],
                             totalCost:0,
