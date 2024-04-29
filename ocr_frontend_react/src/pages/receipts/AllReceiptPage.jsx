@@ -63,11 +63,13 @@ export default function AllReceiptPage() {
                 options={filterOptions.receiptNames}
                 emptyValues={emptyValues}
                 updateInputValue={updateReceiptNameFilter}
+                name={"Receipt Name Search"}
                 />
                 <FilterSearchBar
                     options={filterOptions.placeNames}
                     emptyValues={emptyValues}
                     updateInputValue={updatePlaceNameFilter}
+                    name={"Place Name Search"}
                 />
             </div>
             <ReceiptState>

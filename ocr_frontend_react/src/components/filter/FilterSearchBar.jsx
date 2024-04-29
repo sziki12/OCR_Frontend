@@ -1,12 +1,13 @@
 import {Autocomplete, TextField} from "@mui/material";
 import React from "react";
 
-export default function FilterSearchBar({options, emptyValues, updateInputValue,updateValue}){
+export default function FilterSearchBar({options, emptyValues, updateInputValue,updateValue,name}){
 
     const actualEmptyValues = (emptyValues)?(emptyValues):([""])
     const actualOptions = (options.includes(actualEmptyValues[0]))?(options):([...options,actualEmptyValues[0]])
     const [value, setValue] = React.useState(actualEmptyValues[0]);
     const [inputValue, setInputValue] = React.useState('');
+    const actualName = name || "Search"
 
     return(<>
         <Autocomplete
@@ -24,7 +25,7 @@ export default function FilterSearchBar({options, emptyValues, updateInputValue,
             }}
             options={actualOptions}
             sx={{ width: 300 }}
-            renderInput={(params) => <TextField {...params} label="Controllable" />}
+            renderInput={(params) => <TextField {...params} label={actualName} />}
         />
     </>)
 
