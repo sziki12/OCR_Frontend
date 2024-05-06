@@ -49,10 +49,19 @@ async function callAndEnsureLogin(request)
     {
         let user = {
             userName:getUserName(),
-            password:getPasswordHash()
+            password:getPasswordHash().toString()
         }
-        await hashPassword(user,BackendAccess.loginUser)
-        return await request()
+        let response = await BackendAccess.loginUser(user,true)
+        let json = await response.json()
+        BackendAccess.saveAuthToken(json.token)
+        if(response.ok)
+        {
+            return await request()
+        }
+        else
+        {
+            console.log(response.status)
+        }
     }
 
 }
@@ -62,12 +71,8 @@ async function hashPassword(user,request)
     const bcrypt = require('bcryptjs');
     if(user && user.password && user.salt)
     {
-        console.log(user)
         let hash = bcrypt.hashSync(user.password, user.salt)
-        user.password = hash
-        //TODO Remove
-        console.log("hash:")
-        console.log(hash)
+        user.password = hash.toString()
         return await request(user);
     }
 }
@@ -88,9 +93,7 @@ const BackendAccess =
             if(user && user.userName)
             {
                 window.localStorage.setItem("user_name",user.userName)
-                await hashPassword(user,(hash)=>{
-                    window.localStorage.setItem("password_hash",hash)
-                })
+                window.localStorage.setItem("password_hash",user.password)
             }
             else
             {
@@ -262,7 +265,7 @@ const BackendAccess =
             return await callAndEnsureLogin(request)
         },
 
-        async loginUser(user)
+        async loginUser(user,isPasswordHashed)
         {
             const url = baseAddress+`salt`;
             let saltResponse = await fetch(url, {
@@ -275,6 +278,11 @@ const BackendAccess =
                     'Content-Type': 'application/json'
                 }
             })
+
+            if(!saltResponse.ok)
+            {
+                return {status:404}
+            }
             let saltResponseObject = await saltResponse.json()
             user.salt = saltResponseObject.salt
             let request = async()=>{
@@ -287,7 +295,14 @@ const BackendAccess =
                     }
                 })
             }
-            return await hashPassword(user,request)
+            if(isPasswordHashed)
+            {
+                return await request()
+            }
+            else
+            {
+                return await hashPassword(user,request)
+            }
         },
         async registerUser(user)
         {
