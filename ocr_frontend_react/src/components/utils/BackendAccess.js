@@ -465,11 +465,13 @@ const BackendAccess =
         },
         async getChartData()
         {
-            let request = async ()=>{
+            let request = async (dateObject)=>{
+                console.log(dateObject)
                 const url = baseAddress+`api/receipt/chart`;
                 let request = await fetch(url, {
-                    method: 'GET',
-                    headers: getHeaders(false)
+                    method: 'POST',
+                    headers: getHeaders(true),
+                    body:JSON.stringify(dateObject)
                 });
                 return await request.json()
             }
