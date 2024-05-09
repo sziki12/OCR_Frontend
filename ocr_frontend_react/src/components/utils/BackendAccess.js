@@ -462,6 +462,18 @@ const BackendAccess =
                 });
             }
             return await callAndEnsureLogin(request)
+        },
+        async getChartData()
+        {
+            let request = async ()=>{
+                const url = baseAddress+`api/receipt/chart`;
+                let request = await fetch(url, {
+                    method: 'GET',
+                    headers: getHeaders(false)
+                });
+                return await request.json()
+            }
+            return await callAndEnsureLogin(request)
         }
 
     }
