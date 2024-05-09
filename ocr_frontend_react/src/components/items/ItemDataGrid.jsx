@@ -3,20 +3,21 @@ import {
     GridActionsCellItem,
     GridRowEditStopReasons,
     GridRowModes,
-    GridToolbarContainer
+    GridToolbarContainer,
+    useGridApiContext
 } from '@mui/x-data-grid';
 import {Box, Button} from "@mui/material";
 import * as React from 'react';
-import {useNavigate, useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faFloppyDisk, faPen, faPlus, faTrash, faXmark} from "@fortawesome/free-solid-svg-icons";
+import {faFloppyDisk, faPen, faPlus, faSave, faTrash, faXmark} from "@fortawesome/free-solid-svg-icons";
 
 
 function EditToolbar(props) {
     const setRows = props.setRows
     const setRowModesModel = props.setRowModesModel
 
+    const apiRef = useGridApiContext();
     const handleClick = async () => {
         let newItem = await props.insertItem()
         const id = newItem.id;
@@ -27,14 +28,35 @@ function EditToolbar(props) {
         }));
     };
 
+    const saveAllRow = ()=>{
+        let rowIds = apiRef.current.getAllRowIds()
+        for(let rowId of rowIds)
+        {
+            try{
+                props.handleSaveClick(rowId)()
+            }
+            catch (e)
+            {
+                console.log(e.message)
+            }
+        }
+    }
+
     return (
         <GridToolbarContainer>
             {
                 (props.isEditable)
                 ?
-                    <Button color="primary" startIcon={<FontAwesomeIcon icon={faPlus} />} onClick={handleClick}>
-                        Add Item
-                    </Button>
+                   <>
+                       <Button color="primary" startIcon={<FontAwesomeIcon icon={faPlus} />} onClick={handleClick}>
+                           Add Item
+                       </Button>
+                       <Button startIcon={<FontAwesomeIcon icon={faSave} />} onClick={()=>{
+                           saveAllRow()
+                       }}>
+                           Save All
+                       </Button>
+                   </>
                 :
                     <></>
             }
@@ -45,9 +67,7 @@ function EditToolbar(props) {
 
 export default function ItemDataGrid(props)
 {
-
     let isEditable = props.isEditable || false
-
     useEffect(() => {
         if(props.items && props.items.length>0)
             setRows([...props.items])
@@ -55,14 +75,22 @@ export default function ItemDataGrid(props)
             setRows([])
     }, [props.items]);
 
+    //
     const insertItem = props.insertItem
     const [rows, setRows] = useState([]);
     const [rowModesModel, setRowModesModel] = useState({});
+
+    const editingRows = useRef([])
 
     const handleRowEditStop = (params, event) => {
         if (params.reason === GridRowEditStopReasons.rowFocusOut) {
             event.defaultMuiPrevented = true;
         }
+        /*else{
+            console.log("handleRowEditStop Else")
+            console.log(params)
+            event.defaultMuiPrevented = true;
+        }*/
     };
 
     const handleEditClick = (id) => () => {
@@ -70,7 +98,9 @@ export default function ItemDataGrid(props)
     };
 
     const handleSaveClick = (id) => () => {
-        setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
+        setRowModesModel((prev)=>{
+            return { ...prev, [id]: { mode: GridRowModes.View } }
+        });
     };
 
     const handleDeleteClick = (id) => () => {
@@ -93,9 +123,12 @@ export default function ItemDataGrid(props)
 
     const processRowUpdate = (newRow) => {
         const updatedRow = { ...newRow, isNew: false };
-        const updatedRows = rows.map((row) => (row.id === newRow.id ? updatedRow : row))
-        setRows(updatedRows);
-        props.saveItems(updatedRows)
+        setRows((prev)=>{
+            let updatedRows = prev.map((row) => (row.id === newRow.id ? updatedRow : row))
+            props.saveItems(updatedRows)
+            console.log(updatedRows)
+            return updatedRows
+        });
         return updatedRow;
     };
 
@@ -118,6 +151,14 @@ export default function ItemDataGrid(props)
             type: 'number',
             width: 140,
             editable: isEditable,
+        },
+        {
+            field: 'category',
+            headerName: 'Category',
+            type: 'singleSelect',
+            width: 140,
+            editable: isEditable,
+            valueOptions: props.categories
         },
         {
             field: 'actions',
@@ -197,7 +238,7 @@ export default function ItemDataGrid(props)
                     toolbar: EditToolbar,
                 }}
                 slotProps={{
-                    toolbar: { setRows, setRowModesModel,insertItem,isEditable },
+                    toolbar: { setRows, setRowModesModel,insertItem,isEditable,editingRows,handleSaveClick },
                 }}
             />
         </Box>

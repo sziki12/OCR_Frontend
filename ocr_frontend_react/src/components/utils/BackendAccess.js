@@ -437,6 +437,31 @@ const BackendAccess =
                 return await response.json();
             }
             return await callAndEnsureLogin(request)
+        },
+
+        async  getItemCategories()
+        {
+            let request = async ()=>{
+                const url = baseAddress+`api/receipt/item/categories`;
+                const response =  await fetch(url, {
+                    method: 'GET',
+                    headers: getHeaders(false)
+                })
+                return await response.json();
+            }
+            return await callAndEnsureLogin(request)
+        },
+
+        async  getCategoriseItems(receiptId)
+        {
+            let request = async ()=>{
+                const url = baseAddress+`api/receipt/${receiptId}/categorise`;
+                return await fetch(url, {
+                    method: 'PUT',
+                    headers: getHeaders(false)
+                });
+            }
+            return await callAndEnsureLogin(request)
         }
 
     }

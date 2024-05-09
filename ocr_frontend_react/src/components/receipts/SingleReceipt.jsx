@@ -23,7 +23,6 @@ export default function SingleReceipt(props) {
     const isEditable = props.isEditable || false
 
 
-
     useEffect(() => {
         setReceipt({...receiptData.receipt})
     }, [receiptData.receipt]);
@@ -57,30 +56,29 @@ export default function SingleReceipt(props) {
             items: items,
             totalCost: calculateTotalCost(items)
         }
+        console.log("saveItems")
+        console.log(items)
+        console.log(updatedReceipt)
+
         setReceipt(updatedReceipt)
+        await update(updatedReceipt)
     }
     const update = async(updatedReceipt) => {
-        await updateReceipt(updatedReceipt.id,updatedReceipt.name,updatedReceipt.dateOfPurchase,updatedReceipt.items)
+        await updateReceipt(updatedReceipt.id, updatedReceipt.name, updatedReceipt.dateOfPurchase, updatedReceipt.items)
         receiptData.setReceipt({
             ...updatedReceipt
         })
     }
+
 
     return(
         <div className={"flex flex-col"}>
             <Paper elevation={12} className="px-10 py-6 m-5 bg-blue-50">
                 <div>
                     <ReceiptHeader receipt={receipt} isEditable={isEditable} onChange={onChange}/>
-                    <ItemDataGrid insertItem={insertItem} items={receipt.items} saveItems={saveItems} isEditable={isEditable}></ItemDataGrid>
-                </div>
-                <div>
-                    {
-                        (isEditable)
-                            ?
-                            <Button onClick={()=>update(receipt)}>Submit</Button>
-                            :
-                            <></>
-                    }
+                    <ItemDataGrid receipt={receipt} items={receipt.items} saveItems={saveItems} categories={receipt.categories}
+                                  insertItem={insertItem} isEditable={isEditable}
+                    />
                 </div>
             </Paper>
         </div>

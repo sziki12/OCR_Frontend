@@ -1,5 +1,5 @@
 import {createContext, useContext, useEffect, useState} from "react";
-import {getSingleReceipt,getReceipts} from "../utils/BackendAccess"
+import {getSingleReceipt,getReceipts,getItemCategories} from "../utils/BackendAccess"
 import {useParams} from "react-router-dom";
 
 
@@ -17,7 +17,8 @@ export default function ReceiptState({children})
         name:"",
         dateOfPurchase:new Date(),
         items:[],
-        totalCost:0
+        totalCost:0,
+        categories:[]
     })
 
     const [allReceipt,setAllReceipt] = useState([])
@@ -26,7 +27,16 @@ export default function ReceiptState({children})
         if(!receiptId)
             return
         getSingleReceipt(receiptId).then((data)=>{
-            setReceipt(data)
+            setReceipt((prev)=>{
+                console.log({...prev,...data})
+                return {...prev,...data}
+            })
+        })
+        getItemCategories().then((categories)=>{
+            setReceipt((prev)=>{
+                console.log({...prev,categories: categories})
+                return {...prev,categories: categories}
+            })
         })
     }
 
