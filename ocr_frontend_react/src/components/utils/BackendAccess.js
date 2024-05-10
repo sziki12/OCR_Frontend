@@ -164,17 +164,14 @@ const BackendAccess =
             return await callAndEnsureLogin(request)
         },
 
-        async updateReceipt(receiptId,name,dateOfPurchase,items)
+        async updateReceipt(receipt)
         {
+
             let request = async ()=>{
-                let receiptsRequest = await fetch(baseAddress+'api/receipt/'+receiptId, {
+                let receiptsRequest = await fetch(baseAddress+'api/receipt/'+receipt.id, {
                     method: 'PUT',
                     headers: getHeaders(true),
-                    body: JSON.stringify({
-                        name,
-                        dateOfPurchase,
-                        items
-                    }),
+                    body: JSON.stringify(receipt),
                 });
             }
             return await callAndEnsureLogin(request)
@@ -191,18 +188,14 @@ const BackendAccess =
             }
             return await callAndEnsureLogin(request)
         },
-        async addItemToReceipt(receiptId,name,quantity,totalCost)
+        async addItemToReceipt(receiptId,item)
         {
             let request = async ()=>{
                 const url = baseAddress+'api/receipt/'+receiptId+'/item'
                 let response = await fetch(url, {
                     method: 'POST',
                     headers: getHeaders(true),
-                    body: JSON.stringify({
-                        name,
-                        quantity,
-                        totalCost,
-                    }),
+                    body: JSON.stringify(item),
                 });
             }
             return await callAndEnsureLogin(request)
@@ -463,9 +456,9 @@ const BackendAccess =
             }
             return await callAndEnsureLogin(request)
         },
-        async getChartData()
+        async getChartData(dateObject)
         {
-            let request = async (dateObject)=>{
+            let request = async ()=>{
                 console.log(dateObject)
                 const url = baseAddress+`api/receipt/chart`;
                 let request = await fetch(url, {

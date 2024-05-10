@@ -64,7 +64,7 @@ export default function SingleReceipt(props) {
         await update(updatedReceipt)
     }
     const update = async(updatedReceipt) => {
-        await updateReceipt(updatedReceipt.id, updatedReceipt.name, updatedReceipt.dateOfPurchase, updatedReceipt.items)
+        await updateReceipt(updatedReceipt)
         receiptData.setReceipt({
             ...updatedReceipt
         })

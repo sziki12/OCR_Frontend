@@ -19,13 +19,23 @@ function EditToolbar(props) {
 
     const apiRef = useGridApiContext();
     const handleClick = async () => {
+        console.log("ADD ITEM")
+
         let newItem = await props.insertItem()
         const id = newItem.id;
-        setRows((oldRows) => [...oldRows, {id, name: '', quantity: 1, totalCost: 0}]);
-        setRowModesModel((oldModel) => ({
-            ...oldModel,
-            [id]: {mode: GridRowModes.Edit, fieldToFocus: 'name'},
-        }));
+        /*setRows((oldRows) => {
+            let rows = [...oldRows, {id, name: '', quantity: 1, totalCost: 0,category:"Undefined"}]
+            console.log(rows)
+            return rows
+        });*/
+        setRowModesModel((oldModel) =>{
+            let rowModesModel =  ({
+                ...oldModel,
+                [id]: {mode: GridRowModes.Edit, fieldToFocus: 'name'},
+            })
+            console.log(rowModesModel)
+            return rowModesModel
+        });
     };
 
     const saveAllRow = ()=>{
