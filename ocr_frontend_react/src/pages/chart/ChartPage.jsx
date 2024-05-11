@@ -21,13 +21,20 @@ export default function ChartPage()
 
     const onChange = (e) => {
         const { name, value } = e.target;
-        if(name === "to" && date.from<=value ||
-        name === "from" &&date.to >=value)
+        if(name === "to" && new Date(date.from) <= new Date(value) ||
+        name === "from" && new Date(date.to) >= new Date(value) ||
+        name === "type")
         {
             setDate(prevState => ({
                 ...prevState,
                 [name]: value
             }));
+        }
+        {
+            console.log("ELSE")
+            console.log(value)
+            console.log(date.from)
+            console.log(date.to)
         }
 
     }

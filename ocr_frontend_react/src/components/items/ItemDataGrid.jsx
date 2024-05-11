@@ -85,7 +85,6 @@ export default function ItemDataGrid(props)
             setRows([])
     }, [props.items]);
 
-    //
     const insertItem = props.insertItem
     const [rows, setRows] = useState([]);
     const [rowModesModel, setRowModesModel] = useState({});
@@ -96,11 +95,6 @@ export default function ItemDataGrid(props)
         if (params.reason === GridRowEditStopReasons.rowFocusOut) {
             event.defaultMuiPrevented = true;
         }
-        /*else{
-            console.log("handleRowEditStop Else")
-            console.log(params)
-            event.defaultMuiPrevented = true;
-        }*/
     };
 
     const handleEditClick = (id) => () => {
