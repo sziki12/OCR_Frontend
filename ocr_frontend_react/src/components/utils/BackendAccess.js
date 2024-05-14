@@ -445,7 +445,7 @@ const BackendAccess =
             return await callAndEnsureLogin(request)
         },
 
-        async  getCategoriseItems(receiptId)
+        async  categoriseItems(receiptId)
         {
             let request = async ()=>{
                 const url = baseAddress+`api/receipt/${receiptId}/categorise`;

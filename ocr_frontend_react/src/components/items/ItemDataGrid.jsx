@@ -6,40 +6,45 @@ import {
     GridToolbarContainer,
     useGridApiContext
 } from '@mui/x-data-grid';
-import {Box, Button} from "@mui/material";
+import {Box, Button, Dialog} from "@mui/material";
 import * as React from 'react';
 import {useEffect, useRef, useState} from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faFloppyDisk, faPen, faPlus, faSave, faTrash, faXmark} from "@fortawesome/free-solid-svg-icons";
+import {categoriseItems} from "../utils/BackendAccess"
+import {faFloppyDisk, faPen, faPlus, faSave, faTrash, faXmark,faIcons} from "@fortawesome/free-solid-svg-icons";
 
 
 function EditToolbar(props) {
+    const rows = props.rows
     const setRows = props.setRows
     const setRowModesModel = props.setRowModesModel
+    const receipt = props.receipt
+
+    const [categorise,setCategorise] = useState(false);
+    const [showNameDialog,setShowNameDialog] = useState(false);
 
     const apiRef = useGridApiContext();
-    const handleClick = async () => {
-        console.log("ADD ITEM")
 
+    const handleClick = async () => {
         let newItem = await props.insertItem()
         const id = newItem.id;
-        /*setRows((oldRows) => {
+        /*Removed due to items update on Submit
+        setRows((oldRows) => {
             let rows = [...oldRows, {id, name: '', quantity: 1, totalCost: 0,category:"Undefined"}]
             console.log(rows)
             return rows
         });*/
         setRowModesModel((oldModel) =>{
-            let rowModesModel =  ({
+            return ({
                 ...oldModel,
                 [id]: {mode: GridRowModes.Edit, fieldToFocus: 'name'},
             })
-            console.log(rowModesModel)
-            return rowModesModel
         });
     };
 
     const saveAllRow = ()=>{
         let rowIds = apiRef.current.getAllRowIds()
+        props.saveItems(rows)
         for(let rowId of rowIds)
         {
             try{
@@ -47,7 +52,7 @@ function EditToolbar(props) {
             }
             catch (e)
             {
-                console.log(e.message)
+                //console.log(e.message)
             }
         }
     }
@@ -66,6 +71,35 @@ function EditToolbar(props) {
                        }}>
                            Save All
                        </Button>
+
+                       <Button disabled={categorise} startIcon={<FontAwesomeIcon icon={faIcons} />} onClick={async()=>{
+                           if(typeof(receipt.name) !== "undefined" && receipt.name !== "")
+                           {
+                               setCategorise(true)
+                               await categoriseItems(receipt.id)
+                               setCategorise(false)
+                           }
+                           else {
+                               setShowNameDialog(true)
+                           }
+
+                       }}>
+                           Categorise Items
+                       </Button>
+                       {
+                           (showNameDialog)
+                           ?
+                               <Dialog
+                                   className={"p-10 m-10"}
+                                   open={showNameDialog}
+                                   onClose={()=>setShowNameDialog(false)}
+                               >
+                                   <p>To Categorise the items please fill the receipt's Name</p>
+                                   <Button onClick={()=>setShowNameDialog(false)}>Ok</Button>
+                               </Dialog>
+                           :
+                               <></>
+                       }
                    </>
                 :
                     <></>
@@ -85,9 +119,11 @@ export default function ItemDataGrid(props)
             setRows([])
     }, [props.items]);
 
+    const receipt = props.receipt
     const insertItem = props.insertItem
     const [rows, setRows] = useState([]);
     const [rowModesModel, setRowModesModel] = useState({});
+    const saveItems = props.saveItems
 
     const editingRows = useRef([])
 
@@ -110,7 +146,7 @@ export default function ItemDataGrid(props)
     const handleDeleteClick = (id) => () => {
         const updatedRows = rows.filter((row) => row.id !== id)
         setRows(updatedRows);
-        props.saveItems(updatedRows)
+        saveItems(updatedRows)
     };
 
     const handleCancelClick = (id) => () => {
@@ -129,8 +165,7 @@ export default function ItemDataGrid(props)
         const updatedRow = { ...newRow, isNew: false };
         setRows((prev)=>{
             let updatedRows = prev.map((row) => (row.id === newRow.id ? updatedRow : row))
-            props.saveItems(updatedRows)
-            console.log(updatedRows)
+            saveItems(updatedRows)
             return updatedRows
         });
         return updatedRow;
@@ -242,7 +277,7 @@ export default function ItemDataGrid(props)
                     toolbar: EditToolbar,
                 }}
                 slotProps={{
-                    toolbar: { setRows, setRowModesModel,insertItem,isEditable,editingRows,handleSaveClick },
+                    toolbar: { rows, setRows, setRowModesModel,insertItem,isEditable,editingRows,handleSaveClick,receipt,saveItems },
                 }}
             />
         </Box>
