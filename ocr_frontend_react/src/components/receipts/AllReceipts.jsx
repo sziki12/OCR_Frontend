@@ -85,7 +85,7 @@ export default function AllReceipts({filterValue})
                     }
                     else
                     {
-                        if(!placeNames.includes(filterValue.unassignedValue) && placeNames.filter((name)=>{return filterValue.emptyValues.includes(name)}).length===0)//TODO on ALL not shown
+                        if(!placeNames.includes(filterValue.unassignedValue) && placeNames.filter((name)=>{return filterValue.emptyValues.includes(name)}).length===0)
                         {
                             return false;
                         }

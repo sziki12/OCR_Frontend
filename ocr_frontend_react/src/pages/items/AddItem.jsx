@@ -17,7 +17,7 @@ export default function AddItem() {
         const receiptId = params.receiptId
 
         e.preventDefault()
-        await addItemToReceipt(receiptId, name, quantity, totalCost)
+        await addItemToReceipt(receiptId, {name, quantity, totalCost})
 
         setName('');
         setQuantity(1);

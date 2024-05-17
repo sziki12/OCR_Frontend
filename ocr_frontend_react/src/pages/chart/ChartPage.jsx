@@ -2,7 +2,7 @@ import {PieChart} from "@mui/x-charts";
 import * as React from 'react';
 import {useEffect, useState} from "react";
 import {getChartData} from "../../components/utils/BackendAccess";
-import {Card, CardContent, CardHeader, Input, Switch, Typography} from "@mui/material";
+import {Card, CardContent, CardHeader, Input, MenuItem, Select, Switch, Typography} from "@mui/material";
 import getDateToShow from "../../components/utils/Utils";
 
 
@@ -14,28 +14,37 @@ export default function ChartPage()
     })
     let [date,setDate] = useState({
         from:new Date(),
-        to:new Date()
+        to:new Date(),
+        type:"Last Month",
     })
     let [animationEnabled,setAnimationEnabled] = useState(true)
 
     const onChange = (e) => {
         const { name, value } = e.target;
-        if(name === "to" && date.from<=value ||
-        name === "from" &&date.to >=value)
+        if(name === "to" && new Date(date.from) <= new Date(value) ||
+        name === "from" && new Date(date.to) >= new Date(value) ||
+        name === "type")
         {
             setDate(prevState => ({
                 ...prevState,
                 [name]: value
             }));
         }
+        {
+            console.log("ELSE")
+            console.log(value)
+            console.log(date.from)
+            console.log(date.to)
+        }
 
     }
 
     useEffect(() => {
-        getChartData().then((data)=>{
+        console.log(date)
+        getChartData(date).then((data)=>{
             setChartData(data)
         })
-    }, []);
+    }, [date]);
     return(
         <div className={"flex flex-col"}>
             <div className={"flex flex-row items-center"}>
@@ -47,6 +56,7 @@ export default function ChartPage()
                     name={"from"}
                     value={getDateToShow(date.from)}
                     onChange={onChange}
+                    disabled={date.type !== "Custom"}
                 />
                 <p>To</p>
                 <Input
@@ -56,9 +66,22 @@ export default function ChartPage()
                     name={"to"}
                     value={getDateToShow(date.to)}
                     onChange={onChange}
+                    disabled={date.type !== "Custom"}
                 />
             </div>
             <div className={"flex flex-row items-center"}>
+                <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={date.type}
+                    label="Date Interval"
+                    name={"type"}
+                    onChange={onChange}
+                >
+                    <MenuItem value={"Last Month"}>Last Month</MenuItem>
+                    <MenuItem value={"Custom"}>Custom</MenuItem>
+                    <MenuItem value={"All Time"}>All Time</MenuItem>
+                </Select>
                 <Switch defaultChecked onChange={()=>{
                     setAnimationEnabled(!animationEnabled)
                 }} />
