@@ -15,14 +15,14 @@ export default function Item(props)
             return(
                 <div className="px-4 py-2 bg-sky-100">
                     <div className={"flex flex-row align-middle"}>
-                        <p className={"text-black pr-3"}>
+                        <p className={"pr-3"}>
                             {item.name+": "+item.quantity+" piece"}
                         </p>
                         <IconButton className={"text-red-700"} onClick={()=>{navigate("/delete/receipts/"+params.receiptId+"/items/"+item.id)}}>
                             <FontAwesomeIcon icon={faTrashCan} width={16} color={"red"}/>
                         </IconButton>
                     </div>
-                    <p className={"text-black"}>
+                    <p>
                         {"Cost: "+item.totalCost}
                     </p>
                 </div>

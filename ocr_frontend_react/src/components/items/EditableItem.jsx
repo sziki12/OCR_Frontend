@@ -42,7 +42,6 @@ export default function EditableItem(props) {
                     <FontAwesomeIcon icon={faSignature} />
                     <Input
                         autoFocus={true}
-                        className={"text-black"}
                         placeholder="Name"
                         value={item.name}
                         name={"name"}
@@ -54,7 +53,7 @@ export default function EditableItem(props) {
                     <div className={"w-1/3"}>
                         <FontAwesomeIcon icon={faBox} className={"px-2"}/>
                         <Input
-                            className={"text-black w-3/4"}
+                            className={"w-3/4"}
                             type="number"
                             placeholder="Quantity"
                             value={item.quantity}
@@ -65,7 +64,7 @@ export default function EditableItem(props) {
                     <div className={"w-1/2"}>
                         <FontAwesomeIcon icon={faTag} className={"px-2"}/>
                         <Input
-                            className={"text-black w-3/4"}
+                            className={"w-3/4"}
                             type="number"
                             placeholder="Total Cost"
                             value={item.totalCost}

@@ -22,9 +22,9 @@ export default function AllReceipts({filterValue})
     console.log(placeNames)
     const receiptLayout = (receipt)=> <>
         <Paper key={receipt.id} elevation={12} className="px-10 py-6 m-5 bg-blue-50">
-            <p className={"text-black"}><FontAwesomeIcon icon={faMessage} color={"Dodgerblue"}/> {receipt.name}</p>
-            <p className={"text-black"}><FontAwesomeIcon icon={faCalendar}/> {new Date(receipt.dateOfPurchase).toLocaleDateString()}</p>
-            <p className={"text-black"}><FontAwesomeIcon icon={faMoneyBill} color={"green"} /> {receipt.totalCost+" "}</p>
+            <p><FontAwesomeIcon icon={faMessage} color={"Dodgerblue"}/> {receipt.name}</p>
+            <p><FontAwesomeIcon icon={faCalendar}/> {new Date(receipt.dateOfPurchase).toLocaleDateString()}</p>
+            <p><FontAwesomeIcon icon={faMoneyBill} color={"green"} /> {receipt.totalCost+" "}</p>
 
             <Button onClick={()=>{navigate("/receipts/"+receipt.id)}}>
                 <FontAwesomeIcon icon={faEye} width={30}/>

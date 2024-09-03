@@ -40,7 +40,6 @@ export default function NewReceiptDialog({open,close})
                     <Input
                         multiline={true}
                         autoFocus={true}
-                        className={"text-black"}
                         placeholder="Name"
                         value={receipt.name}
                         name={"name"}
@@ -49,7 +48,6 @@ export default function NewReceiptDialog({open,close})
                     <br/>
                     <FontAwesomeIcon className={"pr-2"} icon={faCalendar}/>
                     <Input
-                        className={"text-black"}
                         type="date"
                         placeholder="Date Of Purchase"
                         name={"dateOfPurchase"}
@@ -57,7 +55,7 @@ export default function NewReceiptDialog({open,close})
                         onChange={onChange}
                     />
                     <br/>
-                    <p className={"text-black"}>
+                    <p>
                         <FontAwesomeIcon className={"pr-2"} icon={faMoneyBill} color={"green"}/>
                         {receipt.totalCost}
                     </p>

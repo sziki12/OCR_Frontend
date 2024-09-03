@@ -102,7 +102,6 @@ function ReceiptHeader(props)
                         <Input
                             multiline={true}
                             autoFocus={true}
-                            className={"text-black"}
                             placeholder="Name"
                             value={receipt.name}
                             name={"name"}
@@ -111,7 +110,6 @@ function ReceiptHeader(props)
                         <br/>
                         <FontAwesomeIcon className={"pr-2"} icon={faCalendar}/>
                         <Input
-                            className={"text-black"}
                             type="date"
                             placeholder="Date Of Purchase"
                             name={"dateOfPurchase"}
@@ -119,7 +117,7 @@ function ReceiptHeader(props)
                             onChange={onChange}
                         />
                         <br/>
-                        <p className={"text-black"}>
+                        <p>
                             <FontAwesomeIcon className={"pr-2"} icon={faMoneyBill} color={"green"}/>
                             {receipt.totalCost}
                         </p>
@@ -127,9 +125,9 @@ function ReceiptHeader(props)
                     </>
                 :
                     <>
-                        <p className={"text-black"}><FontAwesomeIcon icon={faMessage} color={"Dodgerblue"}/> {receipt.name}</p>
-                        <p className={"text-black"}><FontAwesomeIcon icon={faCalendar}/> {new Date(receipt.dateOfPurchase).toLocaleDateString()}</p>
-                        <p className={"text-black"}><FontAwesomeIcon icon={faMoneyBill} color={"green"} /> {receipt.totalCost+" "}</p>
+                        <p><FontAwesomeIcon icon={faMessage} color={"Dodgerblue"}/> {receipt.name}</p>
+                        <p><FontAwesomeIcon icon={faCalendar}/> {new Date(receipt.dateOfPurchase).toLocaleDateString()}</p>
+                        <p><FontAwesomeIcon icon={faMoneyBill} color={"green"} /> {receipt.totalCost+" "}</p>
                     </>
             }
 

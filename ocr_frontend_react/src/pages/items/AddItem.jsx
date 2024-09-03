@@ -32,14 +32,12 @@ export default function AddItem() {
                 <textarea
                     autoFocus={true}
                     cols={25}
-                    className={"text-black"}
                     placeholder="Name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                 />
                 <br/>
                 <input
-                    className={"text-black"}
                     type="number"
                     placeholder="Quantity"
                     value={quantity}
@@ -47,7 +45,6 @@ export default function AddItem() {
                 />
                 <br/>
                 <input
-                    className={"text-black"}
                     type="number"
                     placeholder="Total Cost"
                     value={totalCost}

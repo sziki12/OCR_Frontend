@@ -50,7 +50,7 @@ export default function ChartPage()
             <div className={"flex flex-row items-center"}>
                 <p>From</p>
                 <Input
-                    className={"text-black px-6"}
+                    className={"px-6"}
                     type="date"
                     placeholder="From"
                     name={"from"}
@@ -60,7 +60,7 @@ export default function ChartPage()
                 />
                 <p>To</p>
                 <Input
-                    className={"text-black px-6"}
+                    className={"px-6"}
                     type="date"
                     placeholder="To"
                     name={"to"}

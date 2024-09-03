@@ -1,119 +1,100 @@
 const bcrypt = require("bcryptjs");
 
-function getAuth()
-{
+function getAuth() {
     let token = getAuthToken()
-    if(token === null || token === "")
-    {
+    if (token === null || token === "") {
         return {}
-    }
-    else
-    {
-        return{
-            'Authorization':`Bearer ${token}`
+    } else {
+        return {
+            'Authorization': `Bearer ${token}`
         }
     }
 }
 
-function getHeaders(isJson)
-{
-    if(isJson)
-    {
-        return{
+function getHeaders(isJson) {
+    if (isJson) {
+        return {
             'Content-Type': 'application/json',
-            'Authorization':getAuth().Authorization
+            'Authorization': getAuth().Authorization
         }
-    }
-    else
-    {
+    } else {
         return getAuth()
     }
 }
 
-function getAuthToken(){
+function getAuthToken() {
     return window.localStorage.getItem("auth_token")
 }
-function getUserName(){
+
+function getUserName() {
     return window.localStorage.getItem("user_name")
 }
-function getPasswordHash(){
+
+function getPasswordHash() {
     return window.localStorage.getItem("password_hash")
 }
 
-async function callAndEnsureLogin(request)
-{
+async function callAndEnsureLogin(request) {
     try {
-         return await request()
-    }
-    catch (e)
-    {
+        return await request()
+    } catch (e) {
         let user = {
-            userName:getUserName(),
-            password:getPasswordHash().toString()
+            userName: getUserName(),
+            password: getPasswordHash().toString()
         }
-        let response = await BackendAccess.loginUser(user,true)
+        let response = await BackendAccess.loginUser(user, true)
         let json = await response.json()
         BackendAccess.saveAuthToken(json.token)
-        if(response.ok)
-        {
+        if (response.ok) {
             return await request()
-        }
-        else
-        {
+        } else {
             console.log(response.status)
         }
     }
 
 }
 
-async function hashPassword(user,request)
-{
+async function hashPassword(user, request) {
     const bcrypt = require('bcryptjs');
-    if(user && user.password && user.salt)
-    {
+    if (user && user.password && user.salt) {
         let hash = bcrypt.hashSync(user.password, user.salt)
         user.password = hash.toString()
         return await request(user);
     }
 }
+
 const ipAddress = "localhost"//"172.17.32.1"
 const baseAddress = `http://${ipAddress}:8080/`
 
 const BackendAccess =
     {
-        saveAuthToken(token)
-        {
-            if(token)
-                window.localStorage.setItem("auth_token",token)
+        saveAuthToken(token) {
+            if (token)
+                window.localStorage.setItem("auth_token", token)
             else
-                window.localStorage.setItem("auth_token","")
+                window.localStorage.setItem("auth_token", "")
         },
-        async saveUser(user)
-        {
-            if(user && user.userName)
-            {
-                window.localStorage.setItem("user_name",user.userName)
-                window.localStorage.setItem("password_hash",user.password)
-            }
-            else
-            {
-                window.localStorage.setItem("user_name","")
-                window.localStorage.setItem("password_hash","")
+        async saveUser(user) {
+            if (user && user.userName) {
+                window.localStorage.setItem("user_name", user.userName)
+                window.localStorage.setItem("password_hash", user.password)
+            } else {
+                window.localStorage.setItem("user_name", "")
+                window.localStorage.setItem("password_hash", "")
             }
         },
 
-        getUser()
-        {
+        getUser() {
             return {
-                userName:getUserName(),
-                isAuthenticated: Boolean(getUserName()&&getPasswordHash())
+                userName: getUserName(),
+                isAuthenticated: Boolean(getUserName() && getPasswordHash())
             }
         },
 
         //TODO Refactor params in objects
         async getReceipts() {
-            let request = async ()=> {
-                let receiptsRequest = await fetch(baseAddress+"api/receipt",
+            let request = async () => {
+                let receiptsRequest = await fetch(baseAddress + "api/receipt",
                     {
                         cache: 'no-store',
                         headers: getHeaders(false)
@@ -125,8 +106,8 @@ const BackendAccess =
 
         async getSingleReceipt(receiptId) {
 
-            let request = async ()=>{
-                let receiptsRequest = await fetch(baseAddress+"api/receipt/"+receiptId,
+            let request = async () => {
+                let receiptsRequest = await fetch(baseAddress + "api/receipt/" + receiptId,
                     {
                         cache: "no-store",
                         headers: getHeaders(false)
@@ -135,9 +116,9 @@ const BackendAccess =
             }
             return await callAndEnsureLogin(request)
         },
-        async getItem(receiptId,itemId) {
-            let request = async ()=>{
-                let receiptsRequest = await fetch(baseAddress+"api/receipt/"+receiptId+"/item/"+itemId,
+        async getItem(receiptId, itemId) {
+            let request = async () => {
+                let receiptsRequest = await fetch(baseAddress + "api/receipt/" + receiptId + "/item/" + itemId,
                     {
                         cache: "no-store"
                         ,
@@ -148,27 +129,25 @@ const BackendAccess =
             return await callAndEnsureLogin(request)
         },
 
-        async createReceipt(name,dateOfPurchase)
-        {
-            let request = async ()=>{
-                let receiptsRequest = await fetch(baseAddress+'api/receipt', {
+        async createReceipt(name, dateOfPurchase) {
+            let request = async () => {
+                let receiptsRequest = await fetch(baseAddress + 'api/receipt', {
                     method: 'POST',
                     headers: getHeaders(true),
                     body: JSON.stringify({
                         name,
                         dateOfPurchase,
-                        items:[],
+                        items: [],
                     }),
                 });
             }
             return await callAndEnsureLogin(request)
         },
 
-        async updateReceipt(receipt)
-        {
+        async updateReceipt(receipt) {
 
-            let request = async ()=>{
-                let receiptsRequest = await fetch(baseAddress+'api/receipt/'+receipt.id, {
+            let request = async () => {
+                let receiptsRequest = await fetch(baseAddress + 'api/receipt/' + receipt.id, {
                     method: 'PUT',
                     headers: getHeaders(true),
                     body: JSON.stringify(receipt),
@@ -178,8 +157,8 @@ const BackendAccess =
         },
 
         async deleteReceipts(receiptId) {
-            let request = async ()=>{
-                let receiptsRequest = await fetch(baseAddress+"api/receipt/"+receiptId,
+            let request = async () => {
+                let receiptsRequest = await fetch(baseAddress + "api/receipt/" + receiptId,
                     {
                         method: 'DELETE',
                         cache: "no-store",
@@ -188,10 +167,9 @@ const BackendAccess =
             }
             return await callAndEnsureLogin(request)
         },
-        async addItemToReceipt(receiptId,item)
-        {
-            let request = async ()=>{
-                const url = baseAddress+'api/receipt/'+receiptId+'/item'
+        async addItemToReceipt(receiptId, item) {
+            let request = async () => {
+                const url = baseAddress + 'api/receipt/' + receiptId + '/item'
                 let response = await fetch(url, {
                     method: 'POST',
                     headers: getHeaders(true),
@@ -201,10 +179,9 @@ const BackendAccess =
             return await callAndEnsureLogin(request)
         },
 
-        async createNewItem(receiptId)
-        {
-            let request = async ()=>{
-                const url = baseAddress+'api/receipt/'+receiptId+'/new/item'
+        async createNewItem(receiptId) {
+            let request = async () => {
+                const url = baseAddress + 'api/receipt/' + receiptId + '/new/item'
                 const response = await fetch(url, {
                     method: 'POST',
                     headers: getHeaders(true),
@@ -213,10 +190,9 @@ const BackendAccess =
             }
             return await callAndEnsureLogin(request)
         },
-        async updateItem(receiptId,itemId,name,quantity,totalCost)
-        {
-            let request = async ()=>{
-                await fetch(baseAddress+"api/receipt/"+receiptId+"/item/"+itemId,
+        async updateItem(receiptId, itemId, name, quantity, totalCost) {
+            let request = async () => {
+                await fetch(baseAddress + "api/receipt/" + receiptId + "/item/" + itemId,
                     {
                         method: 'PUT',
                         cache: "no-store",
@@ -231,10 +207,9 @@ const BackendAccess =
             }
             return await callAndEnsureLogin(request)
         },
-        async deleteItem(receiptId,itemId)
-        {
-            let request = async ()=>{
-                await fetch(baseAddress+"api/receipt/"+receiptId+"/item/"+itemId,
+        async deleteItem(receiptId, itemId) {
+            let request = async () => {
+                await fetch(baseAddress + "api/receipt/" + receiptId + "/item/" + itemId,
                     {
                         method: 'DELETE',
                         cache: "no-store",
@@ -244,10 +219,9 @@ const BackendAccess =
             return await callAndEnsureLogin(request)
         },
 
-        async uploadImageForOCR(image)
-        {
-            let request = async ()=>{
-                const url = baseAddress+'api/image'
+        async uploadImageForOCR(image) {
+            let request = async () => {
+                const url = baseAddress + 'api/image'
                 let response = await fetch(url, {
                     method: 'POST',
                     headers: getHeaders(false),
@@ -258,28 +232,26 @@ const BackendAccess =
             return await callAndEnsureLogin(request)
         },
 
-        async loginUser(user,isPasswordHashed)
-        {
-            const url = baseAddress+`salt`;
+        async loginUser(user, isPasswordHashed) {
+            const url = baseAddress + `salt`;
             let saltResponse = await fetch(url, {
                 method: 'POST',
                 body: JSON.stringify({
-                    userName:user.userName,
-                    salt:""
+                    userName: user.userName,
+                    salt: ""
                 }),
                 headers: {
                     'Content-Type': 'application/json'
                 }
             })
 
-            if(!saltResponse.ok)
-            {
-                return {status:404}
+            if (!saltResponse.ok) {
+                return {status: 404}
             }
             let saltResponseObject = await saltResponse.json()
             user.salt = saltResponseObject.salt
-            let request = async()=>{
-                const url = baseAddress+'login';
+            let request = async () => {
+                const url = baseAddress + 'login';
                 return await fetch(url, {
                     method: 'POST',
                     body: JSON.stringify(user),
@@ -288,21 +260,17 @@ const BackendAccess =
                     }
                 })
             }
-            if(isPasswordHashed)
-            {
+            if (isPasswordHashed) {
                 return await request()
-            }
-            else
-            {
-                return await hashPassword(user,request)
+            } else {
+                return await hashPassword(user, request)
             }
         },
-        async registerUser(user)
-        {
+        async registerUser(user) {
             const bcrypt = require('bcryptjs');
             user.salt = bcrypt.genSaltSync()
-            let request = async ()=>{
-                const url = baseAddress+'register';
+            let request = async () => {
+                const url = baseAddress + 'register';
                 return await fetch(url, {
                     method: 'POST',
                     body: JSON.stringify(user),
@@ -311,13 +279,12 @@ const BackendAccess =
                     }
                 })
             }
-            return await hashPassword(user,request)
+            return await hashPassword(user, request)
         },
-        async getPlaces()
-        {
-            let request = async ()=>{
-                const url = baseAddress+'api/place';
-                const response =  await fetch(url, {
+        async getPlaces() {
+            let request = async () => {
+                const url = baseAddress + 'api/place';
+                const response = await fetch(url, {
                     method: 'GET',
                     headers: getHeaders(false),
                 });
@@ -326,10 +293,9 @@ const BackendAccess =
             }
             return await callAndEnsureLogin(request)
         },
-        async savePlace(place)
-        {
-            let request = async ()=>{
-                const url = baseAddress+'api/place/save';
+        async savePlace(place) {
+            let request = async () => {
+                const url = baseAddress + 'api/place/save';
                 return await fetch(url, {
                     method: 'POST',
                     body: JSON.stringify(place),
@@ -338,10 +304,9 @@ const BackendAccess =
             }
             return await callAndEnsureLogin(request)
         },
-        async assignPlace(placeId,receiptId)
-        {
-            let request = async ()=>{
-                const url = baseAddress+'api/place/'+placeId+"/to/"+receiptId;
+        async assignPlace(placeId, receiptId) {
+            let request = async () => {
+                const url = baseAddress + 'api/place/' + placeId + "/to/" + receiptId;
                 await fetch(url, {
                     method: 'PUT',
                     headers: getHeaders(false)
@@ -349,10 +314,9 @@ const BackendAccess =
             }
             return await callAndEnsureLogin(request)
         },
-        async removePlace(receiptId)
-        {
-            let request = async ()=>{
-                const url = baseAddress+'api/place/remove/'+receiptId;
+        async removePlace(receiptId) {
+            let request = async () => {
+                const url = baseAddress + 'api/place/remove/' + receiptId;
                 await fetch(url, {
                     method: 'PUT',
                     headers: getHeaders(false)
@@ -360,10 +324,9 @@ const BackendAccess =
             }
             return await callAndEnsureLogin(request)
         },
-        async getOcrResponse(receiptId)
-        {
-            let request = async ()=>{
-                const url = baseAddress+'api/ocr/response/'+receiptId;
+        async getOcrResponse(receiptId) {
+            let request = async () => {
+                const url = baseAddress + 'api/ocr/response/' + receiptId;
                 return await fetch(url, {
                     method: 'GET',
                     headers: getHeaders(false)
@@ -371,26 +334,21 @@ const BackendAccess =
             }
             return await callAndEnsureLogin(request)
         },
-        async getImage(receiptId,imageId)
-        {
-            let request = async ()=>{
-                const url = baseAddress+`api/image/${receiptId}/${imageId}`;
-                const response =  await fetch(url, {
+        async getImage(receiptId, imageId) {
+            let request = async () => {
+                const url = baseAddress + `api/image/${receiptId}/${imageId}`;
+                const response = await fetch(url, {
                     method: 'GET',
                     headers: getHeaders(false)
                 })
                 const reader = await response.body.getReader();
                 let chunks = [];
-                return reader.read().then(function processText({ done, value }) {
+                return reader.read().then(function processText({done, value}) {
 
                     if (done) {
                         //console.log('Stream finished. Content received:')
-
                         //console.log(chunks);
-
-
                         //console.log(blob);
-
                         return new Blob([chunks], {type: "image/jpg"})
                     }
                     //console.log(`Received ${chunks.length} chars so far!`)
@@ -406,11 +364,10 @@ const BackendAccess =
             return await callAndEnsureLogin(request)
         },
 
-        async getPlaceByReceiptId(receiptId)
-        {
-            let request = async ()=>{
-                const url = baseAddress+`api/place/${receiptId}`;
-                const response =  await fetch(url, {
+        async getPlaceByReceiptId(receiptId) {
+            let request = async () => {
+                const url = baseAddress + `api/place/${receiptId}`;
+                const response = await fetch(url, {
                     method: 'GET',
                     headers: getHeaders(false)
                 })
@@ -419,11 +376,10 @@ const BackendAccess =
             return await callAndEnsureLogin(request)
         },
 
-        async  getFilterOptions()
-        {
-            let request = async ()=>{
-                const url = baseAddress+`api/filter`;
-                const response =  await fetch(url, {
+        async getFilterOptions() {
+            let request = async () => {
+                const url = baseAddress + `api/filter`;
+                const response = await fetch(url, {
                     method: 'GET',
                     headers: getHeaders(false)
                 })
@@ -432,11 +388,10 @@ const BackendAccess =
             return await callAndEnsureLogin(request)
         },
 
-        async  getItemCategories()
-        {
-            let request = async ()=>{
-                const url = baseAddress+`api/receipt/item/categories`;
-                const response =  await fetch(url, {
+        async getItemCategories() {
+            let request = async () => {
+                const url = baseAddress + `api/receipt/item/categories`;
+                const response = await fetch(url, {
                     method: 'GET',
                     headers: getHeaders(false)
                 })
@@ -445,10 +400,9 @@ const BackendAccess =
             return await callAndEnsureLogin(request)
         },
 
-        async  categoriseItems(receiptId)
-        {
-            let request = async ()=>{
-                const url = baseAddress+`api/receipt/${receiptId}/categorise`;
+        async categoriseItems(receiptId) {
+            let request = async () => {
+                const url = baseAddress + `api/receipt/${receiptId}/categorise`;
                 return await fetch(url, {
                     method: 'PUT',
                     headers: getHeaders(false)
@@ -456,15 +410,14 @@ const BackendAccess =
             }
             return await callAndEnsureLogin(request)
         },
-        async getChartData(dateObject)
-        {
-            let request = async ()=>{
+        async getChartData(dateObject) {
+            let request = async () => {
                 console.log(dateObject)
-                const url = baseAddress+`api/receipt/chart`;
+                const url = baseAddress + `api/receipt/chart`;
                 let request = await fetch(url, {
                     method: 'POST',
                     headers: getHeaders(true),
-                    body:JSON.stringify(dateObject)
+                    body: JSON.stringify(dateObject)
                 });
                 return await request.json()
             }
@@ -474,5 +427,4 @@ const BackendAccess =
     }
 
 
-
-    module.exports = BackendAccess
+module.exports = BackendAccess
