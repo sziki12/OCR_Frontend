@@ -32,27 +32,25 @@ import AppDrawer from "./AppDrawer";
 
 export default function MainToolbar() {
     const {user} = AuthData();
-    const {switchTheme, selectedTheme} = ThemeData();
+    const {switchTheme, selectedTheme, mobile} = ThemeData();
     const navigate = useNavigate();
 
     const [open, setOpen] = React.useState(false);
     const toggleDrawer = (newOpen) => () => {
         setOpen(newOpen);
     };
-
-    const mobile = useMediaQuery((theme) => theme.breakpoints.down('mobile'), {noSsr: true});
-
+    console.log(`Mobile Toolbar: ${mobile}`)
     return (
         <Box sx={{flexGrow: 1}}>
             {
                 (mobile)
                     ?
-                    <DesktopAppBar user={user} selectedTheme={selectedTheme} switchTheme={switchTheme}
-                                   navigate={navigate}/>
-                    :
                     <MobileAppBar selectedTheme={selectedTheme} switchTheme={switchTheme} user={user}
                                   navigate={navigate}
                                   toggleDrawer={toggleDrawer} open={open}/>
+                    :
+                    <DesktopAppBar user={user} selectedTheme={selectedTheme} switchTheme={switchTheme}
+                                   navigate={navigate}/>
             }
         </Box>
     )

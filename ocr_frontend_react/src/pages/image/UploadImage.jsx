@@ -1,14 +1,11 @@
 import React, { useState } from "react";
 import MainSection from "../../components/utils/MainSection";
-import {Button} from "@mui/material";
+import {Button, Paper} from "@mui/material";
 import {uploadImageForOCR} from "../../components/utils/BackendAccess";
 import {useNavigate} from "react-router-dom";
 import {faSpinner} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import ReceiptsFromImagePage from "./ReceiptFromImage";
-
-
-
 
 const UploadAndDisplayImage = (props) => {
 
@@ -32,7 +29,7 @@ const UploadAndDisplayImage = (props) => {
     return (
             <div className={"flex flex-row justify-center"}>
 
-                <div className={"w-1/3 px-10 py-6 m-5 bg-blue-50 shadow rounded"}>
+                <Paper className={" px-10 py-6 m-5"}>
                     <h1>Upload the Receipt for analysis</h1>
                     {
                         receiptImage && (
@@ -75,7 +72,7 @@ const UploadAndDisplayImage = (props) => {
                                 }}
                             />)
                     }
-                </div>
+                </Paper>
             </div>
     );
 };

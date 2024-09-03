@@ -45,7 +45,6 @@ function ListFromItems({menuItems, validRoutes, isAuthenticated, navigate}) {
                     ((isPathProtected(menuItem.path, validRoutes)))
                         ?
                         () => {
-                        console.log("Navigate Protected")
                             if (isAuthenticated)
                                 navigate(menuItems.path)
                             else
@@ -53,7 +52,6 @@ function ListFromItems({menuItems, validRoutes, isAuthenticated, navigate}) {
                         }
                         :
                         () => {
-                            console.log("Navigate UnProtected")
                             navigate(menuItems.path)
                         }
                 }>

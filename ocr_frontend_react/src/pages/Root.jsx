@@ -1,13 +1,13 @@
 import {Outlet, useLocation} from "react-router-dom";
 import MainSection from "../components/utils/MainSection";
-import {Card, CardContent, Box, Typography, Stack, Paper, Button,} from "@mui/material";
+import {Card, CardContent, Typography, Stack, Paper, Button,} from "@mui/material";
 import {faComputer, faDatabase, faImage} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {AuthData} from "../components/handlers/LoginHandler";
+import {ThemeData} from "../components/handlers/ThemeHandler";
 
-function Root() {
+export default function Root() {
+
     const location = useLocation();
-
     return (
         <MainSection>
             <div>
@@ -28,10 +28,11 @@ function Root() {
 }
 
 function RootContent() {
+    const {mobile} = ThemeData();
     return (
         <Paper elevation={10} className={"px-6 pt-6 pb-16"}>
-            <Typography sx={{fontSize: 18}} component="div">Main Features</Typography>
-            <Stack spacing={6} direction="row" justifyContent={"center"}>
+            <Typography sx={{fontSize: 18}} component="div" className={"pb-4"}>Main Features</Typography>
+            <Stack spacing={6} direction={(mobile) ? "column" : "row"} justifyContent={"center"} alignItems={"center"}>
                 <Card elevation={10} sx={{width: 200}}>
                     <CardContent>
                         Store Your Receipts Online
@@ -44,7 +45,6 @@ function RootContent() {
                         Extract Receipt from Image
                         <br/>
                         <div className={"flex justify-center"}><FontAwesomeIcon size={"2xl"} icon={faComputer}/></div>
-
                     </CardContent>
                 </Card>
                 <Card elevation={10} sx={{width: 200}}>
@@ -55,11 +55,6 @@ function RootContent() {
                     </CardContent>
                 </Card>
             </Stack>
-            <Button variant={"contained"}>
-                Button for Style Test
-            </Button>
         </Paper>
     )
 }
-
-export default Root;

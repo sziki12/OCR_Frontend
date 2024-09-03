@@ -1,5 +1,5 @@
 import {createContext, useContext, useState} from "react";
-import {createTheme, CssBaseline, ThemeProvider} from "@mui/material";
+import {createTheme, CssBaseline, ThemeProvider, useMediaQuery} from "@mui/material";
 import {dark} from "@mui/material/styles/createPalette";
 
 const ThemeContext = createContext({
@@ -7,7 +7,15 @@ const ThemeContext = createContext({
     },
     switchTheme: () => {
     },
-    selectedTheme: {}
+    selectedTheme: {
+        palette: {
+            breakpoints: {
+                values: []
+            }
+        }
+    },
+    mobile: null,
+    desktop: null
 });
 
 export const ThemeData = () => {
@@ -42,7 +50,7 @@ export default function ThemeHandler({children}) {
             },
             breakpoints: {
                 values: {
-                    mobile: 900,
+                    mobile: 600,
                     desktop: 1200,
                 },
             },
@@ -72,7 +80,7 @@ export default function ThemeHandler({children}) {
             },
             breakpoints: {
                 values: {
-                    mobile: 0,
+                    mobile: 600,
                     desktop: 1200,
                 },
             },
@@ -98,8 +106,11 @@ export default function ThemeHandler({children}) {
         }
     }
 
+    const mobile = useMediaQuery(`(max-width:${selectedTheme.palette.breakpoints.values["mobile"]}px)`)
+    const desktop = useMediaQuery(`(min-width:${selectedTheme.palette.breakpoints.values["desktop"]}px)`)
+
     return (
-        <ThemeContext.Provider value={{setTheme, switchTheme, selectedTheme}}>
+        <ThemeContext.Provider value={{setTheme, switchTheme, selectedTheme, mobile, desktop}}>
             <ThemeProvider theme={selectedTheme}>
                 <CssBaseline/>
                 {children}

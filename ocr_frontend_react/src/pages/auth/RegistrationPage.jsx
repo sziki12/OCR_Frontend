@@ -26,13 +26,13 @@ export default function LoginPage()
 
     return(
         <div className={"flex justify-center"}>
-            <div className={"flex flex-col bg-blue-200 p-4"}>
+            <Paper className={"flex flex-col p-4"}>
                 <div className={"flex justify-center p-4"}>
                     <Typography  variant="h4">Create Account</Typography>
                 </div>
                 <Stack spacing={2} className={"p-4"}>
 
-                    <TextField value={attempt.userName} label={"username"} name={"userName"} variant={"outlined"} onChange={onChange}/>
+                    <TextField autoFocus={true} value={attempt.userName} label={"username"} name={"userName"} variant={"outlined"} onChange={onChange}/>
                     <TextField value={attempt.password} type={"password"} label={"password"} name={"password"} variant={"outlined"} onChange={onChange}/>
                     <Button onClick={async () => {
                         register(
@@ -71,7 +71,7 @@ export default function LoginPage()
                             <></>
                     }
                 </Stack>
-            </div>
+            </Paper>
         </div>
     )
 }
