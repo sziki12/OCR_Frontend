@@ -4,11 +4,9 @@ import {Card, CardContent, Box, Typography, Stack, Paper, Button,} from "@mui/ma
 import {faComputer, faDatabase, faImage} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {AuthData} from "../components/handlers/LoginHandler";
-import {ThemeData} from "../components/handlers/ThemeHandler";
 
 function Root() {
     const location = useLocation();
-    const {user} = AuthData();
 
     return (
         <MainSection>
@@ -57,25 +55,8 @@ function RootContent() {
                     </CardContent>
                 </Card>
             </Stack>
-            <Button
-                sx={[
-                    (theme) => ({
-                        color: '#fff',
-                        backgroundColor: theme.palette.primary.main,
-                        ...theme.applyStyles('dark', {
-                            backgroundColor: theme.palette.secondary.main,
-                        }),
-                        '&:hover': {
-                            boxShadow: theme.shadows[3],
-                            backgroundColor: theme.palette.primary.dark,
-                            ...theme.applyStyles('dark', {
-                                backgroundColor: theme.palette.secondary.dark,
-                            }),
-                        },
-                    }),
-                ]}
-            >
-                Theme Test Button
+            <Button variant={"contained"}>
+                Button fo Style Test
             </Button>
         </Paper>
     )

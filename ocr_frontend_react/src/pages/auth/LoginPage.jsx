@@ -26,7 +26,7 @@ export default function LoginPage()
 
     return(
          <div className={"flex justify-center"}>
-             <div className={"flex flex-col bg-blue-200 p-4"}>
+             <Paper className={"flex flex-col p-4"}>
                  <div className={"flex justify-center p-4"}>
                     <Typography  variant="h4">Login</Typography>
                  </div>
@@ -71,7 +71,7 @@ export default function LoginPage()
                              <></>
                      }
                  </Stack>
-             </div>
+             </Paper>
          </div>
     )
 }
