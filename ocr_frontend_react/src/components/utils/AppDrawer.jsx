@@ -72,10 +72,8 @@ function ListFromItems({menuItems, validRoutes, isAuthenticated, navigate}) {
 function isPathProtected(selectedPath, validRoutes) {
     for (let route of validRoutes) {
         if (route.path === selectedPath) {
-            console.log("Path Matches")
             return route.isProtected
         }
     }
-    console.log("Path Don't Match")
     return null
 }

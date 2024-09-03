@@ -56,7 +56,7 @@ function RootContent() {
                 </Card>
             </Stack>
             <Button variant={"contained"}>
-                Button fo Style Test
+                Button for Style Test
             </Button>
         </Paper>
     )

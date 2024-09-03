@@ -39,7 +39,13 @@ export default function ThemeHandler({children}) {
             text: {
                 primary: "#fff",
                 secondary: "#fff"
-            }
+            },
+            breakpoints: {
+                values: {
+                    mobile: 900,
+                    desktop: 1200,
+                },
+            },
         },
     });
 
@@ -63,6 +69,12 @@ export default function ThemeHandler({children}) {
             text: {
                 primary: "#000000",
                 secondary: "#000000"
+            },
+            breakpoints: {
+                values: {
+                    mobile: 0,
+                    desktop: 1200,
+                },
             },
         },
     });

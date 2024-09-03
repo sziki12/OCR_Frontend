@@ -1,3 +1,5 @@
+import {useMediaQuery} from "react-responsive";
+
 export default function getDateToShow(dateOfPurchase)
 {
     const date = new Date(dateOfPurchase)
