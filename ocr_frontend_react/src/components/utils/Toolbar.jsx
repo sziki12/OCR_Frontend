@@ -39,7 +39,6 @@ export default function MainToolbar() {
     const toggleDrawer = (newOpen) => () => {
         setOpen(newOpen);
     };
-    console.log(`Mobile Toolbar: ${mobile}`)
     return (
         <Box sx={{flexGrow: 1}}>
             {

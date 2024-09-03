@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import MainSection from "../../components/utils/MainSection";
-import {Button, Paper} from "@mui/material";
+import {Button, Paper, styled,} from "@mui/material";
 import {uploadImageForOCR} from "../../components/utils/BackendAccess";
 import {useNavigate} from "react-router-dom";
-import {faSpinner} from "@fortawesome/free-solid-svg-icons";
+import {faCloudArrowUp, faSpinner} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import ReceiptsFromImagePage from "./ReceiptFromImage";
 
@@ -64,17 +64,37 @@ const UploadAndDisplayImage = (props) => {
                     <br />
                     {
                         !receiptImage &&(
-                            <input
-                                type="file"
-                                name="receiptImage"
-                                onChange={(event) => {
-                                    setReceiptImage(event.target.files[0]);
-                                }}
-                            />)
+
+                            <Button
+                                component="label"
+                                role={undefined}
+                                variant="contained"
+                                tabIndex={-1}
+                                startIcon={<FontAwesomeIcon icon={faCloudArrowUp} />}
+                            >
+                                Upload files
+                                <VisuallyHiddenInput
+                                    type="file"
+                                    onChange={(event) => setReceiptImage(event.target.files[0])}
+                                    multiple
+                                />
+                            </Button>)
                     }
                 </Paper>
             </div>
     );
 };
+
+const VisuallyHiddenInput = styled('input')({
+    clip: 'rect(0 0 0 0)',
+    clipPath: 'inset(50%)',
+    height: 1,
+    overflow: 'hidden',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    whiteSpace: 'nowrap',
+    width: 1,
+});
 
 export default UploadAndDisplayImage;
