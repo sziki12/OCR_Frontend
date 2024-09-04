@@ -88,7 +88,6 @@ export default function LoginHandler({children}) {
             console.log("Login")
             console.log(savedUser)
             setUser(savedUser)
-            updateRouter(savedUser.isAuthenticated)
         } else {
             console.log("No User")
             console.log(savedUser)

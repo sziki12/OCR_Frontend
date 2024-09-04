@@ -72,11 +72,11 @@ const UploadAndDisplayImage = (props) => {
                                 tabIndex={-1}
                                 startIcon={<FontAwesomeIcon icon={faCloudArrowUp} />}
                             >
-                                Upload files
+                                Upload file
                                 <VisuallyHiddenInput
                                     type="file"
                                     onChange={(event) => setReceiptImage(event.target.files[0])}
-                                    multiple
+                                    //multiple
                                 />
                             </Button>)
                     }
