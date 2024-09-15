@@ -11,7 +11,7 @@ export default function OcrResponseView()
     useEffect(() => {
         setResponse(ocrResponseData.ocrResponse)
     }, [ocrResponseData.ocrResponse]);
-    const [responseToShow,setResponseToShow] = useState("extractedItems")
+    const [responseToShow,setResponseToShow] = useState("receiptText")
     //console.log(response)
     return (
         <Paper className="px-10 py-6 m-5">
@@ -24,16 +24,14 @@ export default function OcrResponseView()
                     label="OCR Response"
                     onChange={(event)=>{setResponseToShow(event.target.value)}}
                 >
-                    <MenuItem value={"plainText"}>Plain OCR Text</MenuItem>
-                    <MenuItem value={"filteredReceipt"}>Filtered Receipt</MenuItem>
-                    <MenuItem value={"extractedItems"}>Extracted Items</MenuItem>
+                    <MenuItem value={"receiptText"}>Plain OCR Text</MenuItem>
                 </Select>
             </FormControl>
             {
                 (response&&response[responseToShow])
                 ?
-                    response[responseToShow].map((item)=><p>{item}</p>)
-                :
+                    response[responseToShow].split("\n").map((item)=> <p>{item}</p>)
+                    :
                     <></>
             }
         </Paper>
