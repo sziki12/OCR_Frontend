@@ -20,7 +20,7 @@ export default function ReceiptToggleEditableWrapper({children})
 
     return(
         <>
-            <div className={"flex flex-row align-middle"}>
+            <div className={"flex flex-row align-middle items-center"}>
                 <p>View Mode</p>
                 <Switch onChange={handleSwitch}/>
                 <p>Edit Mode</p>

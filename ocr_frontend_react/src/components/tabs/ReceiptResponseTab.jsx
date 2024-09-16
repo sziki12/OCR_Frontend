@@ -14,7 +14,7 @@ export default function ReceiptResponseTab()
                 <div className="h-1/2">
                     <ReceiptToggleEditableWrapper/>
                 </div>
-                <div className="w-1/2 bg-blue-50">
+                <div className="w-1/2">
                     {
                         <OcrResponseView/>
                     }

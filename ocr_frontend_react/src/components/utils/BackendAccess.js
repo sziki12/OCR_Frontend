@@ -219,9 +219,13 @@ const BackendAccess =
             return await callAndEnsureLogin(request)
         },
 
-        async uploadImageForOCR(image) {
+        async uploadImageForOCR(image, query) {
+            if(typeof query === "undefined" || typeof query.ocrType === "undefined" ||
+                typeof query.orientation === "undefined" || typeof query.parseModel === "undefined")
+                return new Promise(async (resolve,reject)=>{reject("Insufficient query param")})
             let request = async () => {
-                const url = baseAddress + 'api/image'
+                const url = baseAddress + `api/image?ocrType=${query.ocrType}&orientation=${query.orientation}&parseModel=${query.parseModel}`
+                console.log(url)
                 let response = await fetch(url, {
                     method: 'POST',
                     headers: getHeaders(false),

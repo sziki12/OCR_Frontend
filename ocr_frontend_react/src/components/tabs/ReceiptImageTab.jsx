@@ -1,6 +1,7 @@
 import ReceiptToggleEditableWrapper from "../receipts/ReceiptToggleEditableWrapper";
 import * as React from "react";
 import ReceiptImageList from "../images/ReceiptImageList";
+import {Paper} from "@mui/material";
 
 
 export default function ReceiptImageTab()
@@ -10,10 +11,10 @@ export default function ReceiptImageTab()
             <div className="flex flex-row flex-wrap h-1/2">
                 <ReceiptToggleEditableWrapper/>
             </div>
-            <div className="w-1/2 px-10 py-6 m-5 bg-blue-50 shadow rounded">
+            <Paper className="px-10 py-6 m-5">
                 {
                     <ReceiptImageList/>
                 }
-            </div>
+            </Paper>
         </div>)
 }

@@ -60,7 +60,6 @@ export default function ReceiptImageList() {
             }
         }
     },[receipt.images])
-    console.log(open)
     return (
         <div className={"flex justify-center"}>
             <ImageList sx={{width:600,height:600}} cols={3} rowHeight={164} variant="quilted">
