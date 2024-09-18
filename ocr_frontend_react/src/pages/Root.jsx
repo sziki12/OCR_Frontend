@@ -28,11 +28,11 @@ export default function Root() {
 }
 
 function RootContent() {
-    const {mobile} = ThemeData();
+    const {breakpoints} = ThemeData();
     return (
         <Paper elevation={10} className={"px-6 pt-6 pb-16"}>
             <Typography sx={{fontSize: 18}} component="div" className={"pb-4"}>Main Features</Typography>
-            <Stack spacing={6} direction={(mobile) ? "column" : "row"} justifyContent={"center"} alignItems={"center"}>
+            <Stack spacing={6} direction={(breakpoints.sm) ? "column" : "row"} justifyContent={"center"} alignItems={"center"}>
                 <Card elevation={10} sx={{width: 200}}>
                     <CardContent>
                         Store Your Receipts Online

@@ -119,21 +119,22 @@ const UploadAndDisplayImage = (props) => {
                     <br/>
                     {
                         !receiptImage &&(
-
-                            <Button
-                                component="label"
-                                role={undefined}
-                                variant="contained"
-                                tabIndex={-1}
-                                startIcon={<FontAwesomeIcon icon={faCloudArrowUp} />}
-                            >
-                                Upload file
-                                <VisuallyHiddenInput
-                                    type="file"
-                                    onChange={(event) => setReceiptImage(event.target.files[0])}
-                                    //multiple
-                                />
-                            </Button>)
+                            <div  className={"flex justify-center"}>
+                                <Button
+                                    component="label"
+                                    role={undefined}
+                                    variant="contained"
+                                    tabIndex={-1}
+                                    startIcon={<FontAwesomeIcon icon={faCloudArrowUp} />}
+                                >
+                                    Upload file
+                                    <VisuallyHiddenInput
+                                        type="file"
+                                        onChange={(event) => setReceiptImage(event.target.files[0])}
+                                        //multiple
+                                    />
+                                </Button>
+                            </div>)
                     }
                 </Paper>
             </div>

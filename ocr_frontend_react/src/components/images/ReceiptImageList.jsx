@@ -8,12 +8,14 @@ import {getImage} from "../utils/BackendAccess"
 import {Button, Dialog} from "@mui/material";
 import ImageView from "./ImageView";
 import * as Utils from "../utils/Utils";
+import {ThemeData} from "../handlers/ThemeHandler";
 
 export default function ReceiptImageList() {
     const {receipt} = ReceiptData()
     const [images,setImages] = useState([])
 
     const [open, setOpen] = React.useState({});
+    const {breakpoints} = ThemeData();
 
     const handleClickOpen = (imageId) => {
         setOpen((prev)=>{
@@ -62,7 +64,8 @@ export default function ReceiptImageList() {
     },[receipt.images])
     return (
         <div className={"flex justify-center"}>
-            <ImageList sx={{width:600,height:600}} cols={3} rowHeight={164} variant="quilted">
+            <ImageList sx={{width:(breakpoints.sm)?(300):((breakpoints.md)?(450):(600)),
+                height:(breakpoints.sm)?(300):((breakpoints.md)?(450):(600))}} cols={3} rowHeight={(breakpoints.sm)?(80):((breakpoints.md)?(120):(164))} variant="quilted">
                 {
                     (images.length>0)
                         ?

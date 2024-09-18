@@ -25,6 +25,18 @@ function EditToolbar(props) {
 
     const apiRef = useGridApiContext();
 
+    useEffect(() => {
+        setTimeout(() => {
+            console.log("Autosizing columns...")
+            apiRef.current.autosizeColumns({
+                includeOutliers: true,
+                includeHeaders: true,
+                expand:true,
+                outliersFactor:1.5
+            })
+        }, 250)
+    }, [apiRef])
+
     const handleClick = async () => {
         let newItem = await props.insertItem()
         const id = newItem.id;
@@ -108,7 +120,7 @@ function EditToolbar(props) {
     );
 }
 
-
+//TODO Replace with list on mobile size
 export default function ItemDataGrid(props)
 {
     let isEditable = props.isEditable || false
@@ -175,27 +187,42 @@ export default function ItemDataGrid(props)
         setRowModesModel(newRowModesModel);
     };
 
+   /* const outliersFactor = "1.5"
+    const autosizeOptions = {
+        columns: ['name', 'quantity', 'totalCost', 'category'],
+        includeHeaders:true,
+        includeOutliers:true,
+        outliersFactor: Number.isNaN(parseFloat(outliersFactor))
+            ? 1
+            : parseFloat(outliersFactor),
+        expand:true,
+    };*/
+
     const columns = [
-        { field: 'name', headerName: 'Name', width: 220, editable: isEditable },
+        {
+            field: 'name',
+            headerName: 'Name',
+            minWidth:150,
+            editable: isEditable },
         {
             field: 'quantity',
             headerName: 'Quantity',
             type: 'number',
-            width: 140,
+            minWidth:75,
             editable: isEditable,
         },
         {
             field: 'totalCost',
             headerName: 'Cost',
             type: 'number',
-            width: 140,
+            minWidth:100,
             editable: isEditable,
         },
         {
             field: 'category',
             headerName: 'Category',
             type: 'singleSelect',
-            width: 140,
+            minWidth:150,
             editable: isEditable,
             valueOptions: props.categories
         },
@@ -203,7 +230,6 @@ export default function ItemDataGrid(props)
             field: 'actions',
             type: 'actions',
             headerName: '',
-            width: 100,
             cellClassName: 'actions',
             getActions: ({ id }) => {
                 const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
@@ -255,7 +281,7 @@ export default function ItemDataGrid(props)
     return (
         <Box
             sx={{
-                height: 500,
+                //height: 500,
                 width: '100%',
                 '& .actions': {
                     color: 'text.secondary',
@@ -264,6 +290,7 @@ export default function ItemDataGrid(props)
                     color: 'text.primary',
                 },
             }}
+            className={"flex flex-grow"}
         >
             <DataGrid
                 rows={rows}
@@ -279,6 +306,8 @@ export default function ItemDataGrid(props)
                 slotProps={{
                     toolbar: { rows, setRows, setRowModesModel,insertItem,isEditable,editingRows,handleSaveClick,receipt,saveItems },
                 }}
+                /*autosizeOnMount
+                autosizeOptions={autosizeOptions}*/
             />
         </Box>
     );

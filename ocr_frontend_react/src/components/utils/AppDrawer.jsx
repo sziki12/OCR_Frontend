@@ -45,14 +45,16 @@ function ListFromItems({menuItems, validRoutes, isAuthenticated, navigate}) {
                     ((isPathProtected(menuItem.path, validRoutes)))
                         ?
                         () => {
-                            if (isAuthenticated)
-                                navigate(menuItems.path)
-                            else
+                            if (isAuthenticated) {
+                                navigate(menuItem.path)
+                            }
+                            else {
                                 navigate('/login')
+                            }
                         }
                         :
                         () => {
-                            navigate(menuItems.path)
+                            navigate(menuItem.path)
                         }
                 }>
                     <ListItemButton>

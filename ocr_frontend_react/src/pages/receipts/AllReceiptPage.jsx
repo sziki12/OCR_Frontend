@@ -11,10 +11,11 @@ import ReceiptState from "../../components/states/ReceiptState";
 import NewReceiptDialog from "../../components/receipts/NewReceiptDialog";
 import ReceiptDeleteDialog from "../../components/receipts/ReceiptDeleteDialog";
 import FilterSearchBar from "../../components/filter/FilterSearchBar";
+import {ThemeData} from "../../components/handlers/ThemeHandler";
 
 export default function AllReceiptPage() {
 
-    const navigate = useNavigate();
+    const {breakpoints} = ThemeData();
     const [receipts,setReceipts] = useState([])
     const emptyValues = ["All",""]
     const unassignedValue = "Unassigned"
@@ -75,7 +76,7 @@ export default function AllReceiptPage() {
             </div>
             <ReceiptState>
                 <NewReceiptDialog open={addOpen} close={()=>setAddOpen(false)}></NewReceiptDialog>
-                <div className="flex flex-wrap flex-row">
+                <div className={`flex flex-wrap flex-row ${breakpoints.sm?("justify-center"):""}`}>
                     <AllReceipts filterValue={filterValue}/>
                 </div>
             </ReceiptState>

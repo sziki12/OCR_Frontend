@@ -4,10 +4,12 @@ import {useEffect, useState} from "react";
 import {getChartData} from "../../components/utils/BackendAccess";
 import {Card, CardContent, CardHeader, Input, MenuItem, Select, Switch, Typography} from "@mui/material";
 import getDateToShow from "../../components/utils/Utils";
+import {ThemeData} from "../../components/handlers/ThemeHandler";
 
 
 export default function ChartPage()
 {
+    const {breakpoints} = ThemeData();
 
     let [chartData,setChartData] = useState({
         categoryData:[]
@@ -18,7 +20,6 @@ export default function ChartPage()
         type:"Last Month",
     })
     let [animationEnabled,setAnimationEnabled] = useState(true)
-
     const onChange = (e) => {
         const { name, value } = e.target;
         if(name === "to" && new Date(date.from) <= new Date(value) ||
@@ -30,44 +31,41 @@ export default function ChartPage()
                 [name]: value
             }));
         }
-        {
-            console.log("ELSE")
-            console.log(value)
-            console.log(date.from)
-            console.log(date.to)
-        }
-
     }
 
     useEffect(() => {
-        console.log(date)
         getChartData(date).then((data)=>{
             setChartData(data)
         })
     }, [date]);
     return(
-        <div className={"flex flex-col"}>
-            <div className={"flex flex-row items-center"}>
-                <p>From</p>
-                <Input
-                    className={"px-6"}
-                    type="date"
-                    placeholder="From"
-                    name={"from"}
-                    value={getDateToShow(date.from)}
-                    onChange={onChange}
-                    disabled={date.type !== "Custom"}
-                />
-                <p>To</p>
-                <Input
-                    className={"px-6"}
-                    type="date"
-                    placeholder="To"
-                    name={"to"}
-                    value={getDateToShow(date.to)}
-                    onChange={onChange}
-                    disabled={date.type !== "Custom"}
-                />
+        <div className={`flex flex-col space-y-4`}>
+            <div className={`flex flex-${(breakpoints.md||breakpoints.sm ? ("col") : ("row"))} space-y-4`}>
+                <div className={"flex flex-row items-center"}>
+                    <p>From</p>
+                    <Input
+                        className={"px-6"}
+                        type="date"
+                        placeholder="From"
+                        name={"from"}
+                        value={getDateToShow(date.from)}
+                        onChange={onChange}
+                        disabled={date.type !== "Custom"}
+                    />
+                </div>
+                <div className={"flex flex-row items-center"}>
+                    <p>To</p>
+                    <Input
+                        className={"px-6"}
+                        type="date"
+                        placeholder="To"
+                        name={"to"}
+                        value={getDateToShow(date.to)}
+                        onChange={onChange}
+                        disabled={date.type !== "Custom"}
+                    />
+                </div>
+
             </div>
             <div className={"flex flex-row items-center"}>
                 <Select
@@ -86,53 +84,72 @@ export default function ChartPage()
                     setAnimationEnabled(!animationEnabled)
                 }} />
                 <p>Enable Chart Animation</p>
-
             </div>
-            <div className={"flex flex-row"}>
-                <Card>
-                    <CardContent>
-                        <Typography sx={{ fontSize: 18 }} gutterBottom>
-                            Item Count by Category
-                        </Typography>
-                        <PieChart
-                            series={[
-                                {
-                                    data: chartData.categoryData.map((data)=>{return {
-                                        id:chartData[data],
-                                        value:data.itemCount,
-                                        label:data.category
-                                    }}),
-                                    highlightScope: (animationEnabled)?{ faded: 'global', highlighted: 'item' }:{},
-                                    faded: (animationEnabled)?{ innerRadius: 30, additionalRadius: -30, color: 'gray' }:{},
-                                },
-                            ]}
-                            width={400}
-                            height={300}
-                        />
-                    </CardContent>
-                </Card>
-                <Card>
-                    <CardContent>
-                        <Typography sx={{ fontSize: 18 }} gutterBottom>
-                            Item Cost by Category
-                        </Typography>
-                        <PieChart
-                            series={[
-                                {
-                                    data: chartData.categoryData.map((data)=>{return {
-                                        id:chartData[data],
-                                        value:data.totalCost,
-                                        label:data.category
-                                    }}),
-                                    highlightScope: (animationEnabled)?{ faded: 'global', highlighted: 'item' }:{},
-                                    faded: (animationEnabled)?{ innerRadius: 30, additionalRadius: -30, color: 'gray' }:{},
-                                },
-                            ]}
-                            width={400}
-                            height={300}
-                        />
-                    </CardContent>
-                </Card>
+            <div>
+                <div className={`flex flex-${(breakpoints.md||breakpoints.sm ? ("col") : ("row"))} space-${(breakpoints.md||breakpoints.sm ? ("y") : ("x"))}-10`}>
+                    <Card>
+                        <CardContent>
+                            <Typography sx={{fontSize: 18}} gutterBottom>
+                                Item Count by Category
+                            </Typography>
+                            <PieChart
+                                series={[
+                                    {
+                                        data: chartData.categoryData.map((data) => {
+                                            return {
+                                                id: chartData[data],
+                                                value: data.itemCount,
+                                                label: data.category
+                                            }
+                                        }),
+                                        highlightScope: (animationEnabled) ? {
+                                            faded: 'global',
+                                            highlighted: 'item'
+                                        } : {},
+                                        faded: (animationEnabled) ? {
+                                            innerRadius: 30,
+                                            additionalRadius: -30,
+                                            color: 'gray'
+                                        } : {},
+                                    },
+                                ]}
+                                width={(breakpoints.md||breakpoints.sm ? (200) : (400))}
+                                height={300}
+                            />
+                        </CardContent>
+                    </Card>
+                    <Card>
+                        <CardContent>
+                            <Typography sx={{fontSize: 18}} gutterBottom>
+                                Item Cost by Category
+                            </Typography>
+                            <PieChart
+                                series={[
+                                    {
+                                        data: chartData.categoryData.map((data) => {
+                                            return {
+                                                id: chartData[data],
+                                                value: data.totalCost,
+                                                label: data.category
+                                            }
+                                        }),
+                                        highlightScope: (animationEnabled) ? {
+                                            faded: 'global',
+                                            highlighted: 'item'
+                                        } : {},
+                                        faded: (animationEnabled) ? {
+                                            innerRadius: 30,
+                                            additionalRadius: -30,
+                                            color: 'gray'
+                                        } : {},
+                                    },
+                                ]}
+                                width={(breakpoints.md||breakpoints.sm ? (200) : (400))}
+                                height={300}
+                            />
+                        </CardContent>
+                    </Card>
+                </div>
             </div>
         </div>)
 }

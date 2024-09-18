@@ -73,7 +73,7 @@ export default function SingleReceipt(props) {
 
     return(
         <div className={"flex flex-col"}>
-            <Paper elevation={12} className="px-10 py-6 m-5 bg-blue-50">
+            <Paper elevation={12} className="px-10 py-6 m-5">
                 <div>
                     <ReceiptHeader receipt={receipt} isEditable={isEditable} onChange={onChange}/>
                     <ItemDataGrid receipt={receipt} items={receipt.items} saveItems={saveItems} categories={receipt.categories}

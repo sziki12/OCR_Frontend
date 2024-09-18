@@ -8,6 +8,7 @@ import Paper from '@mui/material/Paper';
 import {ReceiptData} from "../states/ReceiptState";
 import {useEffect, useState} from "react";
 import ReceiptDeleteDialog from "./ReceiptDeleteDialog";
+import {ThemeData} from "../handlers/ThemeHandler";
 
 
 export default function AllReceipts({filterValue})

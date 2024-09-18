@@ -14,8 +14,12 @@ const ThemeContext = createContext({
             }
         }
     },
-    mobile: null,
-    desktop: null
+    breakpoints:{
+        sm:false,
+        md:false,
+        lg:false,
+        xl:false,
+    }
 });
 
 export const ThemeData = () => {
@@ -50,8 +54,9 @@ export default function ThemeHandler({children}) {
             },
             breakpoints: {
                 values: {
-                    mobile: 600,
-                    desktop: 1200,
+                    sm:600,
+                    md:800,
+                    lg:1200,
                 },
             },
         },
@@ -80,8 +85,9 @@ export default function ThemeHandler({children}) {
             },
             breakpoints: {
                 values: {
-                    mobile: 600,
-                    desktop: 1200,
+                    sm:600,
+                    md:800,
+                    lg:1200,
                 },
             },
         },
@@ -106,11 +112,25 @@ export default function ThemeHandler({children}) {
         }
     }
 
-    const mobile = useMediaQuery(`(max-width:${selectedTheme.palette.breakpoints.values["mobile"]}px)`)
-    const desktop = useMediaQuery(`(min-width:${selectedTheme.palette.breakpoints.values["desktop"]}px)`)
+    const sm = useMediaQuery(`(max-width:${selectedTheme.palette.breakpoints.values["sm"]}px)`)
 
+    const md1 = useMediaQuery(`(max-width:${selectedTheme.palette.breakpoints.values["md"]}px)`)
+    const md2 = useMediaQuery(`(min-width:${selectedTheme.palette.breakpoints.values["sm"]}px)`)
+    const md = md1 && md2
+
+    const lg1 = useMediaQuery(`(min-width:${selectedTheme.palette.breakpoints.values["md"]}px)`)
+    const lg2 = useMediaQuery(`(max-width:${selectedTheme.palette.breakpoints.values["lg"]}px)`)
+    const lg = lg1 && lg2
+
+    const xl = useMediaQuery(`(min-width:${selectedTheme.palette.breakpoints.values["lg"]}px)`)
+    const breakpoints = {
+        sm,
+        md,
+        lg,
+        xl
+    }
     return (
-        <ThemeContext.Provider value={{setTheme, switchTheme, selectedTheme, mobile, desktop}}>
+        <ThemeContext.Provider value={{setTheme, switchTheme, selectedTheme, breakpoints}}>
             <ThemeProvider theme={selectedTheme}>
                 <CssBaseline/>
                 {children}

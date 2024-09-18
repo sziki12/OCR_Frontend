@@ -32,7 +32,7 @@ import AppDrawer from "./AppDrawer";
 
 export default function MainToolbar() {
     const {user} = AuthData();
-    const {switchTheme, selectedTheme, mobile} = ThemeData();
+    const {switchTheme, selectedTheme, breakpoints} = ThemeData();
     const navigate = useNavigate();
 
     const [open, setOpen] = React.useState(false);
@@ -42,7 +42,7 @@ export default function MainToolbar() {
     return (
         <Box sx={{flexGrow: 1}}>
             {
-                (mobile)
+                (breakpoints.sm)
                     ?
                     <MobileAppBar selectedTheme={selectedTheme} switchTheme={switchTheme} user={user}
                                   navigate={navigate}
