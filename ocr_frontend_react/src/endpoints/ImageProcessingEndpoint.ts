@@ -1,13 +1,9 @@
 import {callAndEnsureLogin, getHeaders} from "../services/AuthService";
+// @ts-ignore
 import {serverAddress} from "./BackendAccess";
 
 let ImageProcessingEndpoint = {
-    async uploadImageForOCR(image, query) {
-        if (typeof query === "undefined" || typeof query.ocrType === "undefined" ||
-            typeof query.orientation === "undefined" || typeof query.parseModel === "undefined")
-            return new Promise(async (resolve, reject) => {
-                reject("Insufficient query param")
-            })
+    async uploadImageForOCR(image: any, query: { ocrType: "tesseract"|"paddle"; orientation: "portrait"|"landscape"; parseModel: "gpt-4o"|"gpt-4o-mini"|"llama"; }) {
         let request = async () => {
             const url = serverAddress + `api/image?ocrType=${query.ocrType}&orientation=${query.orientation}&parseModel=${query.parseModel}`
             console.log(url)

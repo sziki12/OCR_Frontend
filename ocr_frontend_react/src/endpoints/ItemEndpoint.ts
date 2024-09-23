@@ -1,10 +1,11 @@
 import {callAndEnsureLogin, getHeaders} from "../services/AuthService";
+// @ts-ignore
 import {serverAddress} from "./BackendAccess";
 
 let ItemEndpoint = {
-    async deleteItem(receiptId, itemId) {
+    async deleteItem(receiptId: string, itemId: string) {
         let request = async () => {
-            await fetch(serverAddress + "api/receipt/" + receiptId + "/item/" + itemId,
+            await fetch(serverAddress + `api/receipt/${receiptId}/item/${itemId}`,
                 {
                     method: 'DELETE',
                     cache: "no-store",
@@ -24,7 +25,7 @@ let ItemEndpoint = {
         }
         return await callAndEnsureLogin(request)
     },
-    async categoriseItems(receiptId) {
+    async categoriseItems(receiptId: string) {
         let request = async () => {
             const url = serverAddress + `api/receipt/${receiptId}/categorise`;
             return await fetch(url, {

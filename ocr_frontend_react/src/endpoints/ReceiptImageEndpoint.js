@@ -1,5 +1,5 @@
 import AuthService from "../services/AuthService";
-import BackendAccess from "../endpoints/BackendAccess";
+import BackendAccess from "./BackendAccess";
 
 let ReceiptImageEndpoint = {
     async getImage(receiptId, imageId) {

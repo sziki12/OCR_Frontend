@@ -1,5 +1,7 @@
 import {callAndEnsureLogin, getHeaders} from "../services/AuthService";
+// @ts-ignore
 import {serverAddress} from "./BackendAccess";
+import {Place} from "../types/MainTypes";
 
 let PlaceEndpoint = {
     async getPlaces() {
@@ -14,7 +16,7 @@ let PlaceEndpoint = {
         }
         return await callAndEnsureLogin(request)
     },
-    async savePlace(place) {
+    async savePlace(place: Place) {
         let request = async () => {
             const url = serverAddress + 'api/place/save';
             return await fetch(url, {
@@ -25,7 +27,7 @@ let PlaceEndpoint = {
         }
         return await callAndEnsureLogin(request)
     },
-    async assignPlace(placeId, receiptId) {
+    async assignPlace(placeId: string, receiptId: string) {
         let request = async () => {
             const url = serverAddress + 'api/place/' + placeId + "/to/" + receiptId;
             await fetch(url, {
@@ -35,7 +37,7 @@ let PlaceEndpoint = {
         }
         return await callAndEnsureLogin(request)
     },
-    async removePlace(receiptId) {
+    async removePlace(receiptId: string) {
         let request = async () => {
             const url = serverAddress + 'api/place/remove/' + receiptId;
             await fetch(url, {

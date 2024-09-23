@@ -1,10 +1,12 @@
-import {callAndEnsureLogin, getHeaders} from "../services/AuthService";
+// @ts-ignore
 import {serverAddress} from "./BackendAccess";
+import {callAndEnsureLogin, getHeaders} from "../services/AuthService";
 
-let FilterEndpoint = {
-    async getFilterOptions() {
+
+let HouseholdEndpoint = {
+    async getHouseholds() {
         let request = async () => {
-            const url = serverAddress + `api/filter`;
+            const url = serverAddress + `api/household`;
             const response = await fetch(url, {
                 method: 'GET',
                 headers: getHeaders(false)
@@ -15,4 +17,4 @@ let FilterEndpoint = {
     },
 }
 
-module.exports = FilterEndpoint
+module.exports = HouseholdEndpoint

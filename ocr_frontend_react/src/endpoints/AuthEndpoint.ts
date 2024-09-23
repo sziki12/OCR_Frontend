@@ -1,13 +1,14 @@
+// @ts-ignore
 import {serverAddress} from "./BackendAccess";
 import {hashPassword} from "../services/AuthService";
 
 let AuthEndpoint = {
-    async loginUser(user, isPasswordHashed) {
+    async loginUser(user: { email: any; salt: any; }, isPasswordHashed: any) {
         const url = serverAddress + `salt`;
         let saltResponse = await fetch(url, {
             method: 'POST',
             body: JSON.stringify({
-                userName: user.userName,
+                email: user.email,
                 salt: ""
             }),
             headers: {
@@ -36,7 +37,7 @@ let AuthEndpoint = {
             return await hashPassword(user, request)
         }
     },
-    async registerUser(user) {
+    async registerUser(user: { salt: any; }) {
         const bcrypt = require('bcryptjs');
         user.salt = bcrypt.genSaltSync()
         let request = async () => {

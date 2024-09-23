@@ -2,12 +2,12 @@
 const BackendAccess =
     {
         ipAddress : "localhost",//"172.17.32.1",
-        serverAddress : `http://${(this.ipAddress)}:8080/`,
+        serverAddress: `http://${(this.ipAddress)}:8080/`,
         //TODO Refactor params in objects
 
-        async getItem(receiptId, itemId) {
+        /*async getItem(receiptId, itemId) {
             let request = async () => {
-                let receiptsRequest = await fetch(baseAddress + "api/receipt/" + receiptId + "/item/" + itemId,
+                let receiptsRequest = await fetch(this.this.serverAddress + "api/receipt/" + receiptId + "/item/" + itemId,
                     {
                         cache: "no-store"
                         ,
@@ -20,7 +20,7 @@ const BackendAccess =
 
         async updateItem(receiptId, itemId, name, quantity, totalCost) {
             let request = async () => {
-                await fetch(baseAddress + "api/receipt/" + receiptId + "/item/" + itemId,
+                await fetch(this.serverAddress + "api/receipt/" + receiptId + "/item/" + itemId,
                     {
                         method: 'PUT',
                         cache: "no-store",
@@ -38,7 +38,7 @@ const BackendAccess =
 
         async getPlaceByReceiptId(receiptId) {
             let request = async () => {
-                const url = baseAddress + `api/place/${receiptId}`;
+                const url = this.serverAddress + `api/place/${receiptId}`;
                 const response = await fetch(url, {
                     method: 'GET',
                     headers: getHeaders(false)
@@ -46,7 +46,7 @@ const BackendAccess =
                 return await response.json();
             }
             return await callAndEnsureLogin(request)
-        },
+        },*/
     }
 
 
