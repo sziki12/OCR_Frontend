@@ -1,19 +1,23 @@
 import {useNavigate} from "react-router-dom";
 import {Button} from "@mui/material";
-import {deleteReceipts} from "../../components/utils/BackendAccess";
+import {deleteReceipts} from "../../endpoints/ReceiptEndpoint";
 
 
-
-export default function DeleteReceiptPage({receiptId})
-{
+export default function DeleteReceiptPage({receiptId}) {
     const navigate = useNavigate()
 
-    return(
+    return (
         <>
             <p>Are you sure you would like to delete this receipt?</p>
             <div className={""}>
-                <Button onClick={()=>{deleteReceipts(receiptId).then(()=>{navigate("/receipts")})}}>Delete</Button>
-                <Button onClick={()=>{navigate("/receipts")}}>Back</Button>
+                <Button onClick={() => {
+                    deleteReceipts(receiptId).then(() => {
+                        navigate("/receipts")
+                    })
+                }}>Delete</Button>
+                <Button onClick={() => {
+                    navigate("/receipts")
+                }}>Back</Button>
             </div>
         </>
     )

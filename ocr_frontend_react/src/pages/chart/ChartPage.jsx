@@ -1,31 +1,29 @@
 import {PieChart} from "@mui/x-charts";
 import * as React from 'react';
 import {useEffect, useState} from "react";
-import {getChartData} from "../../components/utils/BackendAccess";
-import {Card, CardContent, CardHeader, Input, MenuItem, Select, Switch, Typography} from "@mui/material";
+import {getChartData} from "../../endpoints/StatisticEndpoint";
+import {Card, CardContent, Input, MenuItem, Select, Switch, Typography} from "@mui/material";
 import getDateToShow from "../../components/utils/Utils";
 import {ThemeData} from "../../components/handlers/ThemeHandler";
 
 
-export default function ChartPage()
-{
+export default function ChartPage() {
     const {breakpoints} = ThemeData();
 
-    let [chartData,setChartData] = useState({
-        categoryData:[]
+    let [chartData, setChartData] = useState({
+        categoryData: []
     })
-    let [date,setDate] = useState({
-        from:new Date(),
-        to:new Date(),
-        type:"Last Month",
+    let [date, setDate] = useState({
+        from: new Date(),
+        to: new Date(),
+        type: "Last Month",
     })
-    let [animationEnabled,setAnimationEnabled] = useState(true)
+    let [animationEnabled, setAnimationEnabled] = useState(true)
     const onChange = (e) => {
-        const { name, value } = e.target;
-        if(name === "to" && new Date(date.from) <= new Date(value) ||
-        name === "from" && new Date(date.to) >= new Date(value) ||
-        name === "type")
-        {
+        const {name, value} = e.target;
+        if (name === "to" && new Date(date.from) <= new Date(value) ||
+            name === "from" && new Date(date.to) >= new Date(value) ||
+            name === "type") {
             setDate(prevState => ({
                 ...prevState,
                 [name]: value
@@ -34,13 +32,13 @@ export default function ChartPage()
     }
 
     useEffect(() => {
-        getChartData(date).then((data)=>{
+        getChartData(date).then((data) => {
             setChartData(data)
         })
     }, [date]);
-    return(
+    return (
         <div className={`flex flex-col space-y-4`}>
-            <div className={`flex flex-${(breakpoints.md||breakpoints.sm ? ("col") : ("row"))} space-y-4`}>
+            <div className={`flex flex-${(breakpoints.md || breakpoints.sm ? ("col") : ("row"))} space-y-4`}>
                 <div className={"flex flex-row items-center"}>
                     <p>From</p>
                     <Input
@@ -80,13 +78,14 @@ export default function ChartPage()
                     <MenuItem value={"Custom"}>Custom</MenuItem>
                     <MenuItem value={"All Time"}>All Time</MenuItem>
                 </Select>
-                <Switch defaultChecked onChange={()=>{
+                <Switch defaultChecked onChange={() => {
                     setAnimationEnabled(!animationEnabled)
-                }} />
+                }}/>
                 <p>Enable Chart Animation</p>
             </div>
             <div>
-                <div className={`flex flex-${(breakpoints.md||breakpoints.sm ? ("col") : ("row"))} space-${(breakpoints.md||breakpoints.sm ? ("y") : ("x"))}-10`}>
+                <div
+                    className={`flex flex-${(breakpoints.md || breakpoints.sm ? ("col") : ("row"))} space-${(breakpoints.md || breakpoints.sm ? ("y") : ("x"))}-10`}>
                     <Card>
                         <CardContent>
                             <Typography sx={{fontSize: 18}} gutterBottom>
@@ -113,7 +112,7 @@ export default function ChartPage()
                                         } : {},
                                     },
                                 ]}
-                                width={(breakpoints.md||breakpoints.sm ? (200) : (400))}
+                                width={(breakpoints.md || breakpoints.sm ? (200) : (400))}
                                 height={300}
                             />
                         </CardContent>
@@ -144,7 +143,7 @@ export default function ChartPage()
                                         } : {},
                                     },
                                 ]}
-                                width={(breakpoints.md||breakpoints.sm ? (200) : (400))}
+                                width={(breakpoints.md || breakpoints.sm ? (200) : (400))}
                                 height={300}
                             />
                         </CardContent>

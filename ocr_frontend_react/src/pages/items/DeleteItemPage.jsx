@@ -1,9 +1,6 @@
 import {useNavigate, useParams} from "react-router-dom";
-import MainSection from "../../components/utils/MainSection";
 import {Button} from "@mui/material";
-import {deleteItem} from "../../components/utils/BackendAccess";
-
-
+import {deleteItem} from "../../endpoints/ItemEndpoint";
 
 export default function DeleteItemPage()
 {

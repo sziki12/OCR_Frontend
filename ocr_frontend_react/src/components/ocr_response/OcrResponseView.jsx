@@ -3,15 +3,14 @@ import * as React from "react";
 import {useEffect, useState} from "react";
 import {OcrResponseData} from "../states/OcrResponseState";
 
-export default function OcrResponseView()
-{
+export default function OcrResponseView() {
     const ocrResponseData = OcrResponseData()
-    const [response,setResponse] = useState({})
+    const [response, setResponse] = useState({})
 
     useEffect(() => {
         setResponse(ocrResponseData.ocrResponse)
     }, [ocrResponseData.ocrResponse]);
-    const [responseToShow,setResponseToShow] = useState("receiptText")
+    const [responseToShow, setResponseToShow] = useState("receiptText")
     //console.log(response)
     return (
         <Paper className="px-10 py-6 m-5 flex-grow">
@@ -22,15 +21,17 @@ export default function OcrResponseView()
                     id="ocr-response-select"
                     value={responseToShow}
                     label="OCR Response"
-                    onChange={(event)=>{setResponseToShow(event.target.value)}}
+                    onChange={(event) => {
+                        setResponseToShow(event.target.value)
+                    }}
                 >
                     <MenuItem value={"receiptText"}>Plain OCR Text</MenuItem>
                 </Select>
             </FormControl>
             {
-                (response&&response[responseToShow])
-                ?
-                    response[responseToShow].split("\n").map((item)=> <p>{item}</p>)
+                (response && response[responseToShow])
+                    ?
+                    response[responseToShow].split("\n").map((item) => <p>{item}</p>)
                     :
                     <></>
             }

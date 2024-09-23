@@ -1,8 +1,8 @@
 import {createContext, useContext, useEffect, useState} from "react";
-import {loginUser, saveAuthToken, registerUser, saveUser, getUser} from "../utils/BackendAccess"
+import {saveAuthToken, saveUser, getUser} from "../../services/AuthService"
+import {loginUser, registerUser} from "../../endpoints/AuthEndpoint"
 import {useNavigate} from "react-router-dom";
 import {updateRouter} from "../../index"
-
 
 const AuthContext = createContext(
     {
@@ -22,7 +22,6 @@ export const AuthData = () => {
 }
 
 export default function LoginHandler({children}) {
-    //const bcrypt = require('bcrypt');
     let navigate = useNavigate()
 
     const [user, setUser] = useState({

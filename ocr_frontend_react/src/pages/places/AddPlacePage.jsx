@@ -1,11 +1,9 @@
 import PlaceState from "../../components/states/PlaceState";
 import EditablePlace from "../../components/places/EditablePlace";
 
+export default function AddPlacePage() {
 
-export default function AddPlacePage()
-{
-
-    return(
+    return (
         <>
             <PlaceState>
                 <EditablePlace/>

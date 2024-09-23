@@ -1,43 +1,49 @@
-import {AdvancedMarker, InfoWindow, Pin, useAdvancedMarkerRef} from "@vis.gl/react-google-maps";
+import {AdvancedMarker, useAdvancedMarkerRef} from "@vis.gl/react-google-maps";
 import {useEffect, useState} from "react";
 import {Button, Dialog} from "@mui/material";
 import PlacePin from "./pins/PlacePin";
 
 
-export default function PlaceMarker({place,refHandler,inSelectMode,select,receiptId,infoWindowShown,setInfoWindowShown})
-{
+export default function PlaceMarker({
+                                        place,
+                                        refHandler,
+                                        inSelectMode,
+                                        select,
+                                        receiptId,
+                                        infoWindowShown,
+                                        setInfoWindowShown
+                                    }) {
     const [markerRef, marker] = useAdvancedMarkerRef()
-    const [selectMode,setSelectMode] = useState(inSelectMode || false)
+    const [selectMode, setSelectMode] = useState(inSelectMode || false)
 
     const isOpen = infoWindowShown[place.id] || false
     useEffect(() => {
         if (!marker) {
             return;
         }
-        refHandler(marker,place.id)
+        refHandler(marker, place.id)
 
         return () => {
-            refHandler(null,place.id)
+            refHandler(null, place.id)
             markerRef(null)
         }
     }, [marker]);
 
-    const containsNumber = (array,value)=>
-    {
-        if(!array||array.size<=0)
+    const containsNumber = (array, value) => {
+        if (!array || array.size <= 0)
             return false
-        for(let item of array)
-        {
-            if(Number(item) === Number(value))
-            {
+        for (let item of array) {
+            if (Number(item) === Number(value)) {
                 return true
             }
         }
         return false
     }
 
-    const isPlaceSelected=()=>{
-        return containsNumber(place.receipts && place.receipts.map((receipt)=>{return receipt.id}),receiptId)
+    const isPlaceSelected = () => {
+        return containsNumber(place.receipts && place.receipts.map((receipt) => {
+            return receipt.id
+        }), receiptId)
     }
 
     //console.log(`Draw ${place.id} Marker`)
@@ -46,16 +52,16 @@ export default function PlaceMarker({place,refHandler,inSelectMode,select,receip
             <AdvancedMarker
                 position={place}
                 ref={markerRef}
-                onClick={()=>{
-                    setInfoWindowShown({[place.id]:true})
-                 }}
+                onClick={() => {
+                    setInfoWindowShown({[place.id]: true})
+                }}
             >
                 {
 
                     <Dialog
                         open={isOpen}
-                        onClose={()=>{
-                            setInfoWindowShown((prev)=>{
+                        onClose={() => {
+                            setInfoWindowShown((prev) => {
                                 const newInfoWindowShown = {...prev};
                                 delete newInfoWindowShown[place.id];
                                 return newInfoWindowShown;
@@ -70,11 +76,11 @@ export default function PlaceMarker({place,refHandler,inSelectMode,select,receip
                                     ?
                                     (isPlaceSelected())
                                         ?
-                                        <><Button variant={"contained"} color={"error"} onClick={()=>select()}>
+                                        <><Button variant={"contained"} color={"error"} onClick={() => select()}>
                                             Unselect
                                         </Button></>
                                         :
-                                        <><Button variant={"contained"} onClick={()=>select(place.id)}>
+                                        <><Button variant={"contained"} onClick={() => select(place.id)}>
                                             Select
                                         </Button></>
                                     :

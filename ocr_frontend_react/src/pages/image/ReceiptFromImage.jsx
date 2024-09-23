@@ -1,9 +1,6 @@
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {getSingleReceipt} from "../../components/utils/BackendAccess";
-import {Button, FormControl, InputLabel, MenuItem, Select} from "@mui/material";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faFileArrowUp, faPlus} from "@fortawesome/free-solid-svg-icons";
+import {getSingleReceipt} from "../../endpoints/ReceiptEndpoint";
 import SingleReceipt from "../../components/receipts/SingleReceipt";
 import * as React from "react";
 import OcrResponseView from "../../components/ocr_response/OcrResponseView"

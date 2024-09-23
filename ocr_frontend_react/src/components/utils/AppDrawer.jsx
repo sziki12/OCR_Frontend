@@ -19,7 +19,7 @@ export default function AppDrawer({open, toggleDrawer, isAuthenticated}) {
 
     const validRoutes = RouteProvider(true)
 
-    const preferenceMenuItems = []
+    const preferenceMenuItems = []//TODO Add Change Theme
 
     const DrawerList = (
         <Box sx={{width: 250}} role="presentation" onClick={toggleDrawer(false)}>
@@ -47,8 +47,7 @@ function ListFromItems({menuItems, validRoutes, isAuthenticated, navigate}) {
                         () => {
                             if (isAuthenticated) {
                                 navigate(menuItem.path)
-                            }
-                            else {
+                            } else {
                                 navigate('/login')
                             }
                         }

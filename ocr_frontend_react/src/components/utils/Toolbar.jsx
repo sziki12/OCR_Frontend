@@ -3,13 +3,8 @@ import {
     Toolbar,
     Button,
     Box,
-    Icon,
     Typography,
     IconButton,
-    Popper,
-    Card,
-    Drawer,
-    useMediaQuery
 } from '@mui/material';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {

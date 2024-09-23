@@ -14,11 +14,11 @@ const ThemeContext = createContext({
             }
         }
     },
-    breakpoints:{
-        sm:false,
-        md:false,
-        lg:false,
-        xl:false,
+    breakpoints: {
+        sm: false,
+        md: false,
+        lg: false,
+        xl: false,
     }
 });
 
@@ -54,9 +54,9 @@ export default function ThemeHandler({children}) {
             },
             breakpoints: {
                 values: {
-                    sm:600,
-                    md:800,
-                    lg:1200,
+                    sm: 600,
+                    md: 800,
+                    lg: 1200,
                 },
             },
         },
@@ -85,9 +85,9 @@ export default function ThemeHandler({children}) {
             },
             breakpoints: {
                 values: {
-                    sm:600,
-                    md:800,
-                    lg:1200,
+                    sm: 600,
+                    md: 800,
+                    lg: 1200,
                 },
             },
         },

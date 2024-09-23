@@ -1,4 +1,3 @@
-import ImageView from "../images/ImageView";
 import {Button, Dialog, Input} from "@mui/material";
 import * as React from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -6,30 +5,29 @@ import {faCalendar, faMessage, faMoneyBill} from "@fortawesome/free-solid-svg-ic
 import getDateToShow from "../utils/Utils";
 import {ReceiptData} from "../states/ReceiptState";
 import {useState} from "react";
-import {createReceipt} from "../utils/BackendAccess";
+import {createReceipt} from "../../endpoints/ReceiptEndpoint";
 
 
-export default function NewReceiptDialog({open,close})
-{
+export default function NewReceiptDialog({open, close}) {
     let receiptData = ReceiptData()
 
     const [receipt, setReceipt] = useState({
-        id:-1,
-        name:"",
-        dateOfPurchase:new Date(),
-        items:[],
-        totalCost:0,
+        id: -1,
+        name: "",
+        dateOfPurchase: new Date(),
+        items: [],
+        totalCost: 0,
     })
 
     const onChange = (e) => {
-        const { name, value } = e.target;
+        const {name, value} = e.target;
         setReceipt(prevState => ({
             ...prevState,
             [name]: value
         }));
     }
 
-    return(
+    return (
         <>
             <Dialog
                 open={open}
@@ -64,11 +62,11 @@ export default function NewReceiptDialog({open,close})
                         await createReceipt(receipt.name, receipt.dateOfPurchase)
                         receiptData.updateAllReceipt()
                         setReceipt({
-                            id:-1,
-                            name:"",
-                            dateOfPurchase:new Date(),
-                            items:[],
-                            totalCost:0,
+                            id: -1,
+                            name: "",
+                            dateOfPurchase: new Date(),
+                            items: [],
+                            totalCost: 0,
                         })
                         close()
                     }}>Save</Button>

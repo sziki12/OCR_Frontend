@@ -6,72 +6,73 @@ import Paper from "@mui/material/Paper";
 import {useNavigate} from "react-router-dom";
 
 
-export default function LoginPage()
-{
+export default function LoginPage() {
     const navigate = useNavigate()
     const {login} = AuthData()
-    const [attempt,setAttempt] = useState({
-        userName:"",
-        password:"",
-        isAuthenticated:false,
-        hasAttempt:false,
-        message:""
+    const [attempt, setAttempt] = useState({
+        userName: "",
+        password: "",
+        isAuthenticated: false,
+        hasAttempt: false,
+        message: ""
     })
 
 
     const onChange = (e) => {
         let {name, value} = e.target;
-        setAttempt({...attempt,[name]:value})
+        setAttempt({...attempt, [name]: value})
     }
 
-    return(
-         <div className={"flex justify-center"}>
-             <Paper className={"flex flex-col p-4"}>
-                 <div className={"flex justify-center p-4"}>
-                    <Typography  variant="h4">Login</Typography>
-                 </div>
-                 <Stack spacing={2} className={"p-4"}>
+    return (
+        <div className={"flex justify-center"}>
+            <Paper className={"flex flex-col p-4"}>
+                <div className={"flex justify-center p-4"}>
+                    <Typography variant="h4">Login</Typography>
+                </div>
+                <Stack spacing={2} className={"p-4"}>
 
-                     <TextField autoFocus={true} value={attempt.userName} label={"username"} name={"userName"} variant={"outlined"} onChange={onChange}/>
-                     <TextField value={attempt.password} type={"password"} label={"password"} name={"password"} variant={"outlined"} onChange={onChange}/>
-                     <Button onClick={async () => {
-                         login(
-                             {
-                                 userName:attempt.userName,
-                                 password:attempt.password
-                             }
-                         ).then((message)=>{
-                             //Failed
-                             setAttempt({...attempt,message: message, hasAttempt: true, isAuthenticated:false})
-                         }).catch((message)=>{
-                             //Success
-                             setAttempt({...attempt,message: message, hasAttempt: true, isAuthenticated: true})
-                             setTimeout(()=>navigate("/"),500)
+                    <TextField autoFocus={true} value={attempt.userName} label={"username"} name={"userName"}
+                               variant={"outlined"} onChange={onChange}/>
+                    <TextField value={attempt.password} type={"password"} label={"password"} name={"password"}
+                               variant={"outlined"} onChange={onChange}/>
+                    <Button onClick={async () => {
+                        login(
+                            {
+                                userName: attempt.userName,
+                                password: attempt.password
+                            }
+                        ).then((message) => {
+                            //Failed
+                            setAttempt({...attempt, message: message, hasAttempt: true, isAuthenticated: false})
+                        }).catch((message) => {
+                            //Success
+                            setAttempt({...attempt, message: message, hasAttempt: true, isAuthenticated: true})
+                            setTimeout(() => navigate("/"), 500)
 
-                         })
-                     }}>Login</Button>
-                     <Button onClick={()=>navigate("/register")}>Don't have account?</Button>
-                     {
-                         (attempt.hasAttempt)
-                             ?
-                             <>
-                                 {
-                                     (!attempt.isAuthenticated)
-                                     ?
-                                         <div className={"bg-red-500 p-2"}>
+                        })
+                    }}>Login</Button>
+                    <Button onClick={() => navigate("/register")}>Don't have account?</Button>
+                    {
+                        (attempt.hasAttempt)
+                            ?
+                            <>
+                                {
+                                    (!attempt.isAuthenticated)
+                                        ?
+                                        <div className={"bg-red-500 p-2"}>
                                             <p>{attempt.message}</p>
                                         </div>
-                                     :
-                                         <div className={"bg-green-500 p-2"}>
+                                        :
+                                        <div className={"bg-green-500 p-2"}>
                                             <p>{attempt.message}</p>
-                                         </div>
-                                 }
-                             </>
-                             :
-                             <></>
-                     }
-                 </Stack>
-             </Paper>
-         </div>
+                                        </div>
+                                }
+                            </>
+                            :
+                            <></>
+                    }
+                </Stack>
+            </Paper>
+        </div>
     )
 }
