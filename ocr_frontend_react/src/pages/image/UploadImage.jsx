@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {Button, MenuItem, Paper, Select, styled, Switch,} from "@mui/material";
-import {uploadImageForOCR} from "../../endpoints/ImageProcessingEndpoint";
+import {uploadImageForOCR} from "../../dist/endpoints/ImageProcessingEndpoint";
 import {useNavigate} from "react-router-dom";
 import {faCloudArrowUp, faSpinner} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";

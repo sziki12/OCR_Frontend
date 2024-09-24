@@ -1,5 +1,5 @@
 import {createContext, useContext, useEffect, useState} from "react";
-import {getPlaces} from "../../endpoints/PlaceEndpoint"
+import {getPlaces} from "../../dist/endpoints/PlaceEndpoint"
 
 const PlaceContext = createContext(
     {}

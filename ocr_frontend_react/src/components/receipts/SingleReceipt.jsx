@@ -3,7 +3,7 @@ import {faCalendar, faMessage, faMoneyBill,} from "@fortawesome/free-solid-svg-i
 import {Input} from "@mui/material";
 import * as React from "react";
 import {useEffect, useState} from "react";
-import {updateReceipt, createNewItem} from "../../endpoints/ReceiptEndpoint";
+import {updateReceipt, createNewItem} from "../../dist/endpoints/ReceiptEndpoint";
 import getDateToShow from "../utils/Utils";
 import Paper from '@mui/material/Paper';
 import ItemDataGrid from "../items/ItemDataGrid";

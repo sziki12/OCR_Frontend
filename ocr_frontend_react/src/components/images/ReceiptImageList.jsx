@@ -3,7 +3,7 @@ import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import {ReceiptData} from "../states/ReceiptState";
 import {useEffect, useState} from "react";
-import {getImage} from "../../endpoints/ReceiptImageEndpoint"
+import {getImage} from "../../dist/endpoints/ReceiptImageEndpoint"
 import {Dialog} from "@mui/material";
 import ImageView from "./ImageView";
 import * as Utils from "../utils/Utils";

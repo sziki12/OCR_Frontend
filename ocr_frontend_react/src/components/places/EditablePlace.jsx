@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {Button, Input, Paper, Typography} from "@mui/material";
 import GoogleMap from "../maps/GoogleMap";
-import {savePlace} from "../../endpoints/PlaceEndpoint"
+import {savePlace} from "../../dist/endpoints/PlaceEndpoint"
 import {faFloppyDisk} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {PlaceData} from "../states/PlaceState";

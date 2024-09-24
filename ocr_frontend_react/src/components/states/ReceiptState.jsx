@@ -1,9 +1,7 @@
 import {createContext, useContext, useEffect, useState} from "react";
-import {getSingleReceipt, getReceipts} from "../../endpoints/ReceiptEndpoint"
-import {getItemCategories} from "../../endpoints/ItemEndpoint"
+import {getSingleReceipt, getReceipts} from "../../dist/endpoints/ReceiptEndpoint"
+import {getItemCategories} from "../../dist/endpoints/ItemEndpoint"
 import {useParams} from "react-router-dom";
-
-
 const ReceiptContext = createContext(
     {}
 );

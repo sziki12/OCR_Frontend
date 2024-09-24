@@ -6,6 +6,9 @@ This project was bootstrapped with [Create React Root](https://github.com/facebo
 
 In the project directory, you can run:
 
+Compile TS files
+### `tsc -p ocr_frontend_react`
+
 ### `npm start`
 
 Runs the app in the development mode.\

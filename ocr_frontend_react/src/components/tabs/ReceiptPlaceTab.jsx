@@ -2,8 +2,8 @@ import GoogleMap from "../maps/GoogleMap";
 import * as React from "react";
 import {useEffect, useState} from "react";
 import ReceiptToggleEditableWrapper from "../receipts/ReceiptToggleEditableWrapper";
-import {getPlaces} from "../../endpoints/PlaceEndpoint";
-import {getSingleReceipt} from "../../endpoints/ReceiptEndpoint";
+import {getPlaces} from "../../dist/endpoints/PlaceEndpoint";
+import {getSingleReceipt} from "../../dist/endpoints/ReceiptEndpoint";
 import {useParams} from "react-router-dom";
 
 

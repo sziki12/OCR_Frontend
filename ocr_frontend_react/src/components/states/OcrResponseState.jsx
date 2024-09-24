@@ -1,6 +1,6 @@
 import {createContext, useContext, useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
-import {getOcrResponse} from "../../endpoints/OcrResponseEndpoint";
+import {getOcrResponse} from "../../dist/endpoints/OcrResponseEndpoint";
 
 
 const OcrResponseContext = createContext(

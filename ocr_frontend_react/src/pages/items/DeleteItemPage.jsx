@@ -1,6 +1,6 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {Button} from "@mui/material";
-import {deleteItem} from "../../endpoints/ItemEndpoint";
+import {deleteItem} from "../../dist/endpoints/ItemEndpoint";
 
 export default function DeleteItemPage()
 {

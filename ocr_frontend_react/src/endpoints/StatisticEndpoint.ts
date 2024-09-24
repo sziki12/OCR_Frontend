@@ -1,8 +1,9 @@
 import {callAndEnsureLogin, getHeaders} from "../services/AuthService";
+// @ts-ignore
 import {serverAddress} from "./BackendAccess";
 
 let StatisticEndpoint = {
-    async getChartData(dateObject) {
+    async getChartData(dateObject: any) {//TODO Fix type
         let request = async () => {
             console.log(dateObject)
             const url = serverAddress + `api/receipt/chart`;

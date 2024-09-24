@@ -1,6 +1,6 @@
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {getSingleReceipt} from "../../endpoints/ReceiptEndpoint";
+import {getSingleReceipt} from "../../dist/endpoints/ReceiptEndpoint";
 import SingleReceipt from "../../components/receipts/SingleReceipt";
 import * as React from "react";
 import OcrResponseView from "../../components/ocr_response/OcrResponseView"

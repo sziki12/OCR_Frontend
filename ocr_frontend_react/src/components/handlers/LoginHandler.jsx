@@ -1,6 +1,6 @@
 import {createContext, useContext, useEffect, useState} from "react";
 import {saveAuthToken, saveUser, getUser} from "../../services/AuthService"
-import {loginUser, registerUser} from "../../endpoints/AuthEndpoint"
+import {loginUser, registerUser} from "../../dist/endpoints/AuthEndpoint"
 import {useNavigate} from "react-router-dom";
 import {updateRouter} from "../../index"
 

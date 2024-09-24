@@ -5,7 +5,7 @@ import {faCalendar, faMessage, faMoneyBill} from "@fortawesome/free-solid-svg-ic
 import getDateToShow from "../utils/Utils";
 import {ReceiptData} from "../states/ReceiptState";
 import {useState} from "react";
-import {createReceipt} from "../../endpoints/ReceiptEndpoint";
+import {createReceipt} from "../../dist/endpoints/ReceiptEndpoint";
 
 
 export default function NewReceiptDialog({open, close}) {

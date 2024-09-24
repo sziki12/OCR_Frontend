@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import {Button} from "@mui/material";
 import {useNavigate, useParams} from "react-router-dom";
-import {addItemToReceipt} from "../../endpoints/ReceiptEndpoint";
+import {addItemToReceipt} from "../../dist/endpoints/ReceiptEndpoint";
 
 export default function AddItem() {
 

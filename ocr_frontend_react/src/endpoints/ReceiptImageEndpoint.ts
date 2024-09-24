@@ -1,16 +1,17 @@
-import AuthService from "../services/AuthService";
+import {getHeaders, callAndEnsureLogin} from "../services/AuthService";
+// @ts-ignore
 import BackendAccess from "./BackendAccess";
 
 let ReceiptImageEndpoint = {
-    async getImage(receiptId, imageId) {
+    async getImage(receiptId: string, imageId: string) {
         let request = async () => {
             const url = BackendAccess.serverAddress + `api/image/${receiptId}/${imageId}`;
             const response = await fetch(url, {
                 method: 'GET',
-                headers: AuthService.getHeaders(false)
+                headers: getHeaders(false)
             })
-            const reader = await response.body.getReader();
-            let chunks = [];
+            const reader = response.body.getReader();
+            let chunks: Uint8Array = new Uint8Array();
             return reader.read().then(function processText({done, value}) {
 
                 if (done) {
@@ -29,7 +30,7 @@ let ReceiptImageEndpoint = {
                 return reader.read().then(processText)
             })
         }
-        return await AuthService.callAndEnsureLogin(request)
+        return await callAndEnsureLogin(request)
     },
 }
 

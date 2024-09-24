@@ -4,8 +4,8 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faPlus,} from '@fortawesome/free-solid-svg-icons'
 import {useEffect, useState} from "react";
 import AllReceipts from "../../components/receipts/AllReceipts";
-import {getReceipts} from "../../endpoints/ReceiptEndpoint";
-import {getFilterOptions} from "../../endpoints/FilterEndpoint";
+import {getReceipts} from "../../dist/endpoints/ReceiptEndpoint";
+import {getFilterOptions} from "../../dist/endpoints/FilterEndpoint";
 import ReceiptState from "../../components/states/ReceiptState";
 import NewReceiptDialog from "../../components/receipts/NewReceiptDialog";
 import FilterSearchBar from "../../components/filter/FilterSearchBar";

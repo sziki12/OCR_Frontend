@@ -10,7 +10,7 @@ import {Box, Button, Dialog} from "@mui/material";
 import * as React from 'react';
 import {useEffect, useRef, useState} from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {categoriseItems} from "../../endpoints/ItemEndpoint"
+import {categoriseItems} from "../../dist/endpoints/ItemEndpoint"
 import {faFloppyDisk, faPen, faPlus, faSave, faTrash, faXmark, faIcons} from "@fortawesome/free-solid-svg-icons";
 
 

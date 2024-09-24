@@ -1,7 +1,7 @@
 import {Button, Dialog} from "@mui/material";
 import * as React from "react";
 import {ReceiptData} from "../states/ReceiptState";
-import {deleteReceipts} from "../../endpoints/ReceiptEndpoint";
+import {deleteReceipts} from "../../dist/endpoints/ReceiptEndpoint";
 
 
 export default function ReceiptDeleteDialog({open, close, receiptId}) {

@@ -7,7 +7,7 @@ import {useEffect, useRef, useState} from "react";
 import {MarkerClusterer} from '@googlemaps/markerclusterer';
 import PlaceMarker from "./PlaceMarker";
 import {PlaceData} from "../states/PlaceState";
-import {assignPlace, removePlace} from "../../endpoints/PlaceEndpoint";
+import {assignPlace, removePlace} from "../../dist/endpoints/PlaceEndpoint";
 import * as Utils from "../utils/Utils";
 
 export default function GoogleMap(props) {

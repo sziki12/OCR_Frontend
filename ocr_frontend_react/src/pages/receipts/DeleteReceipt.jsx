@@ -1,6 +1,6 @@
 import {useNavigate} from "react-router-dom";
 import {Button} from "@mui/material";
-import {deleteReceipts} from "../../endpoints/ReceiptEndpoint";
+import {deleteReceipts} from "../../dist/endpoints/ReceiptEndpoint";
 
 
 export default function DeleteReceiptPage({receiptId}) {
