@@ -8,10 +8,12 @@ import getDateToShow from "../utils/Utils";
 import Paper from '@mui/material/Paper';
 import ItemDataGrid from "../items/ItemDataGrid";
 import {ReceiptData} from "../states/ReceiptState";
+import {HouseholdData} from "../states/HouseholdState";
 
 
 export default function SingleReceipt(props) {
     let receiptData = ReceiptData()
+    const {selectedHousehold} = HouseholdData()
 
     const [receipt, setReceipt] = useState({
         id: -1,
@@ -28,7 +30,7 @@ export default function SingleReceipt(props) {
     }, [receiptData.receipt]);
 
     const insertItem = async (e) => {
-        const item = await createNewItem(receipt.id)
+        const item = await createNewItem(selectedHousehold.id, receipt.id)
         await saveItems([...receipt.items, item])
         return item
     }
@@ -63,7 +65,7 @@ export default function SingleReceipt(props) {
         await update(updatedReceipt)
     }
     const update = async (updatedReceipt) => {
-        await updateReceipt(updatedReceipt)
+        await updateReceipt(selectedHousehold.id, updatedReceipt)
         receiptData.setReceipt({
             ...updatedReceipt
         })

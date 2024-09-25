@@ -1,41 +1,41 @@
 import {loginUser} from "../dist/endpoints/AuthEndpoint"
-export function getAuthToken() {
+
+function getAuthToken() {
     return window.localStorage.getItem("auth_token")
 }
 
-export  function getUserEmail(){
+function getUserEmail() {
     return window.localStorage.getItem("user_email")
 }
 
-export function getUserName() {
+function getUserName() {
     return window.localStorage.getItem("user_name")
 }
 
-export function getPasswordHash() {
+function getPasswordHash() {
     return window.localStorage.getItem("password_hash")
 }
 
-
-export function saveAuthToken(token) {
-    if (token)
-        window.localStorage.setItem("auth_token", token)
-    else
-        window.localStorage.setItem("auth_token", "")
-}
-
 export async function saveUser(user) {
-    if (user && user.userName) {
-        window.localStorage.setItem("user_name", user.userName)
-        window.localStorage.setItem("password_hash", user.password)
+    console.log("Save User")
+    console.log(user)
+    if (user && user.name && user.email && user.token) {
+        window.localStorage.setItem("user_name", user.name)
+        window.localStorage.setItem("user_email", user.email)
+        //window.localStorage.setItem("password_hash", user.password)//TODO Replace to Refresh token
+        window.localStorage.setItem("auth_token", user.token)
     } else {
         window.localStorage.setItem("user_name", "")
-        window.localStorage.setItem("password_hash", "")
+        window.localStorage.setItem("user_email", "")
+        //window.localStorage.setItem("password_hash", "")
+        window.localStorage.setItem("auth_token", "")
     }
 }
 
 export function getUser() {
     return {
-        userName: getUserName(),
+        name: getUserName(),
+        email: getUserEmail(),
         isAuthenticated: Boolean(getUserName() && getPasswordHash())
     }
 }
@@ -69,11 +69,11 @@ export async function callAndEnsureLogin(request) {
         let user = {
             name: getUserName(),
             email: getUserEmail(),
-            password: getPasswordHash().toString()
+            password: getPasswordHash().toString()//TODO Password is not present
         }
         let response = await loginUser(user, true)
-        let json = await response.json()
-        saveAuthToken(json.token)
+        let userResponse = await response.json()
+        await saveUser(userResponse)
         if (response.ok) {
             return await request()
         } else {
@@ -87,6 +87,6 @@ export async function hashPassword(user, request) {
     if (user && user.password && user.salt) {
         let hash = bcrypt.hashSync(user.password, user.salt)
         user.password = hash.toString()
-        return await request(user);
+        return await request(user)
     }
 }

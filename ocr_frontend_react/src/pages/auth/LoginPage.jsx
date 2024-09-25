@@ -10,7 +10,8 @@ export default function LoginPage() {
     const navigate = useNavigate()
     const {login} = AuthData()
     const [attempt, setAttempt] = useState({
-        userName: "",
+        name: "",
+        email:"",
         password: "",
         isAuthenticated: false,
         hasAttempt: false,
@@ -31,14 +32,14 @@ export default function LoginPage() {
                 </div>
                 <Stack spacing={2} className={"p-4"}>
 
-                    <TextField autoFocus={true} value={attempt.userName} label={"username"} name={"userName"}
-                               variant={"outlined"} onChange={onChange}/>
+                    <TextField autoFocus={true} value={attempt.email} label={"email"} name={"email"}
+                               variant={"outlined"} onChange={onChange} type={"email"}/>
                     <TextField value={attempt.password} type={"password"} label={"password"} name={"password"}
                                variant={"outlined"} onChange={onChange}/>
                     <Button onClick={async () => {
                         login(
                             {
-                                userName: attempt.userName,
+                                email: attempt.email,
                                 password: attempt.password
                             }
                         ).then((message) => {

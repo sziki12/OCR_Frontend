@@ -4,11 +4,13 @@ import {uploadImageForOCR} from "../../dist/endpoints/ImageProcessingEndpoint";
 import {useNavigate} from "react-router-dom";
 import {faCloudArrowUp, faSpinner} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {HouseholdData} from "../../components/states/HouseholdState";
 
 const UploadAndDisplayImage = (props) => {
 
     const navigate = useNavigate()
 
+    const {selectedHousehold} = HouseholdData()
     const [receiptImage, setReceiptImage] = useState(null);
     const [imageData, setImageData] = useState(null);
 
@@ -42,7 +44,7 @@ const UploadAndDisplayImage = (props) => {
         setImageData(formData);
         setProcessingState("processing")
         setTimeout(() => navigate("/receipts"), 1500)
-        await uploadImageForOCR(formData, ocrSettings)
+        await uploadImageForOCR(selectedHousehold.id, formData, ocrSettings)
     }
 
     return (

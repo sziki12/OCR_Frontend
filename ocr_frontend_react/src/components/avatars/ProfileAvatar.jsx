@@ -6,7 +6,7 @@ export default function ProfileAvatar()
 {
     const {user,logout} = AuthData();
 
-    let name = stringAvatar(user.userName)
+    let name = stringAvatar(user.name)
     const [anchorElement, setAnchorElement] = React.useState(null);
     const handleClick = (event) => {
         setAnchorElement(anchorElement ? null : event.currentTarget);
@@ -19,10 +19,11 @@ export default function ProfileAvatar()
         <Popper id={popper_id} open={isPopperOpen} anchorEl={anchorElement}>
             <Card>
                 <CardContent>
-                    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                    <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
                         Logged in as:
                     </Typography>
-                    <p>{user.userName}</p>
+                    <p>{user.name}</p>
+                    <p>{user.email}</p>
                 </CardContent>
                 <CardActions>
                     <Button variant={"contained"} color="inherit" onClick={()=>{

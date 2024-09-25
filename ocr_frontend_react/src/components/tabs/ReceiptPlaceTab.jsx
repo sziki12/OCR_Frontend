@@ -5,10 +5,12 @@ import ReceiptToggleEditableWrapper from "../receipts/ReceiptToggleEditableWrapp
 import {getPlaces} from "../../dist/endpoints/PlaceEndpoint";
 import {getSingleReceipt} from "../../dist/endpoints/ReceiptEndpoint";
 import {useParams} from "react-router-dom";
+import {HouseholdData} from "../states/HouseholdState";
 
 
 export default function ReceiptPlaceTab(props) {
     const params = useParams()
+    const {selectedHousehold} = HouseholdData()
 
     const receiptId = params.receiptId
 
@@ -22,12 +24,12 @@ export default function ReceiptPlaceTab(props) {
     const [places, setPlaces] = useState([])
 
     const updateState = () => {
-        getSingleReceipt(receiptId).then((data) => {
+        getSingleReceipt(selectedHousehold.id, receiptId).then((data) => {
             {
                 setReceipt(data)
             }
         })
-        getPlaces().then((data) => {
+        getPlaces(selectedHousehold.id).then((data) => {
             setPlaces(data)
         })
     }

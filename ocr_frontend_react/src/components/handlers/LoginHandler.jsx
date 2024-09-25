@@ -1,15 +1,12 @@
 import {createContext, useContext, useEffect, useState} from "react";
-import {saveAuthToken, saveUser, getUser} from "../../services/AuthService"
+import {saveAuthToken, saveUser, getUser, hashPassword} from "../../services/AuthService"
 import {loginUser, registerUser} from "../../dist/endpoints/AuthEndpoint"
 import {useNavigate} from "react-router-dom";
 import {updateRouter} from "../../index"
 
 const AuthContext = createContext(
     {
-        user: {
-            userName: "",
-            isAuthenticated: false
-        }
+        user: {name: "", email: "", salt: "", token: "", isAuthenticated: false}
     }
 )
 export const AuthData = () => {
@@ -18,31 +15,26 @@ export const AuthData = () => {
     } catch (e) {
         return ({})
     }
-
 }
 
 export default function LoginHandler({children}) {
     let navigate = useNavigate()
 
-    const [user, setUser] = useState({
-        userName: "",
-        isAuthenticated: false
-    })
+    const [user, setUser] = useState({name: "", email: "", salt: "", token: "", isAuthenticated: false})
 
     const login = async (user) => {
 
         return new Promise(async (reject, resolve) => {
-            const response = await loginUser(user)
+            const response = await loginUser(user, false)
             if (response.status === 200) {
-                let json = await response.json()
+                let responseUser = await response.json()
 
-                saveAuthToken(json.token)
-                await saveUser(user)
+                let newUser = {...responseUser, isAuthenticated: true}
 
-                console.log(getUser())
-
-                let newUser = {userName: user.userName, isAuthenticated: true, salt: json.salt}
                 setUser(newUser)
+
+                await saveUser(newUser)
+
                 resolve("Logged In")
                 updateRouter(true)
                 navigate("/")
@@ -55,13 +47,16 @@ export default function LoginHandler({children}) {
 
     const register = async (user) => {
         return new Promise(async (reject, resolve) => {
+            console.log(`User to Register:`)
+            console.log(user)
             const response = await registerUser(user)
             if (response.status === 200) {
-                let json = await response.json()
-                saveAuthToken(json.token)
-                await saveUser(user)
+                let responseUser = await response.json()
 
-                setUser({userName: user.userName, isAuthenticated: true})
+                let newUser = {...responseUser, isAuthenticated: true}
+                setUser(newUser)
+                await saveUser(newUser)
+
                 resolve("Registered")
                 navigate("/")
                 updateRouter(true)
@@ -74,8 +69,7 @@ export default function LoginHandler({children}) {
 
     const logout = () => {
         saveUser().then(() => {
-            saveAuthToken()
-            setUser({userName: "", isAuthenticated: false})
+            setUser({name: "", email: "", salt: "", token: "", password: "", isAuthenticated: false})
             navigate("/login")
             updateRouter(false)
         })

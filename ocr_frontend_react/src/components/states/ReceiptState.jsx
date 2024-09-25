@@ -2,6 +2,8 @@ import {createContext, useContext, useEffect, useState} from "react";
 import {getSingleReceipt, getReceipts} from "../../dist/endpoints/ReceiptEndpoint"
 import {getItemCategories} from "../../dist/endpoints/ItemEndpoint"
 import {useParams} from "react-router-dom";
+import {HouseholdData} from "./HouseholdState";
+
 const ReceiptContext = createContext(
     {}
 );
@@ -9,6 +11,7 @@ const ReceiptContext = createContext(
 export const ReceiptData = () => useContext(ReceiptContext)
 
 export default function ReceiptState({children}) {
+    const {selectedHousehold} = HouseholdData()
     const params = useParams()
     const [receipt, setReceipt] = useState({
         id: -1,
@@ -24,13 +27,13 @@ export default function ReceiptState({children}) {
     const updateReceipt = (receiptId) => {
         if (!receiptId)
             return
-        getSingleReceipt(receiptId).then((data) => {
+        getSingleReceipt(selectedHousehold.id, receiptId).then((data) => {
             setReceipt((prev) => {
                 console.log({...prev, ...data})
                 return {...prev, ...data}
             })
         })
-        getItemCategories().then((categories) => {
+        getItemCategories(selectedHousehold.id).then((categories) => {
             setReceipt((prev) => {
                 console.log({...prev, categories: categories})
                 return {...prev, categories: categories}
@@ -39,8 +42,11 @@ export default function ReceiptState({children}) {
     }
 
     const updateAllReceipt = () => {
-        getReceipts().then((data) => {
-            setAllReceipt([...data])
+        getReceipts(selectedHousehold.id).then((data) => {
+            if (data.length > 0)
+                setAllReceipt([...data])
+            else
+                setAllReceipt([])
         })
     }
 

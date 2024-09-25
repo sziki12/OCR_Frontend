@@ -80,7 +80,7 @@ export default function AllReceipts({filterValue}) {
 
     return (
         <>
-            {(receipts.length > 0)
+            {(receipts && receipts.length > 0)
                 ?
                 receipts?.filter((receipt) => {
                     //name not in filtered category

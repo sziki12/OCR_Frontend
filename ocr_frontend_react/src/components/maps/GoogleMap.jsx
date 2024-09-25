@@ -9,9 +9,11 @@ import PlaceMarker from "./PlaceMarker";
 import {PlaceData} from "../states/PlaceState";
 import {assignPlace, removePlace} from "../../dist/endpoints/PlaceEndpoint";
 import * as Utils from "../utils/Utils";
+import {HouseholdData} from "../states/HouseholdState";
 
 export default function GoogleMap(props) {
     const placeData = PlaceData()
+    const {selectedHousehold} = HouseholdData()
 
     const defaultLocation = [{id: 1, lat: 47.507, lng: 19.045}];
 
@@ -29,7 +31,7 @@ export default function GoogleMap(props) {
     }, [props.selectedPlace])
 
     const onSelect = async (placeId) => {
-        (placeId) ? await assignPlace(placeId, props.receiptId) : await removePlace(props.receiptId)
+        (placeId) ? await assignPlace(selectedHousehold.id, placeId, props.receiptId) : await removePlace(selectedHousehold.id, props.receiptId)
         await placeData.updatePlaces()
     }
     return (

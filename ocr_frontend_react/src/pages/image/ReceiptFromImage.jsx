@@ -4,18 +4,20 @@ import {getSingleReceipt} from "../../dist/endpoints/ReceiptEndpoint";
 import SingleReceipt from "../../components/receipts/SingleReceipt";
 import * as React from "react";
 import OcrResponseView from "../../components/ocr_response/OcrResponseView"
+import {HouseholdData} from "../../components/states/HouseholdState";
 
 
 export default function ReceiptsFromImagePage(props) {
 
     const navigate = useNavigate();
+    const {selectedHousehold} = HouseholdData()
     const [receipt,setReceipt] = useState({
         items:[]
     })
     const [responseToShow,setResponseToShow] = useState("extractedItems")
 
     useEffect(()=>{
-        getSingleReceipt(props.response.newReceiptId).then((newReceipt)=>{
+        getSingleReceipt(selectedHousehold.id, props.response.newReceiptId).then((newReceipt)=>{
             setReceipt(newReceipt)
         })
     },[])

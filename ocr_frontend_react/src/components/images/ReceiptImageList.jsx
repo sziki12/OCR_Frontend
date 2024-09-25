@@ -8,9 +8,11 @@ import {Dialog} from "@mui/material";
 import ImageView from "./ImageView";
 import * as Utils from "../utils/Utils";
 import {ThemeData} from "../handlers/ThemeHandler";
+import {HouseholdData} from "../states/HouseholdState";
 
 export default function ReceiptImageList() {
     const {receipt} = ReceiptData()
+    const {selectedHousehold} = HouseholdData()
     const [images, setImages] = useState([])
 
     const [open, setOpen] = React.useState({});
@@ -31,7 +33,7 @@ export default function ReceiptImageList() {
     useEffect(() => {
         if (receipt && receipt.images) {
             for (let image of receipt.images) {
-                getImage(receipt.id, image.id).then((blob) => {
+                getImage(selectedHousehold.id, receipt.id, image.id).then((blob) => {
                     setImages((prev) => {
                         let otherImages = prev.filter((img) => {
                             return img.id !== image.id

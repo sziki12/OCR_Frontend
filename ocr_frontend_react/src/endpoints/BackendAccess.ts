@@ -1,7 +1,6 @@
 
 let ipAddress =  "localhost"
-let BackendAccess = {
-    serverAddress: `http://${ipAddress}:8080`,
+export let serverAddress = `http://${ipAddress}:8080`
     //TODO Refactor params in objects
 
     /*async getItem(receiptId, itemId) {
@@ -46,7 +45,3 @@ let BackendAccess = {
         }
         return await callAndEnsureLogin(request)
     },*/
-};
-
-
-module.exports = BackendAccess

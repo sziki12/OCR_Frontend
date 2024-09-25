@@ -5,10 +5,13 @@ import {savePlace} from "../../dist/endpoints/PlaceEndpoint"
 import {faFloppyDisk} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {PlaceData} from "../states/PlaceState";
+import {HouseholdData} from "../states/HouseholdState";
 
 
 export default function EditablePlace(props) {
     const placeData = PlaceData()
+    const {selectedHousehold} = HouseholdData()
+
     const [places, setPlaces] = useState(placeData.places)//TODO why is place not used?
     const [selectedPlace, setSelectedPlace] = useState({
         name: "",
@@ -51,7 +54,7 @@ export default function EditablePlace(props) {
                             && selectedPlace.name
                             && selectedPlace.lat
                             && selectedPlace.lng) {
-                            await savePlace(selectedPlace)
+                            await savePlace(selectedHousehold.id, selectedPlace)
                             setSelectedPlace({
                                 name: "",
                                 lat: undefined,

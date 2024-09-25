@@ -4,13 +4,12 @@ import {callAndEnsureLogin, getHeaders} from "../services/AuthService";
 import {Household} from "../types/MainTypes";
 
 
-let HouseholdEndpoint = {
-    getBaseAddress(){
+    function getBaseAddress(){
         return `${serverAddress}/api/household`
-    },
-    async getHouseholds():Promise<[Household]> {
+    }
+    export async function getHouseholds():Promise<[Household]> {
         let request = async () => {
-            const url = this.getBaseAddress();
+            const url = getBaseAddress();
             const response = await fetch(url, {
                 method: 'GET',
                 headers: getHeaders(false)
@@ -18,7 +17,4 @@ let HouseholdEndpoint = {
             return await response.json();
         }
         return await callAndEnsureLogin(request)
-    },
-}
-
-module.exports = HouseholdEndpoint
+    }

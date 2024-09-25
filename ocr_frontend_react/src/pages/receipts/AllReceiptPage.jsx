@@ -10,10 +10,12 @@ import ReceiptState from "../../components/states/ReceiptState";
 import NewReceiptDialog from "../../components/receipts/NewReceiptDialog";
 import FilterSearchBar from "../../components/filter/FilterSearchBar";
 import {ThemeData} from "../../components/handlers/ThemeHandler";
+import {HouseholdData} from "../../components/states/HouseholdState";
 
 export default function AllReceiptPage() {
 
     const {breakpoints} = ThemeData();
+    const {selectedHousehold} = HouseholdData()
     const [receipts, setReceipts] = useState([])
     const emptyValues = ["All", ""]
     const unassignedValue = "Unassigned"
@@ -36,6 +38,13 @@ export default function AllReceiptPage() {
         })
     }
 
+    const updateFilterOptions = (placeNames, receiptNames) => {
+        setFilterOptions({
+            placeNames: placeNames,
+            receiptNames: receiptNames,
+        })
+    }
+
     console.log(filterValue)
     const [filterOptions, setFilterOptions] = useState({
         placeNames: [],
@@ -43,22 +52,29 @@ export default function AllReceiptPage() {
     })
     const [addOpen, setAddOpen] = useState(false)
     useEffect(() => {
-        getReceipts().then((data) => {
+        getReceipts(selectedHousehold.id).then((newReceipts) => {
             {
-                setReceipts(data)
+                setReceipts(newReceipts)
             }
         })
-        getFilterOptions().then((data) => {
-            setFilterOptions({
-                placeNames: [...data.placeNames.map((name) => {
+        getFilterOptions(selectedHousehold.id).then((newFilterOptions) => {
+            if (newFilterOptions && newFilterOptions.length > 0) {
+                console.log("newFilterOptions")
+                console.log(newFilterOptions)
+                let placeNames = [...newFilterOptions.placeNames.map((name) => {
                     return {label: name}
-                }), {label: unassignedValue}],
-                receiptNames: data.receiptNames.map((name) => {
+                }), {label: unassignedValue}]
+
+                let receiptNames = newFilterOptions.receiptNames.map((name) => {
                     return {label: name}
                 })
-            })
+                updateFilterOptions(placeNames, receiptNames)
+            } else {
+                updateFilterOptions([],[])
+            }
+
         })
-    }, [])
+    }, [selectedHousehold]);
 
 
     return (

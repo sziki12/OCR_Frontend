@@ -8,6 +8,6 @@
     "outDir": "src/dist",
     "allowJs": true,
   },
-  "include": ["src/**/*"],
+  "include": ["src/endpoints/*"],
   "exclude": ["**/*.spec.ts","**/*.js","src/dist/**/*"],
 }

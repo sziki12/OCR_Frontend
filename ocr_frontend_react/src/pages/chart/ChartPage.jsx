@@ -5,10 +5,12 @@ import {getChartData} from "../../dist/endpoints/StatisticEndpoint";
 import {Card, CardContent, Input, MenuItem, Select, Switch, Typography} from "@mui/material";
 import getDateToShow from "../../components/utils/Utils";
 import {ThemeData} from "../../components/handlers/ThemeHandler";
+import {HouseholdData} from "../../components/states/HouseholdState";
 
 
 export default function ChartPage() {
     const {breakpoints} = ThemeData();
+    const {selectedHousehold} = HouseholdData()
 
     let [chartData, setChartData] = useState({
         categoryData: []
@@ -32,7 +34,7 @@ export default function ChartPage() {
     }
 
     useEffect(() => {
-        getChartData(date).then((data) => {
+        getChartData(selectedHousehold.id, date).then((data) => {
             setChartData(data)
         })
     }, [date]);

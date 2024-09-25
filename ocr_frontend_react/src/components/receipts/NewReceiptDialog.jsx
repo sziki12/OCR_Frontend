@@ -6,10 +6,12 @@ import getDateToShow from "../utils/Utils";
 import {ReceiptData} from "../states/ReceiptState";
 import {useState} from "react";
 import {createReceipt} from "../../dist/endpoints/ReceiptEndpoint";
+import {HouseholdData} from "../states/HouseholdState";
 
 
 export default function NewReceiptDialog({open, close}) {
     let receiptData = ReceiptData()
+    const {selectedHousehold} = HouseholdData()
 
     const [receipt, setReceipt] = useState({
         id: -1,
@@ -59,7 +61,7 @@ export default function NewReceiptDialog({open, close}) {
                     </p>
                     <br/>
                     <Button onClick={async () => {
-                        await createReceipt(receipt.name, receipt.dateOfPurchase)
+                        await createReceipt(selectedHousehold.id, receipt)
                         receiptData.updateAllReceipt()
                         setReceipt({
                             id: -1,
