@@ -43,6 +43,7 @@ export default function ReceiptState({children}) {
 
     const updateAllReceipt = () => {
         getReceipts(selectedHousehold.id).then((data) => {
+            console.log(data)
             if (data.length > 0)
                 setAllReceipt([...data])
             else

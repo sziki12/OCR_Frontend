@@ -6,7 +6,7 @@ import {useEffect, useState} from "react";
 import AllReceipts from "../../components/receipts/AllReceipts";
 import {getReceipts} from "../../dist/endpoints/ReceiptEndpoint";
 import {getFilterOptions} from "../../dist/endpoints/FilterEndpoint";
-import ReceiptState from "../../components/states/ReceiptState";
+import ReceiptState, {ReceiptData} from "../../components/states/ReceiptState";
 import NewReceiptDialog from "../../components/receipts/NewReceiptDialog";
 import FilterSearchBar from "../../components/filter/FilterSearchBar";
 import {ThemeData} from "../../components/handlers/ThemeHandler";
@@ -16,7 +16,6 @@ export default function AllReceiptPage() {
 
     const {breakpoints} = ThemeData();
     const {selectedHousehold} = HouseholdData()
-    const [receipts, setReceipts] = useState([])
     const emptyValues = ["All", ""]
     const unassignedValue = "Unassigned"
     const [filterValue, setFilterValue] = useState({
@@ -52,15 +51,10 @@ export default function AllReceiptPage() {
     })
     const [addOpen, setAddOpen] = useState(false)
     useEffect(() => {
-        getReceipts(selectedHousehold.id).then((newReceipts) => {
-            {
-                setReceipts(newReceipts)
-            }
-        })
         getFilterOptions(selectedHousehold.id).then((newFilterOptions) => {
             if (newFilterOptions && newFilterOptions.length > 0) {
-                console.log("newFilterOptions")
-                console.log(newFilterOptions)
+                //console.log("newFilterOptions")
+                //console.log(newFilterOptions)
                 let placeNames = [...newFilterOptions.placeNames.map((name) => {
                     return {label: name}
                 }), {label: unassignedValue}]

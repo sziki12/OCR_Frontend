@@ -1,11 +1,12 @@
-import {Avatar, Button, Card, Popper,Typography,CardContent,CardActions} from "@mui/material";
+import {Avatar, Button, Card, Popper, Typography, CardContent, CardActions, Select, MenuItem} from "@mui/material";
 import React from "react";
 import {AuthData} from "../handlers/LoginHandler";
+import {HouseholdData} from "../states/HouseholdState";
 
 export default function ProfileAvatar()
 {
     const {user,logout} = AuthData();
-
+    const {selectedHousehold, households, setSelectedHousehold} = HouseholdData()
     let name = stringAvatar(user.name)
     const [anchorElement, setAnchorElement] = React.useState(null);
     const handleClick = (event) => {
@@ -14,16 +15,51 @@ export default function ProfileAvatar()
     const isPopperOpen = Boolean(anchorElement);
     const popper_id = isPopperOpen ? 'simple-popper' : undefined;
 
+    const selectedHouseholdChanged = (event)=>{
+        console.log("New Selected Household")
+        console.log(households.filter((household)=>household.id === event.target.value)[0])
+        setSelectedHousehold(households.filter((household)=>household.id === event.target.value)[0])
+    }
+
+    const userTextStyle = {
+        fontWeight: 'fontWeightBold',
+        fontSize: 22,
+    }
+
+    const typeTextStyle = {
+        fontSize: 22,
+    }
+
     return(<div className={"px-2"}>
         <Avatar onClick={handleClick} sx={name.sx}>{name.children}</Avatar>
-        <Popper id={popper_id} open={isPopperOpen} anchorEl={anchorElement}>
+        <Popper sx={{minWidth: 200}} id={popper_id} open={isPopperOpen} anchorEl={anchorElement}>
             <Card>
                 <CardContent>
                     <Typography sx={{fontSize: 14}} color="text.secondary" gutterBottom>
                         Logged in as:
                     </Typography>
-                    <p>{user.name}</p>
-                    <p>{user.email}</p>
+                    <div className={"p-2 flex flex-col justify-center"}>
+                        <div className={"flex flex-row justify-evenly items-center space-x-2"}>
+                            <Typography sx={typeTextStyle}>Name:</Typography>
+                            <Typography sx={userTextStyle}>{user.name}</Typography>
+                        </div>
+                        <div className={"flex flex-row justify-evenly items-center space-x-2"}>
+                            <Typography sx={typeTextStyle}>Email:</Typography>
+                            <Typography sx={userTextStyle}>{user.email}</Typography>
+                        </div>
+                        <Typography sx={typeTextStyle}>Household</Typography>
+                        <Select
+                            labelId="household-select-label"
+                            id="household-select"
+                            value={selectedHousehold.id}
+                            label="Household"
+                            onChange={selectedHouseholdChanged}
+                        >
+                            {households.map((household)=>{
+                                return <MenuItem value={household.id}>{household.name}</MenuItem>
+                            })}
+                        </Select>
+                    </div>
                 </CardContent>
                 <CardActions>
                     <Button variant={"contained"} color="inherit" onClick={()=>{

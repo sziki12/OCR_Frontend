@@ -48,7 +48,7 @@ export async function createReceipt(householdId: string, receipt: CreateReceiptR
 export async function updateReceipt(householdId: string, receipt: Receipt) {
 
     let request = async () => {
-        let receiptsRequest = await fetch(`${getBaseAddress(householdId)}/${receipt.id}`, {
+        let receiptsRequest = await fetch(`${getBaseAddress(householdId)}`, {
             method: 'PUT',
             headers: getHeaders(true),
             body: JSON.stringify(receipt),

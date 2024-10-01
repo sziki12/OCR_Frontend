@@ -7,11 +7,16 @@ import Paper from '@mui/material/Paper';
 import {ReceiptData} from "../states/ReceiptState";
 import {useEffect, useState} from "react";
 import ReceiptDeleteDialog from "./ReceiptDeleteDialog";
+import {HouseholdData} from "../states/HouseholdState";
+import {ThemeData} from "../handlers/ThemeHandler";
 
 
 export default function AllReceipts({filterValue}) {
     const navigate = useNavigate()
     const [open, setOpen] = useState({})
+
+    const {selectedTheme} = ThemeData()
+    const colorMode = selectedTheme.palette.mode
 
     const receiptNames = filterValue.receiptNames.map((name) => {
         return name.label
@@ -20,8 +25,8 @@ export default function AllReceipts({filterValue}) {
         return name.label
     })
 
-    console.log(receiptNames)
-    console.log(placeNames)
+    //console.log(receiptNames)
+    //console.log(placeNames)
     const receiptLayout = (receipt) => <>
         <Paper key={receipt.id} elevation={12} className="px-10 py-6 m-5">
             <p><FontAwesomeIcon icon={faMessage} color={"Dodgerblue"}/> {receipt.name}</p>
@@ -43,11 +48,11 @@ export default function AllReceipts({filterValue}) {
 
     const pendingLayout = (receipt) => <>
         <Paper key={receipt.id} elevation={12} className="px-10 py-6 m-5 bg-gray-500">
-            <p className={"text-gray-700"}><FontAwesomeIcon icon={faMessage} color={"grey"}/> {receipt.name}</p>
-            <p className={"text-gray-700"}><FontAwesomeIcon icon={faCalendar}
+            <p className={(colorMode==="light")?`text-gray-700`:`text-gray-400`}><FontAwesomeIcon icon={faMessage} color={"grey"}/> {receipt.name}</p>
+            <p className={(colorMode==="light")?`text-gray-700`:`text-gray-400`}><FontAwesomeIcon icon={faCalendar}
                                                             color={"grey"}/> {new Date(receipt.dateOfPurchase).toLocaleDateString()}
             </p>
-            <p className={"text-gray-700"}><FontAwesomeIcon icon={faMoneyBill}
+            <p className={(colorMode==="light")?`text-gray-700`:`text-gray-400`}><FontAwesomeIcon icon={faMoneyBill}
                                                             color={"grey"}/> {receipt.totalCost + " "}</p>
 
             <Button disabled={true} onClick={() => {
@@ -63,8 +68,8 @@ export default function AllReceipts({filterValue}) {
         </Paper>
     </>
 
-
-    const receiptData = ReceiptData()
+    const {selectedHousehold} = HouseholdData()
+    const {allReceipt, updateAllReceipt} = ReceiptData()
     const [receipts, setReceipts] = useState({})
 
     const closeDialog = (receiptId) =>
@@ -75,8 +80,12 @@ export default function AllReceipts({filterValue}) {
         })
 
     useEffect(() => {
-        setReceipts(receiptData.allReceipt)
-    }, [receiptData.allReceipt]);
+        updateAllReceipt()
+    }, [selectedHousehold]);
+
+    useEffect(() => {
+        setReceipts(allReceipt)
+    }, [allReceipt]);
 
     return (
         <>
