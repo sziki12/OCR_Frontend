@@ -4,12 +4,12 @@ import {useEffect, useState} from "react";
 import {OcrResponseData} from "../states/OcrResponseState";
 
 export default function OcrResponseView() {
-    const ocrResponseData = OcrResponseData()
+    const {ocrResponse} = OcrResponseData()
     const [response, setResponse] = useState({})
 
     useEffect(() => {
-        setResponse(ocrResponseData.ocrResponse)
-    }, [ocrResponseData.ocrResponse]);
+        setResponse(ocrResponse)
+    }, [ocrResponse]);
     const [responseToShow, setResponseToShow] = useState("receiptText")
     //console.log(response)
     return (

@@ -13,7 +13,7 @@ export async function getImage(householdId: string, receiptId: string, imageId: 
             headers: getHeaders(false)
         })
         const reader = response.body.getReader();
-        let chunks: Uint8Array = new Uint8Array();
+        let chunks: Uint8Array = new Uint8Array([]);
         return reader.read().then(function processText({done, value}) {
 
             if (done) {
