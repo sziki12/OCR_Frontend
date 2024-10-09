@@ -9,5 +9,11 @@
     "allowJs": true,
   },
   "include": ["src/endpoints/*"],
-  "exclude": ["**/*.spec.ts","**/*.js","src/dist/**/*"],
+  "exclude": [
+    "**/*.spec.ts",
+    "*.js",
+    "src/dist/**/*",
+    "src/services/**",
+    "node_modules/**"
+  ]
 }

@@ -3,7 +3,7 @@ import {callAndEnsureLogin, getHeaders} from "../services/AuthService";
 import {serverAddress} from "./BackendAccess";
 
 function getBaseAddress(householdId: string, receiptId: string | null) {
-    if (typeof receiptId === "string")
+    if (typeof receiptId === "string" || typeof receiptId === "number")
         return `${serverAddress}/api/household/${householdId}/receipt/${receiptId}/item`
     else
         return `${serverAddress}/api/household/${householdId}/receipt/item`
@@ -11,7 +11,7 @@ function getBaseAddress(householdId: string, receiptId: string | null) {
 
 export async function deleteItem(householdId: string, receiptId: string, itemId: string) {
     let request = async () => {
-        await fetch(serverAddress + `${getBaseAddress(householdId, receiptId)}/${itemId}`,
+        await fetch(`${getBaseAddress(householdId, receiptId)}/${itemId}`,
             {
                 method: 'DELETE',
                 cache: "no-store",
@@ -21,7 +21,7 @@ export async function deleteItem(householdId: string, receiptId: string, itemId:
     return await callAndEnsureLogin(request)
 }
 
-export async function getItemCategories(householdId: string,) {
+export async function getItemCategories(householdId: string) {
     let request = async () => {
         const url = `${getBaseAddress(householdId, null)}/categories`;
 
@@ -36,9 +36,9 @@ export async function getItemCategories(householdId: string,) {
     return await callAndEnsureLogin(request)
 }
 
-export async function categoriseItems(householdId: string, receiptId: string) {
+export async function categoriseItems(householdId: string, receiptId: string,categoriseModel: String) {
     let request = async () => {
-        const url = serverAddress + `${getBaseAddress(householdId, receiptId)}/categorise`;
+        const url = `${getBaseAddress(householdId, receiptId)}/categorise?categoriseModel=${categoriseModel}`;
         return await fetch(url, {
             method: 'PUT',
             headers: getHeaders(false)

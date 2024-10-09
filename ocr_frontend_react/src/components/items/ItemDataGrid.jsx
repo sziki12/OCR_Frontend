@@ -25,6 +25,7 @@ function EditToolbar(props) {
 
     const [categorise, setCategorise] = useState(false);
     const [showNameDialog, setShowNameDialog] = useState(false);
+    const [categoriseModel, setCategoriseModel] = useState("mistral");
 
     const apiRef = useGridApiContext();
 
@@ -88,7 +89,7 @@ function EditToolbar(props) {
                                 onClick={async () => {
                                     if (typeof (receipt.name) !== "undefined" && receipt.name !== "") {
                                         setCategorise(true)
-                                        await categoriseItems(selectedHousehold.id, receipt.id)
+                                        await categoriseItems(selectedHousehold.id, receipt.id,categoriseModel)
                                         setCategorise(false)
                                     } else {
                                         setShowNameDialog(true)
