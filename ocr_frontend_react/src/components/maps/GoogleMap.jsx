@@ -11,29 +11,37 @@ import {assignPlace, removePlace} from "../../dist/endpoints/PlaceEndpoint";
 import * as Utils from "../utils/Utils";
 import {HouseholdData} from "../states/HouseholdState";
 
-export default function GoogleMap(props) {
-    const placeData = PlaceData()
+export default function GoogleMap({
+                                      onSelectedPlaceChanged,
+                                      selectedPlace,
+                                      canCreateMarker,
+                                      receiptId,
+                                      inAssignMode
+                                  }) {
+    const {places, updatePlaces} = PlaceData()
     const {selectedHousehold} = HouseholdData()
 
     const defaultLocation = [{id: 1, lat: 47.507, lng: 19.045}];
+    canCreateMarker = canCreateMarker || false
 
-    const [places, setPlaces] = useState(placeData.places);
-    const [selectedPlace, setSelectedPlace] = useState(props.selectedPlace);
-    const canCreateMarker = props.canCreateMarker || false
+    const width = ""
+    const height = ""
 
-    useEffect(() => {
+    /*useEffect(() => {
         setPlaces(placeData.places)
         console.log("update Completed")
     }, [placeData.places]);
 
     useEffect(() => {
         setSelectedPlace(props.selectedPlace)
-    }, [props.selectedPlace])
+    }, [props.selectedPlace])*/
 
-    const onSelect = async (placeId) => {
-        (placeId) ? await assignPlace(selectedHousehold.id, placeId, props.receiptId) : await removePlace(selectedHousehold.id, props.receiptId)
-        await placeData.updatePlaces()
+    const onAssign = async (placeId) => {
+        (placeId) ? await assignPlace(selectedHousehold.id, placeId, receiptId) : await removePlace(selectedHousehold.id, receiptId)
+        await updatePlaces()
     }
+    console.log("PLACES")
+    console.log((places && places.length > 0) ? [...places, selectedPlace] : [selectedPlace])
     return (
         <APIProvider apiKey={'AIzaSyAN_KMLA-2J691xqMysa6_5ERNLJAnbYJ0'}>
             <div style={{height: "50vh", width: "50%"}}>
@@ -45,19 +53,22 @@ export default function GoogleMap(props) {
                                 id: -1,
                                 lat: newLocation.lat,
                                 lng: newLocation.lng,
+                                name:"",
+                                description:"",
                                 isNew: true,
                             }
-                            setSelectedPlace(newPlace)
-                            props.onSelectedPlaceChanged(newPlace)
+                            onSelectedPlaceChanged(newPlace)
                         }
                     }}
                     mapId={"3d321da67ef9306"}
                     defaultCenter={places && places[0] || defaultLocation[0]}
                     defaultZoom={12}>
                     <Markers places={(places && places.length > 0) ? [...places, selectedPlace] : [selectedPlace]}
-                             inSelectMode={props.inSelectMode}
-                             select={onSelect}
-                             receiptId={props.receiptId}
+                             inAssignMode={inAssignMode}
+                             onAssign={onAssign}
+                             receiptId={receiptId}
+                             onSelectedPlaceChanged={onSelectedPlaceChanged}
+                             selectedPlace={selectedPlace}
                     />
                 </Map>
             </div>
@@ -65,7 +76,7 @@ export default function GoogleMap(props) {
     );
 }
 
-const Markers = ({places, inSelectMode, select, receiptId}) => {
+const Markers = ({places, inAssignMode, onAssign, receiptId, onSelectedPlaceChanged, selectedPlace}) => {
     const map = useMap();
     const [markers, setMarkers] = useState({});
     const clusterer = useRef(null);
@@ -146,11 +157,13 @@ const Markers = ({places, inSelectMode, select, receiptId}) => {
                         <PlaceMarker key={place.id}
                                      place={place}
                                      refHandler={setMarkerRef}
-                                     inSelectMode={inSelectMode}
-                                     select={select}
+                                     inAssignMode={inAssignMode}
+                                     onAssign={onAssign}
                                      receiptId={receiptId}
                                      infoWindowShown={infoWindowShown}
                                      setInfoWindowShown={setInfoWindowShown}
+                                     onSelectedPlaceChanged={onSelectedPlaceChanged}
+                                     selectedPlace={selectedPlace}
                         />
                         :
                         <></>

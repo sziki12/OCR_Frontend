@@ -31,9 +31,9 @@ export type CreateReceiptRequest = {
 
 export type Household = {id: string}
 
-export type Place = { id: string, name: string, lat: number, lng: number, validated: boolean, receipts: [Receipt] }
+export type Place = { id: string, name: string, description:string, lat: number, lng: number, validated: boolean, receipts: [Receipt] }
 
-export type ReceiptPlace = { id: string, name: string, lat: number, lng: number, validated: boolean }
+export type ReceiptPlace = { id: string, name: string, description:string, lat: number, lng: number, validated: boolean }
 
 export type CreatePlaceRequest = { name: string, lat: number, lng: number, }
 

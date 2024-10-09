@@ -20,9 +20,21 @@ export async function getPlaces(householdId: string) {
     return await callAndEnsureLogin(request)
 }
 
-export async function savePlace(householdId: string, place: Place) {
+export async function createPlace(householdId: string, place: Place) {
     let request = async () => {
-        const url = `${getBaseAddress(householdId)}/save`;
+        const url = `${getBaseAddress(householdId)}/create`;
+        return await fetch(url, {
+            method: `POST`,
+            body: JSON.stringify(place),
+            headers: getHeaders(true)
+        })
+    }
+    return await callAndEnsureLogin(request)
+}
+
+export async function updatePlace(householdId: string, place: Place) {
+    let request = async () => {
+        const url = `${getBaseAddress(householdId)}/update`;
         return await fetch(url, {
             method: `POST`,
             body: JSON.stringify(place),

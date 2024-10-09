@@ -46,7 +46,7 @@ export default function ReceiptPlaceTab(props) {
 
     return (<>
         <ReceiptToggleEditableWrapper receipt={receipt} setReceipt={setReceipt}>
-            <GoogleMap places={places} canCreateMarker={false} inSelectMode={true} receiptId={receiptId}/>
+            <GoogleMap places={places} canCreateMarker={false} inAssignMode={true} receiptId={receiptId}/>
         </ReceiptToggleEditableWrapper>
     </>)
 }
