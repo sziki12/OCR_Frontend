@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Button, MenuItem, Paper, Select, styled, Switch,} from "@mui/material";
+import {Button, MenuItem, Paper, Select, styled, Switch, Tooltip,} from "@mui/material";
 import {uploadImageForOCR} from "../../dist/endpoints/ImageProcessingEndpoint";
 import {useNavigate} from "react-router-dom";
 import {faCloudArrowUp, faSpinner} from "@fortawesome/free-solid-svg-icons";
@@ -19,20 +19,27 @@ const UploadAndDisplayImage = (props) => {
     const [ocrSettings, setOcrSettings] = useState({
         ocrType: "paddle",
         orientation: "portrait",
-        parseModel: "gpt-4o-mini"
+        parseModel: "mistral"
     })
+
+    const multimodalLlmModels = ["mistral","gemini","llava"]
+    let isParseModelDisabled = multimodalLlmModels.includes(ocrSettings.ocrType)
 
     const updateOcrSettings = (attr, value) => {
         setOcrSettings((prevState) => {
-            return {
-                ...prevState,
-                [attr]: value
+            if(attr === "ocrType" && multimodalLlmModels.includes(value)){
+                return {
+                    ...prevState,
+                    ["ocrType"]: value,
+                    ["parseModel"]: value
+                }
+            } else{
+                return {
+                    ...prevState,
+                    [attr]: value
+                }
             }
         })
-    }
-    //const [ocrType,setOcrType] = useState({mode:"paddle"})
-    const ocrTypeSwitch = () => {
-        updateOcrSettings("ocrType", (ocrSettings.ocrType === "paddle") ? "tesseract" : "paddle")
     }
     const ocrOrientationSwitch = () => {
         updateOcrSettings("orientation", (ocrSettings.ocrType === "portrait") ? "landscape" : "portrait")
@@ -60,11 +67,26 @@ const UploadAndDisplayImage = (props) => {
                         </div>
                     </div>
                     <div>
-                        <p>Choose Ocr Engine</p>
-                        <div className={"flex flex-row items-center pl-5"}>
-                            <p>Paddle</p>
-                            <Switch onChange={ocrTypeSwitch}/>
-                            <p>Tesseract</p>
+                        <div>
+                            <p>Choose Ocr Engine</p>
+                            <Select
+                                labelId="ocr-settings-select-ocr-type-label"
+                                id="ocr-settings-select-ocr-type"
+                                value={ocrSettings.ocrType}
+                                label="Receipt ocr type"
+                                onChange={(event) => {
+                                    updateOcrSettings("ocrType", event.target.value)
+                                }}
+                                className={"pl-5"}
+                            >
+                                <MenuItem value={"paddle"}><Tooltip title={"Ocr Engine"}>Paddle</Tooltip></MenuItem>
+                                <MenuItem value={"tesseract"} divider={true}><Tooltip title={"Ocr Engine"}>Tesseract</Tooltip></MenuItem>
+                                <MenuItem value={"mistral"}><Tooltip title={"Llm Model"}>Mistral</Tooltip></MenuItem>
+                                <MenuItem value={"gemini"}><Tooltip title={"Llm Model"}>Gemini</Tooltip></MenuItem>
+                                <MenuItem value={"gpt-4o-mini"}><Tooltip title={"Llm Model"}>Chat GPT 4o Mini</Tooltip></MenuItem>
+                                <MenuItem value={"gpt-4o"}><Tooltip title={"Llm Model"}>Chat GPT 4o</Tooltip></MenuItem>
+                                <MenuItem value={"llava"}><Tooltip title={"Llm Model"}>Llava</Tooltip></MenuItem>
+                            </Select>
                         </div>
                     </div>
                     <div>
@@ -78,10 +100,16 @@ const UploadAndDisplayImage = (props) => {
                                 updateOcrSettings("parseModel", event.target.value)
                             }}
                             className={"pl-5"}
+                            disabled={isParseModelDisabled}
                         >
-                            <MenuItem value={"gpt-4o-mini"}>Chat GPT 4o Mini</MenuItem>
-                            <MenuItem value={"gpt-4o"}>Chat GPT 4o</MenuItem>
-                            {/*TODO <MenuItem value={"llama"}>Chat GPT 4o</MenuItem>*/}
+                            <MenuItem value={"mistral"}><Tooltip title={"Llm Model"}>Mistral</Tooltip></MenuItem>
+                            <MenuItem value={"gemini"}><Tooltip title={"Llm Model"}>Gemini</Tooltip></MenuItem>
+                            <MenuItem value={"gpt-4o-mini"}><Tooltip title={"Llm Model"}>Chat GPT 4o Mini</Tooltip></MenuItem>
+                            <MenuItem value={"gpt-4o"}><Tooltip title={"Llm Model"}>Chat GPT 4o</Tooltip></MenuItem>
+                            <MenuItem value={"llava"}><Tooltip title={"Llm Model"}>Llava</Tooltip></MenuItem>
+                            <MenuItem value={"llama3.1"}><Tooltip title={"Llm Model"}>Llama 3.1</Tooltip></MenuItem>
+                            <MenuItem value={"claude"}><Tooltip title={"Llm Model"}>Claude</Tooltip></MenuItem>
+                            <MenuItem value={"t5"}><Tooltip title={"Llm Model"}>T5</Tooltip></MenuItem>
                         </Select>
                     </div>
                     <div className={"flex  justify-evenly"}>
