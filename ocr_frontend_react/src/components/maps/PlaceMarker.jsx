@@ -48,11 +48,13 @@ export default function PlaceMarker({
             return receipt.id
         }), receiptId)
     }
-    console.log("marker place")
-    console.log(place)
+    //console.log("marker place")
+    //console.log("key: "+place.id+" "+place.name)
+    //console.log(place)
     return (
         <>
             <AdvancedMarker
+                key={((place&&place.id)?(place.id+" "+place.name):(place.name+" "+place.lat+"-"+place.lng))}
                 title={place.name}
                 position={place}
                 ref={markerRef}

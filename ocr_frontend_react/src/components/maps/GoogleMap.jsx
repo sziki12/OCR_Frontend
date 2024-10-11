@@ -23,7 +23,7 @@ export default function GoogleMap({
 
     const defaultLocation = [{id: 1, lat: 47.507, lng: 19.045}];
     canCreateMarker = canCreateMarker || false
-
+    selectedPlace = selectedPlace || {id:-1}
     const width = ""
     const height = ""
 
@@ -40,8 +40,11 @@ export default function GoogleMap({
         (placeId) ? await assignPlace(selectedHousehold.id, placeId, receiptId) : await removePlace(selectedHousehold.id, receiptId)
         await updatePlaces()
     }
-    console.log("PLACES")
-    console.log((places && places.length > 0) ? [...places, selectedPlace] : [selectedPlace])
+    //console.log("PLACES")
+    //console.log(places)
+    //console.log(selectedPlace)
+    //console.log((places && places.length > 0) ? ((places.filter((place)=>place.id===selectedPlace.id).length!==0)?[...places]:[...places, selectedPlace] ): [selectedPlace])
+    //console.log(((places.filter((place)=>place.id===selectedPlace.id).length!==0)?[...places]:[...places, selectedPlace]))
     return (
         <APIProvider apiKey={'AIzaSyAN_KMLA-2J691xqMysa6_5ERNLJAnbYJ0'}>
             <div style={{height: "50vh", width: "50%"}}>
@@ -63,7 +66,7 @@ export default function GoogleMap({
                     mapId={"3d321da67ef9306"}
                     defaultCenter={places && places[0] || defaultLocation[0]}
                     defaultZoom={12}>
-                    <Markers places={(places && places.length > 0) ? [...places, selectedPlace] : [selectedPlace]}
+                    <Markers places={((places && places.length > 0) ? (selectedPlace&&selectedPlace.id&&(places.filter((place)=>place.id===selectedPlace.id).length!==0)?[...places]:[...places, selectedPlace] ): [selectedPlace])}
                              inAssignMode={inAssignMode}
                              onAssign={onAssign}
                              receiptId={receiptId}
