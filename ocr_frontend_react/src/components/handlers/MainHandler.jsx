@@ -1,7 +1,7 @@
 import ThemeHandler from "./ThemeHandler";
 import LoginHandler from "./LoginHandler";
-import {createTheme, CssBaseline, ThemeProvider} from "@mui/material";
 import HouseholdState from "../states/HouseholdState";
+import ReceiptState from "../states/ReceiptState";
 
 
 export default function MainHandler({children}) {
@@ -12,7 +12,9 @@ export default function MainHandler({children}) {
             <ThemeHandler>
                 <LoginHandler>
                     <HouseholdState>
-                        {children}
+                        <ReceiptState>
+                            {children}
+                        </ReceiptState>
                     </HouseholdState>
                 </LoginHandler>
             </ThemeHandler>

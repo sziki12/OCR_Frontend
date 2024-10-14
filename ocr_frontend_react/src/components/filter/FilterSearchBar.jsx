@@ -1,25 +1,24 @@
 import {Autocomplete, TextField} from "@mui/material";
 import React from "react";
 
-export default function FilterSearchBar({options, emptyValues, updateInputValue, updateValue, name}) {
+export default function FilterSearchBar({options, emptyValues, updateInputValue, updateValue, name,className}) {
 
-    const actualEmptyValues = (emptyValues) ? (emptyValues) : ([""])
-    const actualOptions = (options.includes(actualEmptyValues[0])) ? (options) : ([...options, {label: actualEmptyValues[0]}])
-    const [value, setValue] = React.useState([{label: actualEmptyValues[0]}]);
+    const actualEmptyValues = (emptyValues) ? (emptyValues) : (["All"])
+    const [values, setValues] = React.useState([{label: actualEmptyValues[0]}]);
     const [inputValue, setInputValue] = React.useState('');
     const actualName = name || "Search"
+    const actualOptions = ([...options, {label: actualEmptyValues[0]}].filter((option)=> {
+        return values.filter((value)=>option.label === value.label).length === 0
+    }))
 
-    //console.log(value)
-    return (<>
+    return (<div className={className}>
         <Autocomplete
             multiple
-            value={value}
+            value={values}
             inputValue={inputValue}
             onChange={(event, newValue) => {
-                setValue(newValue)
-                //console.log(newValue)
+                setValues(newValue)
                 if (updateValue) {
-                    //console.log("updateValue")
                     updateValue(newValue)
                 }
 
@@ -32,7 +31,7 @@ export default function FilterSearchBar({options, emptyValues, updateInputValue,
                 }
             }}
             options={actualOptions}
-            sx={{width: 300}}
+            //sx={{width: 300}}
             getOptionLabel={(option) => option && option.label || emptyValues[0]}
             defaultValue={[emptyValues[0]]}
             renderInput={(params) => (
@@ -40,10 +39,10 @@ export default function FilterSearchBar({options, emptyValues, updateInputValue,
                     {...params}
                     variant="standard"
                     label={actualName}
-                    placeholder="Favorites"
+                    placeholder="Search"
                 />
             )}
         />
-    </>)
+    </div>)
 
 }

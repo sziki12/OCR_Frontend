@@ -44,7 +44,7 @@ export default function AllReceiptPage() {
         })
     }
 
-    console.log(filterValue)
+    //console.log(filterValue)
     const [filterOptions, setFilterOptions] = useState({
         placeNames: [],
         receiptNames: [],
@@ -52,16 +52,14 @@ export default function AllReceiptPage() {
     const [addOpen, setAddOpen] = useState(false)
     useEffect(() => {
         getFilterOptions(selectedHousehold.id).then((newFilterOptions) => {
-            if (newFilterOptions && newFilterOptions.length > 0) {
-                //console.log("newFilterOptions")
-                //console.log(newFilterOptions)
+            if (newFilterOptions) {
                 let placeNames = [...newFilterOptions.placeNames.map((name) => {
                     return {label: name}
                 }), {label: unassignedValue}]
 
-                let receiptNames = newFilterOptions.receiptNames.map((name) => {
+                let receiptNames =  [...newFilterOptions.receiptNames.map((name) => {
                     return {label: name}
-                })
+                }), {label: unassignedValue}]
                 updateFilterOptions(placeNames, receiptNames)
             } else {
                 updateFilterOptions([],[])
@@ -76,26 +74,30 @@ export default function AllReceiptPage() {
             <Button onClick={() => {
                 setAddOpen(true)
             }}><FontAwesomeIcon icon={faPlus} size={"xl"}/></Button>
-            <div className={"flex flex-row"}>
+            <div className={"flex flex-row space-x-5"}>
                 <FilterSearchBar
                     options={filterOptions.receiptNames}
                     emptyValues={emptyValues}
                     updateValue={updateReceiptNameFilter}
                     name={"Receipt Name Search"}
+                    className={"w-1/3"}
                 />
                 <FilterSearchBar
                     options={filterOptions.placeNames}
                     emptyValues={emptyValues}
                     updateValue={updatePlaceNameFilter}
                     name={"Place Name Search"}
+                    className={"w-1/3"}
                 />
             </div>
-            <ReceiptState>
+            {//<ReceiptState>
+                 }
                 <NewReceiptDialog open={addOpen} close={() => setAddOpen(false)}></NewReceiptDialog>
                 <div className={`flex flex-wrap flex-row ${breakpoints.sm ? ("justify-center") : ""}`}>
                     <AllReceipts filterValue={filterValue}/>
                 </div>
-            </ReceiptState>
+            {//</ReceiptState>
+                }
 
         </>
     );

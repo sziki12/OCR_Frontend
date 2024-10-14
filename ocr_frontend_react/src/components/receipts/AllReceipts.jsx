@@ -27,8 +27,8 @@ export default function AllReceipts({filterValue}) {
 
     //console.log(receiptNames)
     //console.log(placeNames)
-    const receiptLayout = (receipt) => <>
-        <Paper key={receipt.id} elevation={12} className="px-10 py-6 m-5">
+    const receiptLayout = (receipt) => <div key={`receipt-${receipt.id}`}>
+        <Paper elevation={12} className="px-10 py-6 m-5">
             <p><FontAwesomeIcon icon={faMessage} color={"Dodgerblue"}/> {receipt.name}</p>
             <p><FontAwesomeIcon icon={faCalendar}/> {new Date(receipt.dateOfPurchase).toLocaleDateString()}</p>
             <p><FontAwesomeIcon icon={faMoneyBill} color={"green"}/> {receipt.totalCost + " "}</p>
@@ -44,10 +44,10 @@ export default function AllReceipts({filterValue}) {
                 <FontAwesomeIcon icon={faTrashCan} width={25} color={"red"}/>
             </Button>
         </Paper>
-    </>
+    </div>
 
-    const pendingLayout = (receipt) => <>
-        <Paper key={receipt.id} elevation={12} className="px-10 py-6 m-5 bg-gray-500">
+    const pendingLayout = (receipt) => <div key={`pending-${receipt.id}`}>
+        <Paper elevation={12} className="px-10 py-6 m-5 bg-gray-500">
             <p className={(colorMode==="light")?`text-gray-700`:`text-gray-400`}><FontAwesomeIcon icon={faMessage} color={"grey"}/> {receipt.name}</p>
             <p className={(colorMode==="light")?`text-gray-700`:`text-gray-400`}><FontAwesomeIcon icon={faCalendar}
                                                             color={"grey"}/> {new Date(receipt.dateOfPurchase).toLocaleDateString()}
@@ -66,7 +66,7 @@ export default function AllReceipts({filterValue}) {
                 <FontAwesomeIcon icon={faTrashCan} width={25} color={"grey"}/>
             </Button>
         </Paper>
-    </>
+    </div>
 
     const {selectedHousehold} = HouseholdData()
     const {allReceipt, updateAllReceipt} = ReceiptData()
@@ -87,6 +87,7 @@ export default function AllReceipts({filterValue}) {
         setReceipts(allReceipt)
     }, [allReceipt]);
 
+
     return (
         <>
             {(receipts && receipts.length > 0)
@@ -100,8 +101,8 @@ export default function AllReceipts({filterValue}) {
                     }
                     //place not in filtered category
 
-                    if (receipt.placeName != null) {
-                        if (!placeNames.includes(receipt.placeName) && placeNames.filter((name) => {
+                    if (receipt.place != null) {
+                        if (!placeNames.includes(receipt.place.name) && placeNames.filter((name) => {
                             return filterValue.emptyValues.includes(name)
                         }).length === 0) {
                             return false
@@ -118,8 +119,9 @@ export default function AllReceipts({filterValue}) {
                     return true;
                 })?.map((receipt) => {
                     return (
-                        <>
+                        <div key={`receipt-container-${receipt.id}`}>
                             <ReceiptDeleteDialog
+                                key={`receipt-delete-dialog-${receipt.id}`}
                                 open={open[receipt.id]}
                                 close={() => closeDialog(receipt.id)}
                                 receiptId={receipt.id}
@@ -131,7 +133,7 @@ export default function AllReceipts({filterValue}) {
                                     :
                                     receiptLayout(receipt)
                             }
-                        </>)
+                        </div>)
                 })
                 :
                 <></>

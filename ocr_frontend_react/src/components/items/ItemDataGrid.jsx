@@ -13,6 +13,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {categoriseItems} from "../../dist/endpoints/ItemEndpoint"
 import {faFloppyDisk, faPen, faPlus, faSave, faTrash, faXmark, faIcons} from "@fortawesome/free-solid-svg-icons";
 import {HouseholdData} from "../states/HouseholdState";
+import {ReceiptData} from "../states/ReceiptState";
 
 
 function EditToolbar(props) {
@@ -20,6 +21,7 @@ function EditToolbar(props) {
     const setRows = props.setRows
     const setRowModesModel = props.setRowModesModel
     const receipt = props.receipt
+    const {updateReceipt} = ReceiptData()
 
     const {selectedHousehold} = HouseholdData()
 
@@ -90,6 +92,7 @@ function EditToolbar(props) {
                                     if (typeof (receipt.name) !== "undefined" && receipt.name !== "") {
                                         setCategorise(true)
                                         await categoriseItems(selectedHousehold.id, receipt.id,categoriseModel)
+                                        updateReceipt(receipt.id)
                                         setCategorise(false)
                                     } else {
                                         setShowNameDialog(true)

@@ -5,6 +5,7 @@ import {useNavigate} from "react-router-dom";
 import {faCloudArrowUp, faSpinner} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {HouseholdData} from "../../components/states/HouseholdState";
+import {ReceiptData} from "../../components/states/ReceiptState";
 
 const UploadAndDisplayImage = (props) => {
 
@@ -13,6 +14,7 @@ const UploadAndDisplayImage = (props) => {
     const {selectedHousehold} = HouseholdData()
     const [receiptImage, setReceiptImage] = useState(null);
     const [imageData, setImageData] = useState(null);
+    const {updateAllReceipt,allReceipt} = ReceiptData()
 
     //waiting, processing, processed
     const [processingState, setProcessingState] = useState("waiting");
@@ -52,6 +54,7 @@ const UploadAndDisplayImage = (props) => {
         setProcessingState("processing")
         setTimeout(() => navigate("/receipts"), 1500)
         await uploadImageForOCR(selectedHousehold.id, formData, ocrSettings)
+        updateAllReceipt()
     }
 
     return (

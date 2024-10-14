@@ -1,4 +1,4 @@
-import {loginUser} from "../dist/endpoints/AuthEndpoint"
+import {loginUser} from "../endpoints/AuthEndpoint"
 
 function getAuthToken() {
     return window.localStorage.getItem("auth_token")

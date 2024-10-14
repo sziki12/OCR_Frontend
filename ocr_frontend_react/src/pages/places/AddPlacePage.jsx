@@ -5,9 +5,11 @@ export default function AddPlacePage() {
 
     return (
         <>
+            {
             <PlaceState>
                 <EditablePlace/>
             </PlaceState>
+            }
         </>
     )
 }

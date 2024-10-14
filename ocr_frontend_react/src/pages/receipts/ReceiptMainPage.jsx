@@ -7,12 +7,11 @@ import PlaceState from "../../components/states/PlaceState";
 export default function ReceiptMainPage() {
     return (
         <>
+            {
             <PlaceState>
-                <ReceiptState>
-                    <ReceiptTab/>
-                </ReceiptState>
+                <ReceiptTab/>
             </PlaceState>
+            }
         </>
-
     )
 }

@@ -56,7 +56,7 @@ export default function ProfileAvatar()
                             onChange={selectedHouseholdChanged}
                         >
                             {households.map((household)=>{
-                                return <MenuItem value={household.id}>{household.name}</MenuItem>
+                                return <MenuItem key={`household-${household.id}`} value={household.id}>{household.name}</MenuItem>
                             })}
                         </Select>
                     </div>

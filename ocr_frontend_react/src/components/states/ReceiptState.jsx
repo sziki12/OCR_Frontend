@@ -3,6 +3,7 @@ import {getSingleReceipt, getReceipts} from "../../dist/endpoints/ReceiptEndpoin
 import {getItemCategories} from "../../dist/endpoints/ItemEndpoint"
 import {useParams} from "react-router-dom";
 import {HouseholdData} from "./HouseholdState";
+import {AuthData} from "../handlers/LoginHandler";
 
 const ReceiptContext = createContext(
     {}
@@ -12,6 +13,7 @@ export const ReceiptData = () => useContext(ReceiptContext)
 
 export default function ReceiptState({children}) {
     const {selectedHousehold} = HouseholdData()
+    const {user} = AuthData()
     const params = useParams()
     const [receipt, setReceipt] = useState({
         id: -1,
@@ -29,13 +31,13 @@ export default function ReceiptState({children}) {
             return
         getSingleReceipt(selectedHousehold.id, receiptId).then((data) => {
             setReceipt((prev) => {
-                console.log({...prev, ...data})
+                //console.log({...prev, ...data})
                 return {...prev, ...data}
             })
         })
         getItemCategories(selectedHousehold.id).then((categories) => {
             setReceipt((prev) => {
-                console.log({...prev, categories: categories})
+                //console.log({...prev, categories: categories})
                 return {...prev, categories: categories}
             })
         })
@@ -52,10 +54,12 @@ export default function ReceiptState({children}) {
     }
 
     useEffect(() => {
-        updateAllReceipt()
-        if (params.receiptId)
-            updateReceipt(params.receiptId)
-    }, [])
+        if(user.isAuthenticated){
+            updateAllReceipt()
+            if (params.receiptId)
+                updateReceipt(params.receiptId)
+        }
+    }, [user.isAuthenticated])
 
     return (
         <ReceiptContext.Provider value={{

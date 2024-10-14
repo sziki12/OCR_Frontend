@@ -10,6 +10,7 @@ import {PlaceData} from "../states/PlaceState";
 import {assignPlace, removePlace} from "../../dist/endpoints/PlaceEndpoint";
 import * as Utils from "../utils/Utils";
 import {HouseholdData} from "../states/HouseholdState";
+import {ThemeData} from "../handlers/ThemeHandler";
 
 export default function GoogleMap({
                                       onSelectedPlaceChanged,
@@ -20,34 +21,29 @@ export default function GoogleMap({
                                   }) {
     const {places, updatePlaces} = PlaceData()
     const {selectedHousehold} = HouseholdData()
+    const {breakpoints} = ThemeData();
 
     const defaultLocation = [{id: 1, lat: 47.507, lng: 19.045}];
     canCreateMarker = canCreateMarker || false
     selectedPlace = selectedPlace || {id:-1}
-    const width = ""
-    const height = ""
 
-    /*useEffect(() => {
-        setPlaces(placeData.places)
-        console.log("update Completed")
-    }, [placeData.places]);
-
-    useEffect(() => {
-        setSelectedPlace(props.selectedPlace)
-    }, [props.selectedPlace])*/
+    const height = (breakpoints.sm)?("200px"):((breakpoints.md)?("400px"):((breakpoints.lg)?("600px"):("800px")))
 
     const onAssign = async (placeId) => {
         (placeId) ? await assignPlace(selectedHousehold.id, placeId, receiptId) : await removePlace(selectedHousehold.id, receiptId)
         await updatePlaces()
     }
-    //console.log("PLACES")
-    //console.log(places)
-    //console.log(selectedPlace)
-    //console.log((places && places.length > 0) ? ((places.filter((place)=>place.id===selectedPlace.id).length!==0)?[...places]:[...places, selectedPlace] ): [selectedPlace])
-    //console.log(((places.filter((place)=>place.id===selectedPlace.id).length!==0)?[...places]:[...places, selectedPlace]))
+    console.log(process.env)
+
+    const placesToShow = ((places && places.length > 0)
+        ? (selectedPlace&&selectedPlace.id&&(places.filter((place)=>
+            place.id===selectedPlace.id).length!==0)
+            ? [...places]
+            :[...places, selectedPlace] )
+        : [selectedPlace])
     return (
-        <APIProvider apiKey={'AIzaSyAN_KMLA-2J691xqMysa6_5ERNLJAnbYJ0'}>
-            <div style={{height: "50vh", width: "50%"}}>
+        <APIProvider apiKey={process.env.REACT_APP_Google_Maps_API_Key}>
+            <div className={"w-4/5"} style={{height:height}}>
                 <Map
                     onClick={async (e) => {
                         if (canCreateMarker) {
@@ -66,7 +62,7 @@ export default function GoogleMap({
                     mapId={"3d321da67ef9306"}
                     defaultCenter={places && places[0] || defaultLocation[0]}
                     defaultZoom={12}>
-                    <Markers places={((places && places.length > 0) ? (selectedPlace&&selectedPlace.id&&(places.filter((place)=>place.id===selectedPlace.id).length!==0)?[...places]:[...places, selectedPlace] ): [selectedPlace])}
+                    <Markers places={placesToShow}
                              inAssignMode={inAssignMode}
                              onAssign={onAssign}
                              receiptId={receiptId}
@@ -101,32 +97,21 @@ const Markers = ({places, inAssignMode, onAssign, receiptId, onSelectedPlaceChan
     }, [map]);
 
     useEffect(() => {
-        //console.log("markers CLUSTER")
-        //console.log(placesToShow)
-        //console.log(markers)
         clusterer.current?.clearMarkers();
         clusterer.current?.addMarkers(Object.values(markers));
         markersUpdate()
     }, [markers]);
 
     const setMarkerRef = (ref, key) => {
-        //console.log(`markers[key]: ${markers[key]}  ${key}`)
         if (ref && markers[key]) return;
         if (!ref && !markers[key]) return;
 
         setMarkers((prev) => {
-            //console.log("Marker Set")
             if (ref) {
-                //console.log(`markers[key]: ${markers[key]}  ${key}`)
-                //console.log(`new:`)
-                //console.log({...prev, [key]: ref})
                 return {...prev, [key]: ref};
             } else {
                 const newMarkers = {...prev};
                 delete newMarkers[key];
-                //console.log(`${key} setMarkerRef delete`)
-                //console.log(`new`)
-                //console.log(newMarkers)
                 return newMarkers;
             }
         });
@@ -137,8 +122,6 @@ const Markers = ({places, inAssignMode, onAssign, receiptId, onSelectedPlaceChan
             for (let key in markers) {
                 const marker = placesToShow.filter((place) => (Number(place.id) === Number(key)))
                 if (marker.length <= 0) {
-                    //console.log("REMOVED")
-                    //console.log(key)
                     setMarkers((prev) => {
                         const newMarkers = {...prev};
                         delete newMarkers[key];
@@ -149,8 +132,6 @@ const Markers = ({places, inAssignMode, onAssign, receiptId, onSelectedPlaceChan
         }
     }
 
-    //markersUpdate()
-    //console.log(infoWindowShown)
     return (
         <>
             {

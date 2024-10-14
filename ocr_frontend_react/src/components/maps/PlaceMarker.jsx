@@ -51,10 +51,11 @@ export default function PlaceMarker({
     //console.log("marker place")
     //console.log("key: "+place.id+" "+place.name)
     //console.log(place)
+    const markerKey = ((place&&place.id)?(place.id+" "+place.name):(place.name+" "+place.lat+"-"+place.lng))
     return (
         <>
             <AdvancedMarker
-                key={((place&&place.id)?(place.id+" "+place.name):(place.name+" "+place.lat+"-"+place.lng))}
+                key={markerKey}
                 title={place.name}
                 position={place}
                 ref={markerRef}

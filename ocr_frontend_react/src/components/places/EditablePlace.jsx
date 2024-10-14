@@ -26,8 +26,6 @@ export default function EditablePlace(props) {
     ;
     const onSelectedPlaceChanged = (place) => {
         setSelectedPlace({...selectedPlace, ...place})
-        console.log("{...selectedPlace, ...place}")
-        console.log({...selectedPlace, ...place})
     }
 
 
@@ -35,55 +33,57 @@ export default function EditablePlace(props) {
         setSelectedPlace({...selectedPlace, [e.target.name]: e.target.value})
     }
 
-    return (<div className={"flex flex-col justify-evenly space-y-5"}>
-        <Paper className={"p-5"}>
-            <div className={"flex flex-col justify-center items-center space-y-5"}>
-                <Input
-                    className={"w-1/3"}
-                    autoFocus={true}
-                    placeholder={"Name of the Place"}
-                    name={"name"}
-                    value={selectedPlace.name}
-                    onChange={onChange}>
-                </Input>
-                <Input
-                    className={"w-1/3"}
-                    autoFocus={true}
-                    placeholder={"Description"}
-                    name={"description"}
-                    value={selectedPlace.description}
-                    multiline={true}
-                    onChange={onChange}>
-                </Input>
+    return (<div className={"flex flex-row justify-evenly"}>
+        <div className={"w-4/12"}>
+            <Paper className={"p-5"}>
+                <div className={"flex flex-col justify-center items-center space-y-5"}>
+                    <Input
+                        className={"w-2/3"}
+                        autoFocus={true}
+                        placeholder={"Name of the Place"}
+                        name={"name"}
+                        value={selectedPlace.name}
+                        onChange={onChange}>
+                    </Input>
+                    <Input
+                        className={"w-2/3"}
+                        autoFocus={true}
+                        placeholder={"Description"}
+                        name={"description"}
+                        value={selectedPlace.description}
+                        multiline={true}
+                        onChange={onChange}>
+                    </Input>
 
-                <Button onClick={async () => {
-                    if (selectedPlace
-                        && selectedPlace.name
-                        && selectedPlace.lat
-                        && selectedPlace.lng) {
-                        if(selectedPlace.id) {
-                            await updatePlace(selectedHousehold.id, selectedPlace)
-                        }else {
-                            await createPlace(selectedHousehold.id, selectedPlace)
-                        }
-                        setSelectedPlace({
-                            name: "",
-                            description: "",
-                            lat: undefined,
-                            lng: undefined,
-                            id: undefined
-                        })
-                        placeData.updatePlaces()
-                        setAttempt({isValid: true})
-                    } else setAttempt({isValid: false})
+                    <Button onClick={async () => {
+                        if (selectedPlace
+                            && selectedPlace.name
+                            && selectedPlace.lat
+                            && selectedPlace.lng) {
+                            if(selectedPlace.id) {
+                                await updatePlace(selectedHousehold.id, selectedPlace)
+                            }else {
+                                await createPlace(selectedHousehold.id, selectedPlace)
+                            }
+                            setSelectedPlace({
+                                name: "",
+                                description: "",
+                                lat: undefined,
+                                lng: undefined,
+                                id: undefined
+                            })
+                            placeData.updatePlaces()
+                            setAttempt({isValid: true})
+                        } else setAttempt({isValid: false})
 
 
-                }}>
-                    <FontAwesomeIcon icon={faFloppyDisk} size={"xl"}/>
-                </Button>
-            </div>
-        </Paper>
-        <Paper className={"p-5"}>
+                    }}>
+                        <FontAwesomeIcon icon={faFloppyDisk} size={"xl"}/>
+                    </Button>
+                </div>
+            </Paper>
+        </div>
+        <Paper className={"p-5 w-7/12"}>
             <div className={"flex justify-center"}>
                 <GoogleMap
                     canCreateMarker={true}
