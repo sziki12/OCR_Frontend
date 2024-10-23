@@ -10,15 +10,15 @@ export async function uploadImageForOCR(householdId: string, image: any, query: 
     orientation: "portrait" | "landscape";
     parseModel: "gpt-4o" | "gpt-4o-mini" | "llama";
 }) {
-    let request = async () => {
+    let request = async (headers) => {
         const url =`${getBaseAddress(householdId)}?ocrType=${query.ocrType}&orientation=${query.orientation}&parseModel=${query.parseModel}`
         console.log(url)
         let response = await fetch(url, {
             method: 'POST',
-            headers: getHeaders(false),
+            headers: headers,
             body: image
         });
         return await response.json()
     }
-    return await callAndEnsureLogin(request)
+    return await callAndEnsureLogin(request,false)
 }

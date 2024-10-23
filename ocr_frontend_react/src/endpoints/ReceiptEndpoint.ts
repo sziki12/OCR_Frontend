@@ -9,86 +9,86 @@ function getBaseAddress(householdId: string) {
 }
 
 export async function getReceipts(householdId: string): Promise<[Receipt]> {
-    let request = async () => {
+    let request = async (headers) => {
         const url = getBaseAddress(householdId);
         let receiptsRequest = await fetch(url,
             {
                 cache: 'no-store',
-                headers: getHeaders(false)
+                headers: headers
             })
         return await receiptsRequest.json()
     }
-    return await callAndEnsureLogin(request)
+    return await callAndEnsureLogin(request,false)
 }
 
 export async function getSingleReceipt(householdId: string, receiptId: string): Promise<Receipt> {
 
-    let request = async () => {
+    let request = async (headers) => {
         let receiptsRequest = await fetch(`${getBaseAddress(householdId)}/${receiptId}`,
             {
                 cache: "no-store",
-                headers: getHeaders(false)
+                headers: headers
             })
         return await receiptsRequest.json()
     }
-    return await callAndEnsureLogin(request)
+    return await callAndEnsureLogin(request,false)
 }
 
 export async function createReceipt(householdId: string, receipt: CreateReceiptRequest) {
-    let request = async () => {
+    let request = async (headers) => {
         let receiptsRequest = await fetch(`${getBaseAddress(householdId)}`, {
             method: 'POST',
-            headers: getHeaders(true),
+            headers: headers,
             body: JSON.stringify(receipt),
         });
     }
-    return await callAndEnsureLogin(request)
+    return await callAndEnsureLogin(request,true)
 }
 
 export async function updateReceipt(householdId: string, receipt: Receipt) {
 
-    let request = async () => {
+    let request = async (headers) => {
         let receiptsRequest = await fetch(`${getBaseAddress(householdId)}`, {
             method: 'PUT',
-            headers: getHeaders(true),
+            headers: headers,
             body: JSON.stringify(receipt),
         });
     }
-    return await callAndEnsureLogin(request)
+    return await callAndEnsureLogin(request,true)
 }
 
 export async function deleteReceipts(householdId: string, receiptId: string) {
-    let request = async () => {
+    let request = async (headers) => {
         let receiptsRequest = await fetch(`${getBaseAddress(householdId)}/${receiptId}`,
             {
                 method: 'DELETE',
                 cache: "no-store",
-                headers: getHeaders(false)
+                headers: headers
             })
     }
-    return await callAndEnsureLogin(request)
+    return await callAndEnsureLogin(request,false)
 }
 
 export async function addItemToReceipt(householdId: string, receiptId: string, item: ReceiptItem) {
-    let request = async () => {
+    let request = async (headers) => {
         const url = `${getBaseAddress(householdId)}/${receiptId}/item`
         let response = await fetch(url, {
             method: 'POST',
-            headers: getHeaders(true),
+            headers: headers,
             body: JSON.stringify(item),
         });
     }
-    return await callAndEnsureLogin(request)
+    return await callAndEnsureLogin(request,true)
 }
 
 export async function createNewItem(householdId: string, receiptId: string) {
-    let request = async () => {
+    let request = async (headers) => {
         const url = `${getBaseAddress(householdId)}/${receiptId}/new/item`
         const response = await fetch(url, {
             method: 'POST',
-            headers: getHeaders(true),
+            headers: headers,
         });
         return await response.json()
     }
-    return await callAndEnsureLogin(request)
+    return await callAndEnsureLogin(request,true)
 }

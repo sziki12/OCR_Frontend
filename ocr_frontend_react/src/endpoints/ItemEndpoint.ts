@@ -10,39 +10,39 @@ function getBaseAddress(householdId: string, receiptId: string | null) {
 }
 
 export async function deleteItem(householdId: string, receiptId: string, itemId: string) {
-    let request = async () => {
+    let request = async (headers) => {
         await fetch(`${getBaseAddress(householdId, receiptId)}/${itemId}`,
             {
                 method: 'DELETE',
                 cache: "no-store",
-                headers: getHeaders(false)
+                headers: headers
             });
     }
-    return await callAndEnsureLogin(request)
+    return await callAndEnsureLogin(request,false)
 }
 
 export async function getItemCategories(householdId: string) {
-    let request = async () => {
+    let request = async (headers) => {
         const url = `${getBaseAddress(householdId, null)}/categories`;
 
         console.log("getItemCategories")
         console.log(url)
         const response = await fetch(url, {
             method: 'GET',
-            headers: getHeaders(false)
+            headers: headers
         })
         return await response.json();
     }
-    return await callAndEnsureLogin(request)
+    return await callAndEnsureLogin(request,false)
 }
 
 export async function categoriseItems(householdId: string, receiptId: string,categoriseModel: String) {
-    let request = async () => {
+    let request = async (headers) => {
         const url = `${getBaseAddress(householdId, receiptId)}/categorise?categoriseModel=${categoriseModel}`;
         return await fetch(url, {
             method: 'PUT',
-            headers: getHeaders(false)
+            headers: headers
         });
     }
-    return await callAndEnsureLogin(request)
+    return await callAndEnsureLogin(request,false)
 }

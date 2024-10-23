@@ -7,13 +7,13 @@ function getBaseAddress(householdId: string) {
 }
 
 export async function getFilterOptions(householdId: string) {
-    let request = async () => {
+    let request = async (headers) => {
         const url = getBaseAddress(householdId);
         const response = await fetch(url, {
             method: 'GET',
-            headers: getHeaders(false)
+            headers: headers
         })
         return await response.json();
     }
-    return await callAndEnsureLogin(request)
+    return await callAndEnsureLogin(request,false)
 }

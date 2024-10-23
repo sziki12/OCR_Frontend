@@ -33,7 +33,6 @@ export default function GoogleMap({
         (placeId) ? await assignPlace(selectedHousehold.id, placeId, receiptId) : await removePlace(selectedHousehold.id, receiptId)
         await updatePlaces()
     }
-    console.log(process.env)
 
     const placesToShow = ((places && places.length > 0)
         ? (selectedPlace&&selectedPlace.id&&(places.filter((place)=>

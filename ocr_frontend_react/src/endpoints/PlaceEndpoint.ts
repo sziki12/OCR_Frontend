@@ -8,60 +8,60 @@ function getBaseAddress(householdId: string) {
 }
 
 export async function getPlaces(householdId: string) {
-    let request = async () => {
+    let request = async (headers) => {
         const url = `${getBaseAddress(householdId)}`;
         const response = await fetch(url, {
             method: `GET`,
-            headers: getHeaders(false),
+            headers: headers,
         });
 
         return await response.json()
     }
-    return await callAndEnsureLogin(request)
+    return await callAndEnsureLogin(request,false)
 }
 
 export async function createPlace(householdId: string, place: Place) {
-    let request = async () => {
+    let request = async (headers) => {
         const url = `${getBaseAddress(householdId)}/create`;
         return await fetch(url, {
             method: `POST`,
             body: JSON.stringify(place),
-            headers: getHeaders(true)
+            headers: headers
         })
     }
-    return await callAndEnsureLogin(request)
+    return await callAndEnsureLogin(request,true)
 }
 
 export async function updatePlace(householdId: string, place: Place) {
-    let request = async () => {
+    let request = async (headers) => {
         const url = `${getBaseAddress(householdId)}/update`;
         return await fetch(url, {
             method: `POST`,
             body: JSON.stringify(place),
-            headers: getHeaders(true)
+            headers: headers
         })
     }
-    return await callAndEnsureLogin(request)
+    return await callAndEnsureLogin(request,true)
 }
 
 export async function assignPlace(householdId: string, placeId: string, receiptId: string) {
-    let request = async () => {
+    let request = async (headers) => {
         const url = `${getBaseAddress(householdId)}/${placeId}/to/${receiptId}`;
         await fetch(url, {
             method: `PUT`,
-            headers: getHeaders(false)
+            headers: headers
         })
     }
-    return await callAndEnsureLogin(request)
+    return await callAndEnsureLogin(request,false)
 }
 
 export async function removePlace(householdId: string, receiptId: string) {
-    let request = async () => {
+    let request = async (headers) => {
         const url = `${getBaseAddress(householdId)}/remove/${receiptId}`;
         await fetch(url, {
             method: `PUT`,
-            headers: getHeaders(false)
+            headers: headers
         })
     }
-    return await callAndEnsureLogin(request)
+    return await callAndEnsureLogin(request,false)
 }

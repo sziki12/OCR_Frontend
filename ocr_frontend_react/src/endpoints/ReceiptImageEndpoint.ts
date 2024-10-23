@@ -6,11 +6,11 @@ function getBaseAddress(householdId: string) {
     return `${serverAddress}/api/household/${householdId}/image`
 }
 export async function getImage(householdId: string, receiptId: string, imageId: string) {
-    let request = async () => {
+    let request = async (headers) => {
         const url = `${getBaseAddress(householdId)}/${receiptId}/${imageId}`;
         const response = await fetch(url, {
             method: 'GET',
-            headers: getHeaders(false)
+            headers: headers
         })
         const reader = response.body.getReader();
         let chunks: Uint8Array = new Uint8Array([]);
@@ -32,5 +32,5 @@ export async function getImage(householdId: string, receiptId: string, imageId: 
             return reader.read().then(processText)
         })
     }
-    return await callAndEnsureLogin(request)
+    return await callAndEnsureLogin(request,false)
 }

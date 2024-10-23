@@ -3,7 +3,6 @@ import {serverAddress} from "./BackendAccess";
 import {hashPassword} from "../services/AuthService";
 import {EmailSalt, LoginUser, User} from "../types/MainTypes";
 
-//TODO Refactor login
 export async function getSalt(emailSalt: EmailSalt) {
     const url = serverAddress + `/salt`;
     return await fetch(url, {
@@ -59,6 +58,20 @@ export async function registerUser(user: User) {
         })
     }
     return await hashPassword(user, request)
+}
+
+export async function tryRefreshToken(refreshToken:String){
+    let request = async () => {
+        const url = serverAddress + '/refresh';
+        return await fetch(url, {
+            method: 'POST',
+            body: JSON.stringify({refreshToken:refreshToken}),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+    }
+    return request()
 }
 
 

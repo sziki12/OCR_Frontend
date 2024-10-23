@@ -8,13 +8,13 @@ import {Household} from "../types/MainTypes";
         return `${serverAddress}/api/household`
     }
     export async function getHouseholds():Promise<[Household]> {
-        let request = async () => {
+        let request = async (headers) => {
             const url = getBaseAddress();
             const response = await fetch(url, {
                 method: 'GET',
-                headers: getHeaders(false)
+                headers: headers
             })
             return await response.json();
         }
-        return await callAndEnsureLogin(request)
+        return await callAndEnsureLogin(request,false)
     }
