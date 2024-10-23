@@ -1,7 +1,7 @@
 import {PieChart} from "@mui/x-charts";
 import * as React from 'react';
 import {useEffect, useState} from "react";
-import {getChartData} from "../../dist/endpoints/StatisticEndpoint";
+import {StatisticEndpointFunctions} from "../../dist/endpoints/StatisticEndpoint";
 import {Card, CardContent, Input, MenuItem, Select, Switch, Typography} from "@mui/material";
 import getDateToShow from "../../components/utils/Utils";
 import {ThemeData} from "../../components/handlers/ThemeHandler";
@@ -11,6 +11,7 @@ import {HouseholdData} from "../../components/states/HouseholdState";
 export default function ChartPage() {
     const {breakpoints} = ThemeData();
     const {selectedHousehold} = HouseholdData()
+    const {getChartData} = StatisticEndpointFunctions()
 
     let [chartData, setChartData] = useState({
         categoryData: []

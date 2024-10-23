@@ -1,13 +1,14 @@
 import {Button, Dialog} from "@mui/material";
 import * as React from "react";
 import {ReceiptData} from "../states/ReceiptState";
-import {deleteReceipts} from "../../dist/endpoints/ReceiptEndpoint";
+import {ReceiptEndpointFunctions} from "../../dist/endpoints/ReceiptEndpoint";
 import {HouseholdData} from "../states/HouseholdState";
 
 
 export default function ReceiptDeleteDialog({open, close, receiptId}) {
     const {selectedHousehold} = HouseholdData()
     let receiptData = ReceiptData()
+    const {deleteReceipts} = ReceiptEndpointFunctions()
     const receiptToDeleteId = receiptId || -1
     const isOpen = open || false
 

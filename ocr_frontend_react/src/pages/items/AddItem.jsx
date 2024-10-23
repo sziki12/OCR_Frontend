@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import {Button} from "@mui/material";
 import {useNavigate, useParams} from "react-router-dom";
-import {addItemToReceipt} from "../../dist/endpoints/ReceiptEndpoint";
+import {ReceiptEndpointFunctions} from "../../dist/endpoints/ReceiptEndpoint";
 import {HouseholdData} from "../../components/states/HouseholdState";
 
 export default function AddItem() {
-
+    const {addItemToReceipt} = ReceiptEndpointFunctions()
     const navigate = useNavigate();
     const params = useParams()
     const {selectedHousehold} = HouseholdData()

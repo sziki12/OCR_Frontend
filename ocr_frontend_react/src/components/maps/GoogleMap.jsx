@@ -7,7 +7,7 @@ import {useEffect, useRef, useState} from "react";
 import {MarkerClusterer} from '@googlemaps/markerclusterer';
 import PlaceMarker from "./PlaceMarker";
 import {PlaceData} from "../states/PlaceState";
-import {assignPlace, removePlace} from "../../dist/endpoints/PlaceEndpoint";
+import {PlaceEndpointFunctions} from "../../dist/endpoints/PlaceEndpoint";
 import * as Utils from "../utils/Utils";
 import {HouseholdData} from "../states/HouseholdState";
 import {ThemeData} from "../handlers/ThemeHandler";
@@ -22,7 +22,7 @@ export default function GoogleMap({
     const {places, updatePlaces} = PlaceData()
     const {selectedHousehold} = HouseholdData()
     const {breakpoints} = ThemeData();
-
+    const {assignPlace, removePlace} = PlaceEndpointFunctions()
     const defaultLocation = [{id: 1, lat: 47.507, lng: 19.045}];
     canCreateMarker = canCreateMarker || false
     selectedPlace = selectedPlace || {id:-1}

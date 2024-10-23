@@ -40,8 +40,16 @@ export type CreatePlaceRequest = { name: string, lat: number, lng: number, }
 export type ReceiptItem = { id: string, name: string, quantity: number, totalCost: number, category: Category }
 
 
-export type User = {name: string, email:string, password: string, salt: string}
+export type User = {name: string, email:string, tokens: TokenData, salt: string}
 
-export type LoginUser = {name: string, email:string, password: string}
+export type TokenData = {authToken:string,refreshToken:string}
+
+export type LoginUser = {name: string, email:string, password: string, salt:string}
 
 export type EmailSalt = {email:string, salt: string}
+
+export type OcrQuery = {
+    ocrType: "tesseract" | "paddle";
+    orientation: "portrait" | "landscape";
+    parseModel: "gpt-4o" | "gpt-4o-mini" | "llama";
+}

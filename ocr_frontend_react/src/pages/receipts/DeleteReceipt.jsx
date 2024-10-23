@@ -1,12 +1,13 @@
 import {useNavigate} from "react-router-dom";
 import {Button} from "@mui/material";
-import {deleteReceipts} from "../../dist/endpoints/ReceiptEndpoint";
+import {ReceiptEndpointFunctions} from "../../dist/endpoints/ReceiptEndpoint";
 import {HouseholdData} from "../../components/states/HouseholdState";
 
 
 export default function DeleteReceiptPage({receiptId}) {
     const navigate = useNavigate()
     const {selectedHousehold} = HouseholdData()
+    const {deleteReceipts} = ReceiptEndpointFunctions()
 
     return (
         <>

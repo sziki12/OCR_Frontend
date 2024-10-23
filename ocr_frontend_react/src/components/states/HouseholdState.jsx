@@ -1,5 +1,5 @@
 import {createContext, useContext, useEffect, useState} from "react";
-import {getHouseholds} from "../../dist/endpoints/HouseholdEndpoint"
+import {HouseholdEndpointFunctions} from "../../dist/endpoints/HouseholdEndpoint"
 import {getSelectedHouseholdId} from "../../services/HouseholdService";
 import {AuthData} from "../handlers/LoginHandler";
 
@@ -10,7 +10,7 @@ const HouseholdContext = createContext(
 export const HouseholdData = () => useContext(HouseholdContext)
 
 export default function HouseholdState({children}) {
-
+    const {getHouseholds} = HouseholdEndpointFunctions()
     const {user} = AuthData()
     const [households, setHouseholds] = useState([])
     const [selectedHousehold, setSelectedHousehold] = useState({})

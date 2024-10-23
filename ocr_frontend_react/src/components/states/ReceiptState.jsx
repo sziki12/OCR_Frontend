@@ -1,6 +1,6 @@
 import {createContext, useContext, useEffect, useState} from "react";
-import {getSingleReceipt, getReceipts} from "../../dist/endpoints/ReceiptEndpoint"
-import {getItemCategories} from "../../dist/endpoints/ItemEndpoint"
+import {ReceiptEndpointFunctions} from "../../dist/endpoints/ReceiptEndpoint"
+import {ItemEndpointFunctions} from "../../dist/endpoints/ItemEndpoint"
 import {useParams} from "react-router-dom";
 import {HouseholdData} from "./HouseholdState";
 import {AuthData} from "../handlers/LoginHandler";
@@ -14,6 +14,9 @@ export const ReceiptData = () => useContext(ReceiptContext)
 export default function ReceiptState({children}) {
     const {selectedHousehold} = HouseholdData()
     const {user} = AuthData()
+    const {getSingleReceipt, getReceipts} = ReceiptEndpointFunctions()
+    const {getItemCategories} = ItemEndpointFunctions()
+
     const params = useParams()
     const [receipt, setReceipt] = useState({
         id: -1,

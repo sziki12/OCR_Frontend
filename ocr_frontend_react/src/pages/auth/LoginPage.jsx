@@ -1,7 +1,6 @@
 import React, {useState} from "react";
-import {Button, Grid, Input, InputBase, PopoverPaper, Stack, TextField, Typography} from "@mui/material";
+import {Button,Stack, TextField, Typography} from "@mui/material";
 import {AuthData} from "../../components/handlers/LoginHandler"
-import MainSection from "../../components/utils/MainSection";
 import Paper from "@mui/material/Paper";
 import {useNavigate} from "react-router-dom";
 

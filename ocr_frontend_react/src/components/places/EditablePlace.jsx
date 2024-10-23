@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import {Button, Input, Paper, Typography} from "@mui/material";
 import GoogleMap from "../maps/GoogleMap";
-import {createPlace,updatePlace} from "../../dist/endpoints/PlaceEndpoint"
+import {PlaceEndpointFunctions} from "../../dist/endpoints/PlaceEndpoint"
 import {faFloppyDisk} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {PlaceData} from "../states/PlaceState";
@@ -11,7 +11,7 @@ import {HouseholdData} from "../states/HouseholdState";
 export default function EditablePlace(props) {
     const placeData = PlaceData()
     const {selectedHousehold} = HouseholdData()
-
+    const {createPlace,updatePlace} = PlaceEndpointFunctions()
     const [selectedPlace, setSelectedPlace] = useState({
         id: -1,
         name: "",

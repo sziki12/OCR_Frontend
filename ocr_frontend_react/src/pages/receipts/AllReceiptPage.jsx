@@ -4,16 +4,14 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faPlus,} from '@fortawesome/free-solid-svg-icons'
 import {useEffect, useState} from "react";
 import AllReceipts from "../../components/receipts/AllReceipts";
-import {getReceipts} from "../../dist/endpoints/ReceiptEndpoint";
-import {getFilterOptions} from "../../dist/endpoints/FilterEndpoint";
-import ReceiptState, {ReceiptData} from "../../components/states/ReceiptState";
+import {FilterEndpointFunctions} from "../../dist/endpoints/FilterEndpoint";
 import NewReceiptDialog from "../../components/receipts/NewReceiptDialog";
 import FilterSearchBar from "../../components/filter/FilterSearchBar";
 import {ThemeData} from "../../components/handlers/ThemeHandler";
 import {HouseholdData} from "../../components/states/HouseholdState";
 
 export default function AllReceiptPage() {
-
+    const {getFilterOptions} = FilterEndpointFunctions()
     const {breakpoints} = ThemeData();
     const {selectedHousehold} = HouseholdData()
     const emptyValues = ["All", ""]

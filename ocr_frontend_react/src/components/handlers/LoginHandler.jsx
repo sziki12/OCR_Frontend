@@ -1,8 +1,8 @@
 import {createContext, useContext, useEffect, useState} from "react";
-import {saveAuthToken, saveUser, getUser, hashPassword} from "../../services/AuthService"
-import {loginUser, registerUser} from "../../dist/endpoints/AuthEndpoint"
+import {AuthServiceFunctions} from "../../dist/services/AuthService"
 import {useNavigate} from "react-router-dom";
 import {updateRouter} from "../../index"
+import {AuthEndpointFunctions} from "../../dist/endpoints/AuthEndpoint";
 
 const AuthContext = createContext(
     {
@@ -20,7 +20,9 @@ export const AuthData = () => {
 export default function LoginHandler({children}) {
     let navigate = useNavigate()
 
-    const [user, setUser] = useState({name: "", email: "", salt: "", token: "", isAuthenticated: false})
+    const {saveAuthToken, saveUser, getUser, hashPassword} = AuthServiceFunctions()
+    const {loginUser, registerUser} = AuthEndpointFunctions()
+    const [user, setUser] = useState({name: "", email: "", salt: "", isAuthenticated: false})
 
     const login = async (user) => {
 

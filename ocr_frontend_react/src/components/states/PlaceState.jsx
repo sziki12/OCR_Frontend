@@ -1,5 +1,5 @@
 import {createContext, useContext, useEffect, useState} from "react";
-import {getPlaces} from "../../dist/endpoints/PlaceEndpoint"
+import {PlaceEndpointFunctions} from "../../dist/endpoints/PlaceEndpoint"
 import {HouseholdData} from "./HouseholdState";
 
 const PlaceContext = createContext(
@@ -9,7 +9,7 @@ const PlaceContext = createContext(
 export const PlaceData = () => useContext(PlaceContext)
 
 export default function PlaceState({children}) {
-
+    const {getPlaces} = PlaceEndpointFunctions()
     const [places, setPlaces] = useState([])
     const {selectedHousehold} = HouseholdData()
     const updatePlaces = () => {

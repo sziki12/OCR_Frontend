@@ -1,10 +1,11 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {Button} from "@mui/material";
-import {deleteItem} from "../../dist/endpoints/ItemEndpoint";
+import {ItemEndpointFunctions} from "../../dist/endpoints/ItemEndpoint";
 import {HouseholdData} from "../../components/states/HouseholdState";
 
 export default function DeleteItemPage()
 {
+    const {deleteItem} = ItemEndpointFunctions()
     const navigate = useNavigate()
     const params = useParams()
     const {selectedHousehold} = HouseholdData()

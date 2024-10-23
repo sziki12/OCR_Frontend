@@ -2,8 +2,8 @@ import GoogleMap from "../maps/GoogleMap";
 import * as React from "react";
 import {useEffect, useState} from "react";
 import ReceiptToggleEditableWrapper from "../receipts/ReceiptToggleEditableWrapper";
-import {getPlaces} from "../../dist/endpoints/PlaceEndpoint";
-import {getSingleReceipt} from "../../dist/endpoints/ReceiptEndpoint";
+import {PlaceEndpointFunctions} from "../../dist/endpoints/PlaceEndpoint";
+import {ReceiptEndpointFunctions} from "../../dist/endpoints/ReceiptEndpoint";
 import {useParams} from "react-router-dom";
 import {HouseholdData} from "../states/HouseholdState";
 
@@ -11,6 +11,8 @@ import {HouseholdData} from "../states/HouseholdState";
 export default function ReceiptPlaceTab(props) {
     const params = useParams()
     const {selectedHousehold} = HouseholdData()
+    const {getSingleReceipt} = ReceiptEndpointFunctions()
+    const {getPlaces} = PlaceEndpointFunctions()
 
     const receiptId = params.receiptId
 

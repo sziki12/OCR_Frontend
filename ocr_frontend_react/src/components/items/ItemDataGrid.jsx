@@ -10,7 +10,7 @@ import {Box, Button, Dialog} from "@mui/material";
 import * as React from 'react';
 import {useEffect, useRef, useState} from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {categoriseItems} from "../../dist/endpoints/ItemEndpoint"
+import {ItemEndpointFunctions} from "../../dist/endpoints/ItemEndpoint"
 import {faFloppyDisk, faPen, faPlus, faSave, faTrash, faXmark, faIcons} from "@fortawesome/free-solid-svg-icons";
 import {HouseholdData} from "../states/HouseholdState";
 import {ReceiptData} from "../states/ReceiptState";
@@ -24,7 +24,7 @@ function EditToolbar(props) {
     const {updateReceipt} = ReceiptData()
 
     const {selectedHousehold} = HouseholdData()
-
+    const {categoriseItems} = ItemEndpointFunctions()
     const [categorise, setCategorise] = useState(false);
     const [showNameDialog, setShowNameDialog] = useState(false);
     const [categoriseModel, setCategoriseModel] = useState("mistral");

@@ -1,6 +1,6 @@
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {getSingleReceipt} from "../../dist/endpoints/ReceiptEndpoint";
+import {ReceiptEndpointFunctions} from "../../dist/endpoints/ReceiptEndpoint";
 import SingleReceipt from "../../components/receipts/SingleReceipt";
 import * as React from "react";
 import OcrResponseView from "../../components/ocr_response/OcrResponseView"
@@ -10,6 +10,7 @@ import {HouseholdData} from "../../components/states/HouseholdState";
 export default function ReceiptsFromImagePage(props) {
 
     const navigate = useNavigate();
+    const {getSingleReceipt} = ReceiptEndpointFunctions()
     const {selectedHousehold} = HouseholdData()
     const [receipt,setReceipt] = useState({
         items:[]

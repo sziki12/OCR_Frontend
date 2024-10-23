@@ -1,6 +1,5 @@
 import * as React from "react";
 import ReceiptTab from "../../components/tabs/ReceiptTab";
-import ReceiptState from "../../components/states/ReceiptState";
 import PlaceState from "../../components/states/PlaceState";
 
 

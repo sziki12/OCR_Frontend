@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {Button, MenuItem, Paper, Select, styled, Switch, Tooltip,} from "@mui/material";
-import {uploadImageForOCR} from "../../dist/endpoints/ImageProcessingEndpoint";
+import {ImageProcessingEndpointFunctions} from "../../dist/endpoints/ImageProcessingEndpoint";
 import {useNavigate} from "react-router-dom";
 import {faCloudArrowUp, faSpinner} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -10,10 +10,10 @@ import {ReceiptData} from "../../components/states/ReceiptState";
 const UploadAndDisplayImage = (props) => {
 
     const navigate = useNavigate()
-
+    const {uploadImageForOCR} = ImageProcessingEndpointFunctions()
     const {selectedHousehold} = HouseholdData()
     const [receiptImage, setReceiptImage] = useState(null);
-    const [imageData, setImageData] = useState(null);
+    const [imageData, setImageData] = useState(null);//TODO Why is this never read?
     const {updateAllReceipt,allReceipt} = ReceiptData()
 
     //waiting, processing, processed

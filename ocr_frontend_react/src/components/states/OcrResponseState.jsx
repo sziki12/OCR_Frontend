@@ -1,6 +1,6 @@
 import {createContext, useContext, useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
-import {getOcrResponse} from "../../dist/endpoints/OcrResponseEndpoint";
+import {OcrResponseEndpointFunctions} from "../../dist/endpoints/OcrResponseEndpoint";
 import {HouseholdData} from "./HouseholdState";
 
 
@@ -13,6 +13,7 @@ export const OcrResponseData = () => useContext(OcrResponseContext)
 export default function OcrResponseState({children}) {
     const params = useParams()
     const {selectedHousehold} = HouseholdData()
+    const {getOcrResponse} = OcrResponseEndpointFunctions()
 
     const [ocrResponse, setOcrResponse] = useState({})
 

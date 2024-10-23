@@ -3,7 +3,7 @@ import {faCalendar, faMessage, faMoneyBill,} from "@fortawesome/free-solid-svg-i
 import {Input} from "@mui/material";
 import * as React from "react";
 import {useEffect, useState} from "react";
-import {updateReceipt, createNewItem} from "../../dist/endpoints/ReceiptEndpoint";
+import {ReceiptEndpointFunctions} from "../../dist/endpoints/ReceiptEndpoint";
 import getDateToShow from "../utils/Utils";
 import Paper from '@mui/material/Paper';
 import ItemDataGrid from "../items/ItemDataGrid";
@@ -14,6 +14,8 @@ import {HouseholdData} from "../states/HouseholdState";
 export default function SingleReceipt(props) {
     let receiptData = ReceiptData()
     const {selectedHousehold} = HouseholdData()
+
+    const {updateReceipt, createNewItem} = ReceiptEndpointFunctions()
 
     const [receipt, setReceipt] = useState({
         id: -1,

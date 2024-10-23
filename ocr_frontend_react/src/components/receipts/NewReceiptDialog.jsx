@@ -5,12 +5,13 @@ import {faCalendar, faMessage, faMoneyBill} from "@fortawesome/free-solid-svg-ic
 import getDateToShow from "../utils/Utils";
 import {ReceiptData} from "../states/ReceiptState";
 import {useState} from "react";
-import {createReceipt} from "../../dist/endpoints/ReceiptEndpoint";
+import {ReceiptEndpointFunctions} from "../../dist/endpoints/ReceiptEndpoint";
 import {HouseholdData} from "../states/HouseholdState";
 
 
 export default function NewReceiptDialog({open, close}) {
     let receiptData = ReceiptData()
+    const {createReceipt} = ReceiptEndpointFunctions()
     const {selectedHousehold} = HouseholdData()
 
     const [receipt, setReceipt] = useState({
