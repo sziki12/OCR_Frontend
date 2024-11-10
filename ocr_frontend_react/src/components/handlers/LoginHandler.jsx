@@ -20,21 +20,30 @@ export const AuthData = () => {
 export default function LoginHandler({children}) {
     let navigate = useNavigate()
 
-    const {saveAuthToken, saveUser, getUser, hashPassword} = AuthServiceFunctions()
+    const {saveAuthToken, saveUser, getUser, hashPassword,loggedOut,setLoggedOut} = AuthServiceFunctions()
     const {loginUser, registerUser} = AuthEndpointFunctions()
     const [user, setUser] = useState({name: "", email: "", salt: "", isAuthenticated: false})
+
+    useEffect(() => {
+        if(loggedOut){
+            console.log("LOGOUT TRUE")
+            logout(true)
+        }
+    }, [loggedOut]);
 
     const login = async (user) => {
 
         return new Promise(async (reject, resolve) => {
             const response = await loginUser(user, false)
-            if (response.status === 200) {
+            if (response&&response.status === 200) {
                 let responseUser = await response.json()
 
                 let newUser = {...responseUser, isAuthenticated: true}
 
                 setUser(newUser)
-
+                console.log("loggedOut")
+                console.log(loggedOut)
+                setLoggedOut&&setLoggedOut(false)
                 await saveUser(newUser)
 
                 resolve("Logged In")
@@ -42,7 +51,6 @@ export default function LoginHandler({children}) {
                 navigate("/")
             } else {
                 reject("Wrong Username or Password")
-                console.log("Login Status: " + response.status)
             }
         })
     }
@@ -69,10 +77,14 @@ export default function LoginHandler({children}) {
         })
     }
 
-    const logout = () => {
+    const logout = (isRedirect= false) => {
         saveUser().then(() => {
             setUser({name: "", email: "", salt: "", token: "", password: "", isAuthenticated: false})
-            navigate("/login")
+            if(isRedirect)
+                navigate("/login/redirect")
+            else
+                navigate("/login")
+            window.localStorage.setItem("refresh_in_progress", "false");
             updateRouter(false)
         })
     }

@@ -1,11 +1,12 @@
 import React, {useState} from "react";
-import {Button,Stack, TextField, Typography} from "@mui/material";
+import {Alert, Button, Stack, TextField, Typography} from "@mui/material";
 import {AuthData} from "../../components/handlers/LoginHandler"
 import Paper from "@mui/material/Paper";
-import {useNavigate} from "react-router-dom";
+import {Outlet, useLocation, useNavigate} from "react-router-dom";
 
 
 export default function LoginPage() {
+    const location = useLocation();
     const navigate = useNavigate()
     const {login} = AuthData()
     const [attempt, setAttempt] = useState({
@@ -47,8 +48,6 @@ export default function LoginPage() {
                         }).catch((message) => {
                             //Success
                             setAttempt({...attempt, message: message, hasAttempt: true, isAuthenticated: true})
-                            setTimeout(() => navigate("/"), 500)
-
                         })
                     }}>Login</Button>
                     <Button onClick={() => navigate("/register")}>Don't have account?</Button>
@@ -59,17 +58,22 @@ export default function LoginPage() {
                                 {
                                     (!attempt.isAuthenticated)
                                         ?
-                                        <div className={"bg-red-500 p-2"}>
-                                            <p>{attempt.message}</p>
-                                        </div>
+                                        <Alert severity={"error"}>{attempt.message}</Alert>
                                         :
-                                        <div className={"bg-green-500 p-2"}>
-                                            <p>{attempt.message}</p>
-                                        </div>
+                                        <Alert severity={"success"}>{attempt.message}</Alert>
                                 }
                             </>
                             :
                             <></>
+                    }
+                    {
+                        (location.pathname === "/login/redirect")
+                        ?
+                        <>
+                            <Alert severity="warning">You have been logged out due to inactivity</Alert>
+                        </>
+                         :
+                         <></>
                     }
                 </Stack>
             </Paper>

@@ -1,6 +1,5 @@
 import {tryRefreshToken} from "../endpoints/AuthEndpoint"
-import {useNavigate} from "react-router-dom";
-import {createContext, useContext} from "react";
+import {createContext, useContext, useState} from "react";
 import React from 'react'
 
 export function getRefreshToken() {
@@ -94,12 +93,14 @@ const AuthServiceContext = createContext(
         },
         hashPassword: async (user, request) => {
         },
+        setLoggedOut: (isLoggedOut)=>{
+        },
     }
 );
 export const AuthServiceFunctions = () => useContext(AuthServiceContext)
 
 export function AuthService({children}) {
-    let navigate = useNavigate()
+    let [loggedOut,setLoggedOut] = useState(false)
 
     const callAndEnsureLogin = async (request, isContentJson) => {
         let headers = getHeaders(isContentJson)
@@ -128,11 +129,12 @@ export function AuthService({children}) {
                     return await request(headers)
                 } else {
                     console.log(response.status)
+                    console.log("LOGOUT SET")
+                    return setLoggedOut(true)
                 }
             } catch (e) {
-                console.log("REDIRECTING")
-                await saveUser()
-                return navigate('/login')
+                console.log("LOGOUT SET")
+                return setLoggedOut(true)
             }
         }
     }
@@ -146,6 +148,8 @@ export function AuthService({children}) {
             getHeaders,
             callAndEnsureLogin,
             hashPassword,
+            loggedOut,
+            setLoggedOut,
         }}>
             {children}
         </AuthServiceContext.Provider>

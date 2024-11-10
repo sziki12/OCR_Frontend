@@ -86,7 +86,7 @@ export default function ThemeHandler({children}) {
             breakpoints: {
                 values: {
                     sm: 600,
-                    md: 800,
+                    md: 900,
                     lg: 1200,
                 },
             },

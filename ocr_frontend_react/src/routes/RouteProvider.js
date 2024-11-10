@@ -49,6 +49,11 @@ export default function RouteProvider(isAuthenticated) {
             isProtected: false,
         },
         {
+            path: '/login/redirect',
+            element: <LoginPage/>,
+            isProtected: false,
+        },
+        {
             path: '/register',
             element: <RegistrationPage/>,
             isProtected: false,
