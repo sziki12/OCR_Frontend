@@ -3,10 +3,16 @@ import {Button, Stack, TextField, Typography} from "@mui/material";
 import {AuthData} from "../../components/handlers/LoginHandler"
 import Paper from "@mui/material/Paper";
 import {useNavigate} from "react-router-dom";
+import {ThemeData} from "../../components/handlers/ThemeHandler";
+import background_light from "../../resources/background_light.webp";
+import background_dark from "../../resources/background_dark02.png";
+import Box from "@mui/material/Box";
 
 
 export default function LoginPage() {
     const navigate = useNavigate()
+    const {breakpoints,selectedTheme} = ThemeData();
+    const mode = selectedTheme.palette.mode || "light"
     const {register} = AuthData()
     const [attempt, setAttempt] = useState({
         name: "",
@@ -24,9 +30,14 @@ export default function LoginPage() {
     }
 
     return (
-        <div className={"flex justify-center"}>
-            <Paper className={"flex flex-col p-4"}>
-                <div className={"flex justify-center p-4"}>
+        <Box className={"flex justify-center h-screen p-5"}
+             sx={{
+                 backgroundImage: (mode==="light")?`url(${background_light})`:`url(${background_dark})`,
+                 backgroundRepeat: "no-repeat",
+                 backgroundSize: "cover",
+             }}>
+            <Paper className={"flex flex-col p-5 h-fit"}>
+                <div className={"flex justify-center p-5"}>
                     <Typography variant="h4">Create Account</Typography>
                 </div>
                 <Stack spacing={2} className={"p-4"}>
@@ -76,6 +87,6 @@ export default function LoginPage() {
                     }
                 </Stack>
             </Paper>
-        </div>
+        </Box>
     )
 }

@@ -7,12 +7,14 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {PlaceData} from "../states/PlaceState";
 import {HouseholdData} from "../states/HouseholdState";
 import Box from "@mui/material/Box";
+import {ThemeData} from "../handlers/ThemeHandler";
 
 
-export default function EditablePlace(props) {
+export default function EditablePlace({}) {
     const placeData = PlaceData()
     const {selectedHousehold} = HouseholdData()
     const {createPlace,updatePlace} = PlaceEndpointFunctions()
+    const{breakpoints} = ThemeData()
     const [selectedPlace, setSelectedPlace] = useState({
         id: -1,
         name: "",
@@ -35,8 +37,8 @@ export default function EditablePlace(props) {
         setSelectedPlace({...selectedPlace, [e.target.name]: e.target.value})
     }
 
-    return (<div className={"flex flex-row justify-evenly"}>
-        <div className={"w-4/12 p-5"}>
+    return (<div className={`flex ${(breakpoints.sm||breakpoints.md)?"flex-col items-center":"flex-row justify-evenly"}`}>
+        <div className={`${(breakpoints.sm||breakpoints.md)?"w-fit":"w-4/12"} p-5`}>
             <Paper className={"p-5"}>
                 <div className={"flex flex-col justify-center items-center space-y-5"}>
                     <Typography variant="h4">Add or Edit Place</Typography>
@@ -101,7 +103,7 @@ export default function EditablePlace(props) {
                 </div>
             </Paper>
         </div>
-        <Box className={"p-5 w-7/12"}>
+        <Box className={`p-5 ${(breakpoints.sm||breakpoints.md)?"w-fit":"w-7/12"}`}>
             <div className={"flex justify-center"}>
                 <GoogleMap
                     canCreateMarker={true}

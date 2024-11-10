@@ -68,7 +68,7 @@ export default function ReceiptImageList() {
             <ImageList sx={{
                 width: (breakpoints.sm) ? (300) : ((breakpoints.md) ? (450) : (600)),
                 height: (breakpoints.sm) ? (300) : ((breakpoints.md) ? (450) : (600))
-            }} cols={3} rowHeight={(breakpoints.sm) ? (80) : ((breakpoints.md) ? (120) : (164))} variant="quilted">
+            }} cols={6} rowHeight={(breakpoints.sm) ? (80) : ((breakpoints.md) ? (120) : (164))} variant="quilted">
                 {
                     (images.length > 0)
                         ?

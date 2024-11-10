@@ -27,11 +27,13 @@ export default function ImageView({imageData, handleClose}) {
                     </Typography>
                 </Toolbar>
             </AppBar>
-            <img className={"h-fit w-fit"}
-                 alt={image.name}
-                 src={image.src}
-                 loading={"lazy"}
-            />
+            <div className={"flex justify-center"}>
+                <img className={"h-screen"}
+                     alt={image.name}
+                     src={image.src}
+                     loading={"lazy"}
+                />
+            </div>
         </>
     )
 }

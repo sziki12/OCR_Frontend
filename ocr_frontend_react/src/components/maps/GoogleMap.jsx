@@ -27,7 +27,7 @@ export default function GoogleMap({
     canCreateMarker = canCreateMarker || false
     selectedPlace = selectedPlace || {id:-1}
 
-    const height = (breakpoints.sm)?("200px"):((breakpoints.md)?("400px"):((breakpoints.lg)?("600px"):("800px")))
+    const size = (breakpoints.sm)?("300px"):((breakpoints.md)?("500px"):((breakpoints.lg)?("700px"):("900px")))
 
     const onAssign = async (placeId) => {
         (placeId) ? await assignPlace(selectedHousehold.id, placeId, receiptId) : await removePlace(selectedHousehold.id, receiptId)
@@ -42,7 +42,7 @@ export default function GoogleMap({
         : [selectedPlace])
     return (
         <APIProvider apiKey={process.env.REACT_APP_Google_Maps_API_Key}>
-            <div className={"w-4/5"} style={{height:height}}>
+            <div style={{height:size, width:size}}>
                 <Map
                     onClick={async (e) => {
                         if (canCreateMarker) {

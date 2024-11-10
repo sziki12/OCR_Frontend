@@ -9,7 +9,7 @@ export default function AddPlacePage() {
     const {selectedTheme} = ThemeData();
     const mode = selectedTheme.palette.mode || "light"
     return (
-        <Box className={"w-screen"} sx={{
+        <Box className={"h-screen"} sx={{
             backgroundImage: (mode==="light")?`url(${background_light})`:`url(${background_dark})`,
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover",

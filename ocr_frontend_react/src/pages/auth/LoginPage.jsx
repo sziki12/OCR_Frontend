@@ -3,11 +3,17 @@ import {Alert, Button, Stack, TextField, Typography} from "@mui/material";
 import {AuthData} from "../../components/handlers/LoginHandler"
 import Paper from "@mui/material/Paper";
 import {Outlet, useLocation, useNavigate} from "react-router-dom";
+import {ThemeData} from "../../components/handlers/ThemeHandler";
+import background_light from "../../resources/background_light.webp";
+import background_dark from "../../resources/background_dark02.png";
+import Box from "@mui/material/Box";
 
 
 export default function LoginPage() {
     const location = useLocation();
     const navigate = useNavigate()
+    const {breakpoints,selectedTheme} = ThemeData();
+    const mode = selectedTheme.palette.mode || "light"
     const {login} = AuthData()
     const [attempt, setAttempt] = useState({
         name: "",
@@ -25,8 +31,13 @@ export default function LoginPage() {
     }
 
     return (
-        <div className={"flex justify-center"}>
-            <Paper className={"flex flex-col p-4"}>
+        <Box className={"flex justify-center h-screen p-5"}
+             sx={{
+                 backgroundImage: (mode==="light")?`url(${background_light})`:`url(${background_dark})`,
+                 backgroundRepeat: "no-repeat",
+                 backgroundSize: "cover",
+             }}>
+            <Paper className={"flex flex-col p-5 h-fit"}>
                 <div className={"flex justify-center p-4"}>
                     <Typography variant="h4">Login</Typography>
                 </div>
@@ -77,6 +88,6 @@ export default function LoginPage() {
                     }
                 </Stack>
             </Paper>
-        </div>
+        </Box>
     )
 }
