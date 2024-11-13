@@ -9,6 +9,7 @@
     "allowJs": true,
     "jsx": "react",
     "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true
   },
   "include": ["src/endpoints/*"],
   "exclude": [

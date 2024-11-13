@@ -2,9 +2,11 @@ import {Avatar, Button, Card, Popper, Typography, CardContent, CardActions, Sele
 import React from "react";
 import {AuthData} from "../handlers/LoginHandler";
 import {HouseholdData} from "../states/HouseholdState";
+import {useNavigate} from "react-router-dom";
 
 export default function ProfileAvatar()
 {
+    const navigate = useNavigate()
     const {user,logout} = AuthData();
     const {selectedHousehold, households, setSelectedHousehold} = HouseholdData()
     let name = stringAvatar(user.name)
@@ -62,6 +64,9 @@ export default function ProfileAvatar()
                     </div>
                 </CardContent>
                 <CardActions>
+                    <Button variant={"contained"} color="inherit" onClick={()=>{
+                        navigate("/household");
+                    }}>Manage Households</Button>
                     <Button variant={"contained"} color="inherit" onClick={()=>{
                         logout();
                     }}>Logout</Button>

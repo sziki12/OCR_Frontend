@@ -9,6 +9,7 @@ import React from "react";
 import ReceiptMainPage from "../pages/receipts/ReceiptMainPage";
 import AddPlacePage from "../pages/places/AddPlacePage";
 import ChartPage from "../pages/chart/ChartPage";
+import HouseholdOverview from "../pages/household/HouseholdOverview";
 
 
 export default function RouteProvider(isAuthenticated) {
@@ -66,6 +67,11 @@ export default function RouteProvider(isAuthenticated) {
         {
             path: '/chart',
             element: <ChartPage/>,
+            isProtected: true,
+        },
+        {
+            path: '/household',
+            element: <HouseholdOverview/>,
             isProtected: true,
         },
     ]

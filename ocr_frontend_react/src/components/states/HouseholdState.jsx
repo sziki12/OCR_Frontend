@@ -10,10 +10,11 @@ const HouseholdContext = createContext(
 export const HouseholdData = () => useContext(HouseholdContext)
 
 export default function HouseholdState({children}) {
-    const {getHouseholds} = HouseholdEndpointFunctions()
+    const {getHouseholds,getHouseholdUsers} = HouseholdEndpointFunctions()
     const {user} = AuthData()
     const [households, setHouseholds] = useState([])
     const [selectedHousehold, setSelectedHousehold] = useState({})
+    const [selectedHouseholdUsers, setSelectedHouseholdUsers] = useState({currentUser:{},otherUsers:[]})
     const updateHouseholds = () => {
         console.log("updateHouseholds")
         getHouseholds().then((data) => {
@@ -39,13 +40,22 @@ export default function HouseholdState({children}) {
             updateHouseholds()
         }
     }, [user.isAuthenticated]);
+
+    useEffect(() => {
+        if(selectedHousehold&&selectedHousehold.id){
+            getHouseholdUsers(selectedHousehold.id).then((response)=>{
+                setSelectedHouseholdUsers(response)
+            })
+        }
+    }, [selectedHousehold]);
     return (
         <HouseholdContext.Provider value={{
             households: households,
             setHouseholds: setHouseholds,
             selectedHousehold: selectedHousehold,
             setSelectedHousehold: setSelectedHousehold,
-            updateHouseholds: updateHouseholds
+            updateHouseholds: updateHouseholds,
+            selectedHouseholdUsers:selectedHouseholdUsers
         }}>
             {children}
         </HouseholdContext.Provider>

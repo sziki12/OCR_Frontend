@@ -30,7 +30,7 @@ export default function ReceiptState({children}) {
     const [allReceipt, setAllReceipt] = useState([])
 
     const updateReceipt = (receiptId) => {
-        if (!receiptId)
+        if (!receiptId||!selectedHousehold||!selectedHousehold.id)
             return
         getSingleReceipt(selectedHousehold.id, receiptId).then((data) => {
             setReceipt((prev) => {
@@ -47,6 +47,8 @@ export default function ReceiptState({children}) {
     }
 
     const updateAllReceipt = () => {
+        if (!selectedHousehold||!selectedHousehold.id)
+            return
         getReceipts(selectedHousehold.id).then((data) => {
             console.log(data)
             if (data&&data.length > 0)

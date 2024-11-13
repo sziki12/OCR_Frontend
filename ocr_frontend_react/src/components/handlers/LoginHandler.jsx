@@ -41,8 +41,7 @@ export default function LoginHandler({children}) {
                 let newUser = {...responseUser, isAuthenticated: true}
 
                 setUser(newUser)
-                console.log("loggedOut")
-                console.log(loggedOut)
+                console.log(newUser)
                 setLoggedOut&&setLoggedOut(false)
                 await saveUser(newUser)
 
