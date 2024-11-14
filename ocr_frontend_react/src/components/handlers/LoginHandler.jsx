@@ -20,7 +20,7 @@ export const AuthData = () => {
 export default function LoginHandler({children}) {
     let navigate = useNavigate()
 
-    const {saveAuthToken, saveUser, getUser, hashPassword,loggedOut,setLoggedOut} = AuthServiceFunctions()
+    const {saveUser, getUser,loggedOut,setLoggedOut} = AuthServiceFunctions()
     const {loginUser, registerUser} = AuthEndpointFunctions()
     const [user, setUser] = useState({name: "", email: "", salt: "", isAuthenticated: false})
 
@@ -60,18 +60,9 @@ export default function LoginHandler({children}) {
             console.log(user)
             const response = await registerUser(user)
             if (response.status === 200) {
-                let responseUser = await response.json()
-
-                let newUser = {...responseUser, isAuthenticated: true}
-                setUser(newUser)
-                await saveUser(newUser)
-
-                resolve("Registered")
-                navigate("/")
-                updateRouter(true)
+                resolve("Successfully Registered, Please Confirm Your Email Address")
             } else {
                 reject("User with Username already Exists!")
-                console.log("Login Status: " + response.status)
             }
         })
     }

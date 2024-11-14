@@ -10,7 +10,7 @@ const HouseholdEndpointContext: React.Context<any> = createContext(
         },
         getHouseholdUsers: async (householdId: string):Promise<any> =>{
         },
-        inviteUser: async (email:string):Promise<any> =>{
+        inviteUser: async (householdId: string,email:string):Promise<any> =>{
         },
         saveHouseholdName: async (householdId: string,newName:string):Promise<any> =>{
         },
@@ -55,7 +55,7 @@ export default function HouseholdEndpoint({children}) {
     }
 
     const inviteUser = async (householdId: string,email:string):
-        Promise<HouseholdUsers> => {
+        Promise<any> => {
         let request = async (headers: any) => {
             const url = getBaseAddress()+`/${householdId}/invite/${email}`;
             return await fetch(url, {

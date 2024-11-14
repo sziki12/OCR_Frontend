@@ -19,7 +19,7 @@ import {useEffect, useState} from "react";
 import Typography from "@mui/material/Typography";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowsRotate} from "@fortawesome/free-solid-svg-icons";
-import {HouseholdEndpointFunctions} from "../../endpoints/HouseholdEndpoint";
+import {HouseholdEndpointFunctions} from "../../dist/endpoints/HouseholdEndpoint";
 
 export default function HouseholdOverview({}) {
 
@@ -89,17 +89,15 @@ export default function HouseholdOverview({}) {
     const InviteDialog = () => {
         return (<Dialog PaperProps={{
             component: 'form',
-            onSubmit: (event) => {
+            onSubmit: async (event) => {
                 event.preventDefault()
                 const formData = new FormData(event.currentTarget)
                 const formJson = Object.fromEntries((formData).entries())
                 const email = formJson.email
-                console.log(email)
-                inviteUser(selectedHousehold.id,email).then(()=>{
-                    setInviteState(true)
-                    setTimeout(()=>{setInviteState(false)},5000)
-                })
                 setInvite(false)
+                await inviteUser(selectedHousehold.id,email)
+                setInviteState(true)
+                setTimeout(()=>{setInviteState(false)},5000)
             },
         }} open={invite} onClose={() => setInvite(false)}>
             <DialogTitle>Invite User</DialogTitle>
@@ -159,6 +157,7 @@ export default function HouseholdOverview({}) {
                     console.log(editableHousehold.id)
                     console.log(editableHousehold.name)
                     saveHouseholdName(editableHousehold.id,editableHousehold.name)
+                    updateHouseholds()
                 }}>Save</Button>
                 {
                     (inviteState)
