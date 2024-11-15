@@ -1,0 +1,10 @@
+version: "0.1"
+
+services:
+  frontend:
+    env_file: "ocr_frontend_react/environment.env"
+    build:
+      context: .
+      dockerfile: ocr_frontend_react/Dockerfile
+    ports:
+      - '3000:3000'
