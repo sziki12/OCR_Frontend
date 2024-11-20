@@ -4,35 +4,36 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faXmark} from "@fortawesome/free-solid-svg-icons";
 
 
-export default function ImageView({imageData,handleClose})
-{
-    const [image,setImage] = useState(imageData)
+export default function ImageView({imageData, handleClose}) {
+    const [image, setImage] = useState(imageData)
 
-    useEffect(()=>{
+    useEffect(() => {
         setImage(imageData)
-    },[imageData])
-    return(
+    }, [imageData])
+    return (
         <>
-            <AppBar sx={{ position: 'relative' }}>
+            <AppBar sx={{position: 'relative'}}>
                 <Toolbar>
                     <IconButton
                         edge="start"
                         color="inherit"
-                        onClick={()=>handleClose(image.id)}
+                        onClick={() => handleClose(image.id)}
                         aria-label="close"
                     >
-                        <FontAwesomeIcon icon={faXmark} />
+                        <FontAwesomeIcon icon={faXmark}/>
                     </IconButton>
-                    <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+                    <Typography sx={{ml: 2, flex: 1}} variant="h6" component="div">
                         Close
                     </Typography>
                 </Toolbar>
             </AppBar>
-            <img className={"h-fit w-fit"}
-                alt={image.name}
-                src={image.src}
-                loading={"lazy"}
-            />
+            <div className={"flex justify-center"}>
+                <img className={"h-screen"}
+                     alt={image.name}
+                     src={image.src}
+                     loading={"lazy"}
+                />
+            </div>
         </>
     )
 }

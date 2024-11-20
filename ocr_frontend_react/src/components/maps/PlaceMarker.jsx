@@ -1,90 +1,115 @@
-import {AdvancedMarker, InfoWindow, Pin, useAdvancedMarkerRef} from "@vis.gl/react-google-maps";
+import {AdvancedMarker, useAdvancedMarkerRef} from "@vis.gl/react-google-maps";
 import {useEffect, useState} from "react";
-import {Button, Dialog} from "@mui/material";
+import {Button, Dialog, Tooltip} from "@mui/material";
 import PlacePin from "./pins/PlacePin";
+import Box from "@mui/material/Box";
 
 
-export default function PlaceMarker({place,refHandler,inSelectMode,select,receiptId,infoWindowShown,setInfoWindowShown})
-{
+export default function PlaceMarker({
+                                        place,
+                                        refHandler,
+                                        inAssignMode,
+                                        onAssign,
+                                        receiptId,
+                                        infoWindowShown,
+                                        setInfoWindowShown,
+                                        onSelectedPlaceChanged,
+                                        selectedPlace
+                                    }) {
     const [markerRef, marker] = useAdvancedMarkerRef()
-    const [selectMode,setSelectMode] = useState(inSelectMode || false)
+    const assignMode= inAssignMode || false
 
     const isOpen = infoWindowShown[place.id] || false
     useEffect(() => {
         if (!marker) {
             return;
         }
-        refHandler(marker,place.id)
+        refHandler(marker, place.id)
 
         return () => {
-            refHandler(null,place.id)
+            refHandler(null, place.id)
             markerRef(null)
         }
     }, [marker]);
 
-    const containsNumber = (array,value)=>
-    {
-        if(!array||array.size<=0)
+    const containsNumber = (array, value) => {
+        if (!array || array.size <= 0)
             return false
-        for(let item of array)
-        {
-            if(Number(item) === Number(value))
-            {
+        for (let item of array) {
+            if (Number(item) === Number(value)) {
                 return true
             }
         }
         return false
     }
 
-    const isPlaceSelected=()=>{
-        return containsNumber(place.receipts && place.receipts.map((receipt)=>{return receipt.id}),receiptId)
+    const isPlaceAssigned = () => {
+        return containsNumber(place.receipts && place.receipts.map((receipt) => {
+            return receipt.id
+        }), receiptId)
     }
-
-    //console.log(`Draw ${place.id} Marker`)
+    //console.log("marker place")
+    //console.log("key: "+place.id+" "+place.name)
+    //console.log(place)
+    const markerKey = ((place&&place.id)?(place.id+" "+place.name):(place.name+" "+place.lat+"-"+place.lng))
     return (
         <>
             <AdvancedMarker
+                key={markerKey}
+                title={place.name}
                 position={place}
                 ref={markerRef}
-                onClick={()=>{
-                    setInfoWindowShown({[place.id]:true})
-                 }}
+                onClick={() => {
+                    if(assignMode) {
+                        setInfoWindowShown({[place.id]: true})
+                    }else {
+                        onSelectedPlaceChanged(place)
+                    }
+                }}
+                draggable={false}
             >
                 {
 
                     <Dialog
                         open={isOpen}
-                        onClose={()=>{
-                            setInfoWindowShown((prev)=>{
+                        onClose={() => {
+                            setInfoWindowShown((prev) => {
                                 const newInfoWindowShown = {...prev};
                                 delete newInfoWindowShown[place.id];
                                 return newInfoWindowShown;
                             })
                         }}
+
                     >
-                        <div className={"py-2 px-5"}>
-                            <h2>{place.name}</h2>
+                        <Box sx={{
+                            minWidth:"200px",
+                            minHeight:"100px",
+                            }} className={"py-2 px-5 flex flex-col justify-center items-center"}>
+                            <h2 className={"pb-5"}>{place.name || "Name..."}</h2>
                             <p className={"pb-2"}>{place.description || "Description..."}</p>
                             {
-                                (selectMode)
+                                (assignMode)
                                     ?
-                                    (isPlaceSelected())
+                                    (isPlaceAssigned())
                                         ?
-                                        <><Button variant={"contained"} color={"error"} onClick={()=>select()}>
+                                        <><Button variant={"contained"} color={"error"} onClick={() => onAssign()}>
                                             Unselect
                                         </Button></>
                                         :
-                                        <><Button variant={"contained"} onClick={()=>select(place.id)}>
+                                        <><Button variant={"contained"} onClick={() => onAssign(place.id)}>
                                             Select
                                         </Button></>
                                     :
                                     <></>
                             }
-                        </div>
+                        </Box>
                     </Dialog>
                 }
                 {
-                    <PlacePin validated={place.validated} selected={isPlaceSelected()} isNew={place.isNew}/>
+                    <>
+                        <PlacePin place={place} selected={isPlaceAssigned() ||
+                            (selectedPlace !== undefined && selectedPlace.id === place.id)}/>
+                    </>
                 }
             </AdvancedMarker>
         </>
