@@ -1,2 +1,4 @@
 
 /node_modules
+/ocr_frontend_react/src/dist
+ocr_frontend_react/environment.env

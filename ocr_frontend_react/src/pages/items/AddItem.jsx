@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import {Button} from "@mui/material";
 import {useNavigate, useParams} from "react-router-dom";
-import MainSection from "../../components/utils/MainSection";
-import {addItemToReceipt} from "../../components/utils/BackendAccess";
+import {ReceiptEndpointFunctions} from "../../dist/endpoints/ReceiptEndpoint";
+import {HouseholdData} from "../../components/states/HouseholdState";
 
 export default function AddItem() {
-
+    const {addItemToReceipt} = ReceiptEndpointFunctions()
     const navigate = useNavigate();
     const params = useParams()
+    const {selectedHousehold} = HouseholdData()
 
     const [name, setName] = useState('');
     const [quantity, setQuantity] = useState(1);
@@ -17,7 +18,7 @@ export default function AddItem() {
         const receiptId = params.receiptId
 
         e.preventDefault()
-        await addItemToReceipt(receiptId, {name, quantity, totalCost})
+        await addItemToReceipt(selectedHousehold.id, receiptId, {name, quantity, totalCost})
 
         setName('');
         setQuantity(1);

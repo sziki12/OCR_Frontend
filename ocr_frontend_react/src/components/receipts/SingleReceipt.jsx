@@ -1,24 +1,28 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCalendar, faMessage, faMoneyBill,} from "@fortawesome/free-solid-svg-icons";
-import {Button,Input} from "@mui/material";
+import {Input} from "@mui/material";
 import * as React from "react";
-import {useContext, useEffect, useState} from "react";
-import {updateReceipt,createNewItem} from "../utils/BackendAccess";
+import {useEffect, useState} from "react";
+import {ReceiptEndpointFunctions} from "../../dist/endpoints/ReceiptEndpoint";
 import getDateToShow from "../utils/Utils";
 import Paper from '@mui/material/Paper';
 import ItemDataGrid from "../items/ItemDataGrid";
 import {ReceiptData} from "../states/ReceiptState";
+import {HouseholdData} from "../states/HouseholdState";
 
 
 export default function SingleReceipt(props) {
     let receiptData = ReceiptData()
+    const {selectedHousehold} = HouseholdData()
+
+    const {updateReceipt, createNewItem} = ReceiptEndpointFunctions()
 
     const [receipt, setReceipt] = useState({
-        id:-1,
-        name:"",
-        dateOfPurchase:new Date(),
-        items:[],
-        totalCost:0,
+        id: -1,
+        name: "",
+        dateOfPurchase: new Date(),
+        items: [],
+        totalCost: 0,
     })
     const isEditable = props.isEditable || false
 
@@ -28,22 +32,21 @@ export default function SingleReceipt(props) {
     }, [receiptData.receipt]);
 
     const insertItem = async (e) => {
-        const item = await createNewItem(receipt.id)
+        const item = await createNewItem(selectedHousehold.id, receipt.id)
         await saveItems([...receipt.items, item])
         return item
     }
 
-    const calculateTotalCost = (items)=>{
+    const calculateTotalCost = (items) => {
         let sum = 0
-        for(let item of items)
-        {
+        for (let item of items) {
             sum += item.totalCost
         }
         return sum
     }
 
     const onChange = (e) => {
-        const { name, value } = e.target;
+        const {name, value} = e.target;
         setReceipt(prevState => ({
             ...prevState,
             [name]: value
@@ -63,20 +66,23 @@ export default function SingleReceipt(props) {
         setReceipt(updatedReceipt)
         await update(updatedReceipt)
     }
-    const update = async(updatedReceipt) => {
-        await updateReceipt(updatedReceipt)
+    const update = async (updatedReceipt) => {
+        console.log("update Receipt")
+        await updateReceipt(selectedHousehold.id, updatedReceipt)
+        console.log("receiptData.setReceipt")
         receiptData.setReceipt({
             ...updatedReceipt
         })
     }
 
 
-    return(
+    return (
         <div className={"flex flex-col"}>
             <Paper elevation={12} className="px-10 py-6 m-5">
                 <div>
                     <ReceiptHeader receipt={receipt} isEditable={isEditable} onChange={onChange}/>
-                    <ItemDataGrid receipt={receipt} items={receipt.items} saveItems={saveItems} categories={receipt.categories}
+                    <ItemDataGrid receipt={receipt} items={receipt.items} saveItems={saveItems}
+                                  categories={receipt.categories}
                                   insertItem={insertItem} isEditable={isEditable}
                     />
                 </div>
@@ -85,18 +91,17 @@ export default function SingleReceipt(props) {
     )
 }
 
-function ReceiptHeader(props)
-{
+function ReceiptHeader(props) {
     const receipt = props.receipt
-    let isEditable =  props.isEditable || false
+    let isEditable = props.isEditable || false
     const onChange = props.onChange
 
 
-    return(
+    return (
         <>
             {
                 (isEditable)
-                ?
+                    ?
                     <>
                         <FontAwesomeIcon className={"pr-2"} icon={faMessage} color={"Dodgerblue"}/>
                         <Input
@@ -123,11 +128,12 @@ function ReceiptHeader(props)
                         </p>
                         <br/>
                     </>
-                :
+                    :
                     <>
                         <p><FontAwesomeIcon icon={faMessage} color={"Dodgerblue"}/> {receipt.name}</p>
-                        <p><FontAwesomeIcon icon={faCalendar}/> {new Date(receipt.dateOfPurchase).toLocaleDateString()}</p>
-                        <p><FontAwesomeIcon icon={faMoneyBill} color={"green"} /> {receipt.totalCost+" "}</p>
+                        <p><FontAwesomeIcon icon={faCalendar}/> {new Date(receipt.dateOfPurchase).toLocaleDateString()}
+                        </p>
+                        <p><FontAwesomeIcon icon={faMoneyBill} color={"green"}/> {receipt.totalCost + " "}</p>
                     </>
             }
 

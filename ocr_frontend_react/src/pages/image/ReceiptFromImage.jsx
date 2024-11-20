@@ -1,24 +1,24 @@
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {getSingleReceipt} from "../../components/utils/BackendAccess";
-import {Button, FormControl, InputLabel, MenuItem, Select} from "@mui/material";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faFileArrowUp, faPlus} from "@fortawesome/free-solid-svg-icons";
+import {ReceiptEndpointFunctions} from "../../dist/endpoints/ReceiptEndpoint";
 import SingleReceipt from "../../components/receipts/SingleReceipt";
 import * as React from "react";
 import OcrResponseView from "../../components/ocr_response/OcrResponseView"
+import {HouseholdData} from "../../components/states/HouseholdState";
 
 
 export default function ReceiptsFromImagePage(props) {
 
     const navigate = useNavigate();
+    const {getSingleReceipt} = ReceiptEndpointFunctions()
+    const {selectedHousehold} = HouseholdData()
     const [receipt,setReceipt] = useState({
         items:[]
     })
     const [responseToShow,setResponseToShow] = useState("extractedItems")
 
     useEffect(()=>{
-        getSingleReceipt(props.response.newReceiptId).then((newReceipt)=>{
+        getSingleReceipt(selectedHousehold.id, props.response.newReceiptId).then((newReceipt)=>{
             setReceipt(newReceipt)
         })
     },[])

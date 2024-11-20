@@ -3,13 +3,8 @@ import {
     Toolbar,
     Button,
     Box,
-    Icon,
     Typography,
     IconButton,
-    Popper,
-    Card,
-    Drawer,
-    useMediaQuery
 } from '@mui/material';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {
@@ -42,7 +37,7 @@ export default function MainToolbar() {
     return (
         <Box sx={{flexGrow: 1}}>
             {
-                (breakpoints.sm)
+                (breakpoints.md || breakpoints.sm)
                     ?
                     <MobileAppBar selectedTheme={selectedTheme} switchTheme={switchTheme} user={user}
                                   navigate={navigate}
@@ -99,7 +94,7 @@ function DesktopAppBar({selectedTheme, user, switchTheme, navigate}) {
                 <IconButton onClick={() => {
                     navigate("/")
                 }}>
-                    <FontAwesomeIcon icon={faHouse} width={50}/>
+                    Receipt OCR<img src={require("../../resources/icon.png")} width={50} alt={"App Icon"}/>
                 </IconButton>
                 <IconButton onClick={() => {
                     if (user.isAuthenticated)
@@ -107,7 +102,7 @@ function DesktopAppBar({selectedTheme, user, switchTheme, navigate}) {
                     else
                         navigate('/login')
                 }}>
-                    <FontAwesomeIcon icon={faReceipt} width={50}/>
+                    Receipts<FontAwesomeIcon icon={faReceipt} width={50}/>
                 </IconButton>
                 <IconButton onClick={() => {
                     if (user.isAuthenticated)
@@ -115,17 +110,17 @@ function DesktopAppBar({selectedTheme, user, switchTheme, navigate}) {
                     else
                         navigate('/login')
                 }}>
-                    <FontAwesomeIcon icon={faMapLocationDot} width={50}/>
+                    Places<FontAwesomeIcon icon={faMapLocationDot} width={50}/>
                 </IconButton>
                 <IconButton onClick={() => {
                     (user.isAuthenticated) ? navigate("/upload/image") : navigate("/login")
                 }}>
-                    <FontAwesomeIcon icon={faGears} width={50}/>
+                    Process<FontAwesomeIcon icon={faGears} width={50}/>
                 </IconButton>
                 <IconButton onClick={() => {
                     (user.isAuthenticated) ? navigate("/chart") : navigate("/login")
                 }}>
-                    <FontAwesomeIcon icon={faChartPie} width={50}/>
+                    Charts<FontAwesomeIcon icon={faChartPie} width={50}/>
                 </IconButton>
                 <Typography component="div" sx={{flexGrow: 1}}></Typography>
                 <IconButton onClick={() => switchTheme()}>

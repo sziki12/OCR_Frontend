@@ -6,7 +6,7 @@ import ErrorPage from './pages/ErrorPage';
 import reportWebVitals from './reportWebVitals';
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import RouteProvider from "./routes/RouteProvider";
-import {getUser} from "./components/utils/BackendAccess";
+import {getUser} from "./services/AuthService";
 
 export function updateRouter(isAuthenticated) {
     let router = createRouter(isAuthenticated)

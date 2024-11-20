@@ -10,8 +10,10 @@ import {Box, Button, Dialog} from "@mui/material";
 import * as React from 'react';
 import {useEffect, useRef, useState} from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {categoriseItems} from "../utils/BackendAccess"
-import {faFloppyDisk, faPen, faPlus, faSave, faTrash, faXmark,faIcons} from "@fortawesome/free-solid-svg-icons";
+import {ItemEndpointFunctions} from "../../dist/endpoints/ItemEndpoint"
+import {faFloppyDisk, faPen, faPlus, faSave, faTrash, faXmark, faIcons} from "@fortawesome/free-solid-svg-icons";
+import {HouseholdData} from "../states/HouseholdState";
+import {ReceiptData} from "../states/ReceiptState";
 
 
 function EditToolbar(props) {
@@ -19,9 +21,13 @@ function EditToolbar(props) {
     const setRows = props.setRows
     const setRowModesModel = props.setRowModesModel
     const receipt = props.receipt
+    const {updateReceipt} = ReceiptData()
 
-    const [categorise,setCategorise] = useState(false);
-    const [showNameDialog,setShowNameDialog] = useState(false);
+    const {selectedHousehold} = HouseholdData()
+    const {categoriseItems} = ItemEndpointFunctions()
+    const [categorise, setCategorise] = useState(false);
+    const [showNameDialog, setShowNameDialog] = useState(false);
+    const [categoriseModel, setCategoriseModel] = useState("mistral");
 
     const apiRef = useGridApiContext();
 
@@ -31,8 +37,8 @@ function EditToolbar(props) {
             apiRef.current.autosizeColumns({
                 includeOutliers: true,
                 includeHeaders: true,
-                expand:true,
-                outliersFactor:1.5
+                expand: true,
+                outliersFactor: 1.5
             })
         }, 250)
     }, [apiRef])
@@ -46,7 +52,7 @@ function EditToolbar(props) {
             console.log(rows)
             return rows
         });*/
-        setRowModesModel((oldModel) =>{
+        setRowModesModel((oldModel) => {
             return ({
                 ...oldModel,
                 [id]: {mode: GridRowModes.Edit, fieldToFocus: 'name'},
@@ -54,16 +60,13 @@ function EditToolbar(props) {
         });
     };
 
-    const saveAllRow = ()=>{
+    const saveAllRow = () => {
         let rowIds = apiRef.current.getAllRowIds()
         props.saveItems(rows)
-        for(let rowId of rowIds)
-        {
-            try{
+        for (let rowId of rowIds) {
+            try {
                 props.handleSaveClick(rowId)()
-            }
-            catch (e)
-            {
+            } catch (e) {
                 //console.log(e.message)
             }
         }
@@ -73,47 +76,47 @@ function EditToolbar(props) {
         <GridToolbarContainer>
             {
                 (props.isEditable)
-                ?
-                   <>
-                       <Button color="primary" startIcon={<FontAwesomeIcon icon={faPlus} />} onClick={handleClick}>
-                           Add Item
-                       </Button>
-                       <Button startIcon={<FontAwesomeIcon icon={faSave} />} onClick={()=>{
-                           saveAllRow()
-                       }}>
-                           Save All
-                       </Button>
+                    ?
+                    <>
+                        <Button color="primary" startIcon={<FontAwesomeIcon icon={faPlus}/>} onClick={handleClick}>
+                            Add Item
+                        </Button>
+                        <Button startIcon={<FontAwesomeIcon icon={faSave}/>} onClick={() => {
+                            saveAllRow()
+                        }}>
+                            Save All
+                        </Button>
 
-                       <Button disabled={categorise} startIcon={<FontAwesomeIcon icon={faIcons} />} onClick={async()=>{
-                           if(typeof(receipt.name) !== "undefined" && receipt.name !== "")
-                           {
-                               setCategorise(true)
-                               await categoriseItems(receipt.id)
-                               setCategorise(false)
-                           }
-                           else {
-                               setShowNameDialog(true)
-                           }
+                        <Button disabled={categorise} startIcon={<FontAwesomeIcon icon={faIcons}/>}
+                                onClick={async () => {
+                                    if (typeof (receipt.name) !== "undefined" && receipt.name !== "") {
+                                        setCategorise(true)
+                                        await categoriseItems(selectedHousehold.id, receipt.id,categoriseModel)
+                                        updateReceipt(receipt.id)
+                                        setCategorise(false)
+                                    } else {
+                                        setShowNameDialog(true)
+                                    }
 
-                       }}>
-                           Categorise Items
-                       </Button>
-                       {
-                           (showNameDialog)
-                           ?
-                               <Dialog
-                                   className={"p-10 m-10"}
-                                   open={showNameDialog}
-                                   onClose={()=>setShowNameDialog(false)}
-                               >
-                                   <p>To Categorise the items please fill the receipt's Name</p>
-                                   <Button onClick={()=>setShowNameDialog(false)}>Ok</Button>
-                               </Dialog>
-                           :
-                               <></>
-                       }
-                   </>
-                :
+                                }}>
+                            Categorise Items
+                        </Button>
+                        {
+                            (showNameDialog)
+                                ?
+                                <Dialog
+                                    className={"p-10 m-10"}
+                                    open={showNameDialog}
+                                    onClose={() => setShowNameDialog(false)}
+                                >
+                                    <p>To Categorise the items please fill the receipt's Name</p>
+                                    <Button onClick={() => setShowNameDialog(false)}>Ok</Button>
+                                </Dialog>
+                                :
+                                <></>
+                        }
+                    </>
+                    :
                     <></>
             }
         </GridToolbarContainer>
@@ -121,11 +124,10 @@ function EditToolbar(props) {
 }
 
 //TODO Replace with list on mobile size
-export default function ItemDataGrid(props)
-{
+export default function ItemDataGrid(props) {
     let isEditable = props.isEditable || false
     useEffect(() => {
-        if(props.items && props.items.length>0)
+        if (props.items && props.items.length > 0)
             setRows([...props.items])
         else
             setRows([])
@@ -146,12 +148,12 @@ export default function ItemDataGrid(props)
     };
 
     const handleEditClick = (id) => () => {
-        setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
+        setRowModesModel({...rowModesModel, [id]: {mode: GridRowModes.Edit}});
     };
 
     const handleSaveClick = (id) => () => {
-        setRowModesModel((prev)=>{
-            return { ...prev, [id]: { mode: GridRowModes.View } }
+        setRowModesModel((prev) => {
+            return {...prev, [id]: {mode: GridRowModes.View}}
         });
     };
 
@@ -164,7 +166,7 @@ export default function ItemDataGrid(props)
     const handleCancelClick = (id) => () => {
         setRowModesModel({
             ...rowModesModel,
-            [id]: { mode: GridRowModes.View, ignoreModifications: true },
+            [id]: {mode: GridRowModes.View, ignoreModifications: true},
         });
 
         const editedRow = rows.find((row) => row.id === id);
@@ -174,8 +176,8 @@ export default function ItemDataGrid(props)
     };
 
     const processRowUpdate = (newRow) => {
-        const updatedRow = { ...newRow, isNew: false };
-        setRows((prev)=>{
+        const updatedRow = {...newRow, isNew: false};
+        setRows((prev) => {
             let updatedRows = prev.map((row) => (row.id === newRow.id ? updatedRow : row))
             saveItems(updatedRows)
             return updatedRows
@@ -187,42 +189,43 @@ export default function ItemDataGrid(props)
         setRowModesModel(newRowModesModel);
     };
 
-   /* const outliersFactor = "1.5"
-    const autosizeOptions = {
-        columns: ['name', 'quantity', 'totalCost', 'category'],
-        includeHeaders:true,
-        includeOutliers:true,
-        outliersFactor: Number.isNaN(parseFloat(outliersFactor))
-            ? 1
-            : parseFloat(outliersFactor),
-        expand:true,
-    };*/
+    /* const outliersFactor = "1.5"
+     const autosizeOptions = {
+         columns: ['name', 'quantity', 'totalCost', 'category'],
+         includeHeaders:true,
+         includeOutliers:true,
+         outliersFactor: Number.isNaN(parseFloat(outliersFactor))
+             ? 1
+             : parseFloat(outliersFactor),
+         expand:true,
+     };*/
 
     const columns = [
         {
             field: 'name',
             headerName: 'Name',
-            minWidth:150,
-            editable: isEditable },
+            minWidth: 150,
+            editable: isEditable
+        },
         {
             field: 'quantity',
             headerName: 'Quantity',
             type: 'number',
-            minWidth:75,
+            minWidth: 75,
             editable: isEditable,
         },
         {
             field: 'totalCost',
             headerName: 'Cost',
             type: 'number',
-            minWidth:100,
+            minWidth: 100,
             editable: isEditable,
         },
         {
             field: 'category',
             headerName: 'Category',
             type: 'singleSelect',
-            minWidth:150,
+            minWidth: 150,
             editable: isEditable,
             valueOptions: props.categories
         },
@@ -231,18 +234,17 @@ export default function ItemDataGrid(props)
             type: 'actions',
             headerName: '',
             cellClassName: 'actions',
-            getActions: ({ id }) => {
+            getActions: ({id}) => {
                 const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
 
-                if(!isEditable)
-                {
+                if (!isEditable) {
                     return []
                 }
 
                 if (isInEditMode) {
                     return [
                         <GridActionsCellItem
-                            icon={<FontAwesomeIcon icon={faFloppyDisk} />}
+                            icon={<FontAwesomeIcon icon={faFloppyDisk}/>}
                             label="Save"
                             sx={{
                                 color: 'primary.main',
@@ -250,7 +252,7 @@ export default function ItemDataGrid(props)
                             onClick={handleSaveClick(id)}
                         />,
                         <GridActionsCellItem
-                            icon={<FontAwesomeIcon icon={faXmark} />}
+                            icon={<FontAwesomeIcon icon={faXmark}/>}
                             label="Cancel"
                             className="textPrimary"
                             onClick={handleCancelClick(id)}
@@ -261,14 +263,14 @@ export default function ItemDataGrid(props)
 
                 return [
                     <GridActionsCellItem
-                        icon={<FontAwesomeIcon icon={faPen} />}
+                        icon={<FontAwesomeIcon icon={faPen}/>}
                         label="Edit"
                         className="textPrimary"
                         onClick={handleEditClick(id)}
                         color="inherit"
                     />,
                     <GridActionsCellItem
-                        icon={<FontAwesomeIcon icon={faTrash} />}
+                        icon={<FontAwesomeIcon icon={faTrash}/>}
                         label="Delete"
                         onClick={handleDeleteClick(id)}
                         color="inherit"
@@ -304,7 +306,17 @@ export default function ItemDataGrid(props)
                     toolbar: EditToolbar,
                 }}
                 slotProps={{
-                    toolbar: { rows, setRows, setRowModesModel,insertItem,isEditable,editingRows,handleSaveClick,receipt,saveItems },
+                    toolbar: {
+                        rows,
+                        setRows,
+                        setRowModesModel,
+                        insertItem,
+                        isEditable,
+                        editingRows,
+                        handleSaveClick,
+                        receipt,
+                        saveItems
+                    },
                 }}
                 /*autosizeOnMount
                 autosizeOptions={autosizeOptions}*/

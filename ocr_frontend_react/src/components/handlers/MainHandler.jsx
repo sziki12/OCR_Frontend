@@ -1,18 +1,23 @@
 import ThemeHandler from "./ThemeHandler";
 import LoginHandler from "./LoginHandler";
-import {createTheme, CssBaseline, ThemeProvider} from "@mui/material";
+import HouseholdState from "../states/HouseholdState";
+import ReceiptState from "../states/ReceiptState";
+import EndpointHandler from "./EndpointHandler";
 
 
 export default function MainHandler({children}) {
 
 
     return (
-        <>
+        <EndpointHandler>
             <ThemeHandler>
                 <LoginHandler>
-                    {children}
+                    <HouseholdState>
+                        <ReceiptState>
+                            {children}
+                        </ReceiptState>
+                    </HouseholdState>
                 </LoginHandler>
             </ThemeHandler>
-        </>
-    )
+        </EndpointHandler>)
 }

@@ -1,15 +1,12 @@
 import {createContext, useContext, useEffect, useState} from "react";
-import {loginUser, saveAuthToken, registerUser, saveUser, getUser} from "../utils/BackendAccess"
+import {AuthServiceFunctions} from "../../dist/services/AuthService"
 import {useNavigate} from "react-router-dom";
 import {updateRouter} from "../../index"
-
+import {AuthEndpointFunctions} from "../../dist/endpoints/AuthEndpoint";
 
 const AuthContext = createContext(
     {
-        user: {
-            userName: "",
-            isAuthenticated: false
-        }
+        user: {name: "", email: "", salt: "", token: "", isAuthenticated: false}
     }
 )
 export const AuthData = () => {
@@ -18,66 +15,66 @@ export const AuthData = () => {
     } catch (e) {
         return ({})
     }
-
 }
 
 export default function LoginHandler({children}) {
-    //const bcrypt = require('bcrypt');
     let navigate = useNavigate()
 
-    const [user, setUser] = useState({
-        userName: "",
-        isAuthenticated: false
-    })
+    const {saveUser, getUser,loggedOut,setLoggedOut} = AuthServiceFunctions()
+    const {loginUser, registerUser} = AuthEndpointFunctions()
+    const [user, setUser] = useState({name: "", email: "", salt: "", isAuthenticated: false})
+
+    useEffect(() => {
+        if(loggedOut){
+            console.log("LOGOUT TRUE")
+            logout(true)
+        }
+    }, [loggedOut]);
 
     const login = async (user) => {
 
         return new Promise(async (reject, resolve) => {
-            const response = await loginUser(user)
-            if (response.status === 200) {
-                let json = await response.json()
+            const response = await loginUser(user, false)
+            if (response&&response.status === 200) {
+                let responseUser = await response.json()
 
-                saveAuthToken(json.token)
-                await saveUser(user)
+                let newUser = {...responseUser, isAuthenticated: true}
 
-                console.log(getUser())
-
-                let newUser = {userName: user.userName, isAuthenticated: true, salt: json.salt}
                 setUser(newUser)
+                console.log(newUser)
+                setLoggedOut&&setLoggedOut(false)
+                await saveUser(newUser)
+
                 resolve("Logged In")
                 updateRouter(true)
                 navigate("/")
             } else {
                 reject("Wrong Username or Password")
-                console.log("Login Status: " + response.status)
             }
         })
     }
 
     const register = async (user) => {
         return new Promise(async (reject, resolve) => {
+            console.log(`User to Register:`)
+            console.log(user)
             const response = await registerUser(user)
             if (response.status === 200) {
-                let json = await response.json()
-                saveAuthToken(json.token)
-                await saveUser(user)
-
-                setUser({userName: user.userName, isAuthenticated: true})
-                resolve("Registered")
-                navigate("/")
-                updateRouter(true)
+                resolve("Successfully Registered, Please Confirm Your Email Address")
             } else {
                 reject("User with Username already Exists!")
-                console.log("Login Status: " + response.status)
             }
         })
     }
 
-    const logout = () => {
+    const logout = (isRedirect= false) => {
         saveUser().then(() => {
-            saveAuthToken()
-            setUser({userName: "", isAuthenticated: false})
-            navigate("/login")
+            setUser({name: "", email: "", salt: "", token: "", password: "", isAuthenticated: false})
+            if(isRedirect)
+                navigate("/login/redirect")
+            else
+                navigate("/login")
+            window.localStorage.setItem("refresh_in_progress", "false");
             updateRouter(false)
         })
     }
