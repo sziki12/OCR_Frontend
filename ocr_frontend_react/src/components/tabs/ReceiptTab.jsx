@@ -7,12 +7,12 @@ import Box from '@mui/material/Box';
 import ReceiptResponseTab from "./ReceiptResponseTab";
 import ReceiptImageTab from "./ReceiptImageTab";
 import ReceiptPlaceTab from "./ReceiptPlaceTab";
-import ReceiptState, {ReceiptData} from "../states/ReceiptState";
+import {ReceiptData} from "../states/ReceiptState";
 import {useParams} from "react-router-dom";
-import {useContext, useEffect} from "react";
+import {useEffect} from "react";
 
 function TabPanel(props) {
-    const { children, value, index, ...other } = props;
+    const {children, value, index, ...other} = props;
     return (
         <div
             role="tabpanel"
@@ -22,7 +22,7 @@ function TabPanel(props) {
             {...other}
         >
             {value === index && (
-                <Box sx={{ p: 3 }}>
+                <Box sx={{p: 3}}>
                     <Typography>{children}</Typography>
                 </Box>
             )}
@@ -48,29 +48,25 @@ export default function ReceiptTab() {
     const [value, setValue] = React.useState(0);
     let receiptData = ReceiptData()
 
-    const hasOcrResponse = ()=>{
-        return receiptData.receipt&&receiptData.receipt.ocrEntity
+    const hasOcrResponse = () => {
+        return receiptData.receipt && receiptData.receipt.ocrEntity
     }
 
-    const hasImage = ()=>{
-        return receiptData.receipt&&receiptData.receipt.images&&receiptData.receipt.images.length>0
+    const hasImage = () => {
+        return receiptData.receipt && receiptData.receipt.images && receiptData.receipt.images.length > 0
     }
 
-    useEffect(()=>{
-        if(receiptData&&receiptData.updateReceipt)
-        {
+    useEffect(() => {
+        if (receiptData && receiptData.updateReceipt) {
             receiptData.updateReceipt(params.receiptId)
-        }
-        else
-        {
-            setTimeout(()=>{
-                if(receiptData&&receiptData.updateReceipt)
-                {
+        } else {
+            setTimeout(() => {
+                if (receiptData && receiptData.updateReceipt) {
                     receiptData.updateReceipt(params.receiptId)
                 }
-            },1000)
+            }, 1000)
         }
-    },[])
+    }, [])
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -78,15 +74,15 @@ export default function ReceiptTab() {
 
     console.log(receiptData.receipt)
     return (
-        <Box sx={{ width: '100%' }}>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Box sx={{width: '100%'}}>
+            <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
                 <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                     <Tab label="Place" {...a11yProps(0)} />
                     {
                         (hasOcrResponse())
-                        ?
+                            ?
                             <Tab label="Ocr Response" {...a11yProps(1)} />
-                        :
+                            :
                             <Tab label="Ocr Response" {...a11yProps(1)} disabled/>
                     }
                     {
@@ -98,15 +94,15 @@ export default function ReceiptTab() {
                     }
                 </Tabs>
             </Box>
-                <TabPanel value={value} index={0}>
-                    <ReceiptPlaceTab/>
-                </TabPanel>
-                <TabPanel value={value} index={1}>
-                    <ReceiptResponseTab isDisabled={!hasOcrResponse()}/>
-                </TabPanel>
-                <TabPanel value={value} index={2}>
-                    <ReceiptImageTab isDisabled={!hasImage()}/>
-                </TabPanel>
+            <TabPanel value={value} index={0}>
+                <ReceiptPlaceTab/>
+            </TabPanel>
+            <TabPanel value={value} index={1}>
+                <ReceiptResponseTab isDisabled={!hasOcrResponse()}/>
+            </TabPanel>
+            <TabPanel value={value} index={2}>
+                <ReceiptImageTab isDisabled={!hasImage()}/>
+            </TabPanel>
         </Box>
     );
 }

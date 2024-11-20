@@ -1,20 +1,19 @@
-import SingleReceipt from "../receipts/SingleReceipt";
 import OcrResponseView from "../ocr_response/OcrResponseView";
 import * as React from "react";
 import ReceiptToggleEditableWrapper from "../receipts/ReceiptToggleEditableWrapper";
-import OcrResponseState, {OcrResponseData} from "../states/OcrResponseState"
+import OcrResponseState from "../states/OcrResponseState"
+import {ThemeData} from "../handlers/ThemeHandler";
 
 
-export default function ReceiptResponseTab()
-{
-    const ocrResponseData = OcrResponseData()
-    return(<>
+export default function ReceiptResponseTab() {
+    const {breakpoints} = ThemeData();
+    return (<>
         <OcrResponseState>
-            <div className={"flex flex-row justify-between"}>
-                <div className="h-1/2">
+            <div className={`flex flex-${(breakpoints.sm || breakpoints.md) ? ("col") : ("row")} justify-between`}>
+                <div>
                     <ReceiptToggleEditableWrapper/>
                 </div>
-                <div className="w-1/2 bg-blue-50">
+                <div>
                     {
                         <OcrResponseView/>
                     }

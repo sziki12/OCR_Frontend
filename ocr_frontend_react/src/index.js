@@ -1,37 +1,37 @@
 import React from 'react';
-import ReactDOM  from 'react-dom/client';
+import ReactDOM from 'react-dom/client';
 import './css/index.css';
 import Root from './pages/Root';
 import ErrorPage from './pages/ErrorPage';
 import reportWebVitals from './reportWebVitals';
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import RouteProvider from "./routes/RouteProvider";
+import {getUser} from "./services/AuthService";
 
-export function updateRouter(isAuthenticated)
-{
+export function updateRouter(isAuthenticated) {
     let router = createRouter(isAuthenticated)
     root.render(
-            <RouterProvider router={router} />
+        <RouterProvider router={router}/>
     );
 }
 
-function createRouter(isAuthenticated)
-{
+function createRouter(isAuthenticated) {
     return createBrowserRouter([
         {
-            path:'/',
-            element:<Root/>,
-            errorElement:<ErrorPage/>,
-            children:RouteProvider(isAuthenticated)
+            path: '/',
+            element: <Root/>,
+            errorElement: <ErrorPage/>,
+            children: RouteProvider(isAuthenticated)
         }])
 }
 
+let savedUser = getUser();
 //Locks the auth required pages
-let router = createRouter(false)
+let router = createRouter((savedUser) ? savedUser.isAuthenticated : false)
 
 let root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <RouterProvider router={router} />
+    <RouterProvider router={router}/>
 );
 
 // If you want to start measuring performance in your app, pass a function

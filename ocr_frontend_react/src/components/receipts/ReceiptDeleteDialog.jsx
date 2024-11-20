@@ -1,33 +1,36 @@
-import {Button, Dialog, Input} from "@mui/material";
+import {Button, Dialog} from "@mui/material";
 import * as React from "react";
 import {ReceiptData} from "../states/ReceiptState";
-import { deleteReceipts} from "../utils/BackendAccess";
+import {ReceiptEndpointFunctions} from "../../dist/endpoints/ReceiptEndpoint";
+import {HouseholdData} from "../states/HouseholdState";
 
 
-export default function ReceiptDeleteDialog({open,close,receiptId})
-{
+export default function ReceiptDeleteDialog({open, close, receiptId}) {
+    const {selectedHousehold} = HouseholdData()
     let receiptData = ReceiptData()
-    const receiptToDelete = receiptId || -1
+    const {deleteReceipts} = ReceiptEndpointFunctions()
+    const receiptToDeleteId = receiptId || -1
     const isOpen = open || false
 
-    return(
+    return (
         <>
             <Dialog
                 open={isOpen}
                 onClose={close}
             >
-            <div className={"p-5"}>
-                <p>
-                    Are You sure you would like to delete this Receipt?
-                </p>
+                <div className={"p-5"}>
+                    <p>
+                        Are You sure you would like to delete this Receipt?
+                    </p>
                     <br/>
-                <Button color={"error"} onClick={()=>{
-                    deleteReceipts(receiptToDelete).then(()=>{
-                        close()
-                        receiptData.updateAllReceipt()
-                    })}}>Delete</Button>
-                <Button onClick={()=>close()}>Back</Button>
-            </div>
+                    <Button color={"error"} onClick={() => {
+                        deleteReceipts(selectedHousehold.id, receiptToDeleteId).then(() => {
+                            close()
+                            receiptData.updateAllReceipt()
+                        })
+                    }}>Delete</Button>
+                    <Button onClick={() => close()}>Back</Button>
+                </div>
             </Dialog>
         </>
     )
