@@ -13,7 +13,7 @@ export default function OcrResponseView() {
     const [responseToShow, setResponseToShow] = useState("receiptText")
     //console.log(response)
     return (
-        <Paper className="px-10 py-6 m-5 flex-grow">
+        <Paper className="px-10 py-6 m-5 flex flex-grow flex-col justify-center">
             <FormControl>
                 <InputLabel id="ocr-response-select-label">OCR Response</InputLabel>
                 <Select

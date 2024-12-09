@@ -9,7 +9,7 @@ export default function ReceiptResponseTab() {
     const {breakpoints} = ThemeData();
     return (<>
         <OcrResponseState>
-            <div className={`flex flex-${(breakpoints.sm || breakpoints.md) ? ("col") : ("row")} justify-between`}>
+            <div className={`flex flex-${(breakpoints.sm || breakpoints.md) ? ("col") : ("row")} justify-around`}>
                 <div>
                     <ReceiptToggleEditableWrapper/>
                 </div>
