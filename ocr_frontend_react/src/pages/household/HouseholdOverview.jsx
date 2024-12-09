@@ -52,13 +52,13 @@ export default function HouseholdOverview({}) {
         return (<div>
             <Typography className={"pb-5"} variant={"h4"}>Your Households</Typography>
             <div className={"flex flex-col"}>
-                {selectedHouseholdUsers.otherUsers.map((user) => {
-                    return (<div key={user.id}>
+                {otherHouseholds.map((household) => {
+                    return (<div key={household.id}>
                         <Typography variant={"h5"}>
-                            {user.name}
-                            <br/>
-                            {user.email}
-
+                            {household.name}
+                            <Button className={"float-right"} onClick={() => {
+                                setSelectedHousehold(household)
+                            }}>Select</Button>
                         </Typography>
                         <Divider/>
                     </div>)
@@ -71,13 +71,13 @@ export default function HouseholdOverview({}) {
         return (<>
             <Typography className={"pb-5"} variant={"h4"}>Other Users</Typography>
             <div className={"flex flex-col"}>
-                {otherHouseholds.map((household) => {
-                    return (<div key={household.id}>
+                {selectedHouseholdUsers.otherUsers.map((user) => {
+                    return (<div key={user.id}>
                         <Typography variant={"h5"}>
-                            {household.name}
-                            <Button className={"float-right"} onClick={() => {
-                                setSelectedHousehold(household)
-                            }}>Select</Button>
+                            {user.name}
+                            <br/>
+                            {user.email}
+
                         </Typography>
                         <Divider/>
                     </div>)

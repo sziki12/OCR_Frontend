@@ -8,7 +8,7 @@ import {ThemeData} from "../handlers/ThemeHandler";
 export default function ReceiptImageTab() {
     const {breakpoints} = ThemeData();
     const isSmall = breakpoints.sm || breakpoints.md || breakpoints.lg
-    return (<div className={`flex flex-${(isSmall) ? ("col") : ("row")} justify-between`}>
+    return (<div className={`flex flex-${(isSmall) ? ("col") : ("row")} justify-around`}>
         <div>
             <ReceiptToggleEditableWrapper/>
         </div>

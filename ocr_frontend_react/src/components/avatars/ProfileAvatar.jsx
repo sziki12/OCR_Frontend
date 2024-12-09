@@ -41,11 +41,11 @@ export default function ProfileAvatar()
                         Logged in as:
                     </Typography>
                     <div className={"p-2 flex flex-col justify-center"}>
-                        <div className={"flex flex-row justify-evenly items-center space-x-2"}>
+                        <div className={"flex flex-row items-start space-x-2"}>
                             <Typography sx={typeTextStyle}>Name:</Typography>
                             <Typography sx={userTextStyle}>{user.name}</Typography>
                         </div>
-                        <div className={"flex flex-row justify-evenly items-center space-x-2"}>
+                        <div className={"flex flex-row items-start space-x-2"}>
                             <Typography sx={typeTextStyle}>Email:</Typography>
                             <Typography sx={userTextStyle}>{user.email}</Typography>
                         </div>
